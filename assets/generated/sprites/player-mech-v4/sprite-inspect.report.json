@@ -1,0 +1,311 @@
+{
+  "ok": true,
+  "engine": "component-row",
+  "kind": "sprite-gen-inspect-report",
+  "run_dir": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/player-mech-v4",
+  "states": [
+    "up_idle",
+    "up_walk",
+    "up_attack",
+    "right_idle",
+    "right_walk",
+    "right_attack",
+    "left_idle",
+    "left_walk",
+    "left_attack"
+  ],
+  "thresholds": {
+    "histogram_min": 0.0,
+    "dhash_min": 0.55,
+    "motion_min": 0.01
+  },
+  "rows": [
+    {
+      "state": "up_idle",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/up_idle/frame-0.png",
+        "frames/up_idle/frame-1.png",
+        "frames/up_idle/frame-2.png",
+        "frames/up_idle/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9644056910726796,
+          "mean": 0.9714873723141537
+        },
+        "dhash_similarity": {
+          "min": 0.984375,
+          "mean": 0.9895833333333334
+        },
+        "motion_presence": 0.01365863077001634,
+        "centroid_sigma": {
+          "x": 0.42079682725395195,
+          "y": 0.5751733942313417
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "up_walk",
+      "source": "frames",
+      "expected_frames": 6,
+      "found_frames": 6,
+      "natural_pose_count": 6,
+      "frame_files": [
+        "frames/up_walk/frame-0.png",
+        "frames/up_walk/frame-1.png",
+        "frames/up_walk/frame-2.png",
+        "frames/up_walk/frame-3.png",
+        "frames/up_walk/frame-4.png",
+        "frames/up_walk/frame-5.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9676510806174347,
+          "mean": 0.9762127116925476
+        },
+        "dhash_similarity": {
+          "min": 0.953125,
+          "mean": 0.984375
+        },
+        "motion_presence": 0.019823165594362743,
+        "centroid_sigma": {
+          "x": 0.5030693145820379,
+          "y": 1.1544934833391634
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "up_attack",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/up_attack/frame-0.png",
+        "frames/up_attack/frame-1.png",
+        "frames/up_attack/frame-2.png",
+        "frames/up_attack/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9410843435687484,
+          "mean": 0.9584685529637547
+        },
+        "dhash_similarity": {
+          "min": 0.921875,
+          "mean": 0.9609375
+        },
+        "motion_presence": 0.04995731528288398,
+        "centroid_sigma": {
+          "x": 0.20642987803913135,
+          "y": 1.548024248732413
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "right_idle",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/right_idle/frame-0.png",
+        "frames/right_idle/frame-1.png",
+        "frames/right_idle/frame-2.png",
+        "frames/right_idle/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9564616543490025,
+          "mean": 0.97123094334607
+        },
+        "dhash_similarity": {
+          "min": 0.984375,
+          "mean": 0.9921875
+        },
+        "motion_presence": 0.017719343596813725,
+        "centroid_sigma": {
+          "x": 0.10138027125442235,
+          "y": 0.11610459777544821
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "right_walk",
+      "source": "frames",
+      "expected_frames": 6,
+      "found_frames": 6,
+      "natural_pose_count": 6,
+      "frame_files": [
+        "frames/right_walk/frame-0.png",
+        "frames/right_walk/frame-1.png",
+        "frames/right_walk/frame-2.png",
+        "frames/right_walk/frame-3.png",
+        "frames/right_walk/frame-4.png",
+        "frames/right_walk/frame-5.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9682153149747402,
+          "mean": 0.9760505068232589
+        },
+        "dhash_similarity": {
+          "min": 0.9375,
+          "mean": 0.9677083333333333
+        },
+        "motion_presence": 0.04223106234681372,
+        "centroid_sigma": {
+          "x": 0.9027247816425991,
+          "y": 1.1482075569232915
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "right_attack",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/right_attack/frame-0.png",
+        "frames/right_attack/frame-1.png",
+        "frames/right_attack/frame-2.png",
+        "frames/right_attack/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9352200347244747,
+          "mean": 0.9609879641767449
+        },
+        "dhash_similarity": {
+          "min": 0.890625,
+          "mean": 0.9348958333333334
+        },
+        "motion_presence": 0.060843274484272875,
+        "centroid_sigma": {
+          "x": 1.4709973998120291,
+          "y": 0.502131758544067
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "left_idle",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/left_idle/frame-0.png",
+        "frames/left_idle/frame-1.png",
+        "frames/left_idle/frame-2.png",
+        "frames/left_idle/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9600777061389048,
+          "mean": 0.9706676806221509
+        },
+        "dhash_similarity": {
+          "min": 0.859375,
+          "mean": 0.9036458333333334
+        },
+        "motion_presence": 0.055793074065563726,
+        "centroid_sigma": {
+          "x": 1.3903745961655651,
+          "y": 0.19619917819664304
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "left_walk",
+      "source": "frames",
+      "expected_frames": 6,
+      "found_frames": 6,
+      "natural_pose_count": 6,
+      "frame_files": [
+        "frames/left_walk/frame-0.png",
+        "frames/left_walk/frame-1.png",
+        "frames/left_walk/frame-2.png",
+        "frames/left_walk/frame-3.png",
+        "frames/left_walk/frame-4.png",
+        "frames/left_walk/frame-5.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9647968086912239,
+          "mean": 0.9750930037228231
+        },
+        "dhash_similarity": {
+          "min": 0.890625,
+          "mean": 0.9520833333333333
+        },
+        "motion_presence": 0.05050024892769608,
+        "centroid_sigma": {
+          "x": 1.2745009824591844,
+          "y": 1.139398234390083
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "left_attack",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/left_attack/frame-0.png",
+        "frames/left_attack/frame-1.png",
+        "frames/left_attack/frame-2.png",
+        "frames/left_attack/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9303846924979051,
+          "mean": 0.9586692589267466
+        },
+        "dhash_similarity": {
+          "min": 0.796875,
+          "mean": 0.8802083333333334
+        },
+        "motion_presence": 0.06569999744689542,
+        "centroid_sigma": {
+          "x": 1.737808699881548,
+          "y": 0.5216282090699073
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

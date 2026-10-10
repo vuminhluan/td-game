@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "player-mech-v4",
+    "description": "",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "square",
+    "width": 128,
+    "height": 128,
+    "safe_margin_x": 8,
+    "safe_margin_y": 8,
+    "size": 128,
+    "safe_margin": 8
+  },
+  "chroma_key": {
+    "name": "cyan",
+    "hex": "#00FFFF",
+    "rgb": [
+      0,
+      255,
+      255
+    ],
+    "selection": "auto",
+    "score": 225.91,
+    "min_subject_distance": 206.36,
+    "background": {
+      "mode": "transparent",
+      "opaque_border_fraction": 0.0,
+      "subject_pixels": 14452
+    },
+    "candidates": [
+      {
+        "name": "magenta",
+        "hex": "#FF00FF",
+        "score": 209.76,
+        "min_subject_distance": 203.36,
+        "clears_erase_radius": true
+      },
+      {
+        "name": "green",
+        "hex": "#00FF00",
+        "score": 204.73,
+        "min_subject_distance": 202.24,
+        "clears_erase_radius": true
+      },
+      {
+        "name": "cyan",
+        "hex": "#00FFFF",
+        "score": 225.91,
+        "min_subject_distance": 206.36,
+        "clears_erase_radius": true
+      },
+      {
+        "name": "blue",
+        "hex": "#004DFF",
+        "score": 184.38,
+        "min_subject_distance": 177.92,
+        "clears_erase_radius": true
+      }
+    ],
+    "selection_reason": "highest 1st-percentile subject distance among the 4 candidate(s) clearing the 96 erase radius"
+  },
+  "states": {
+    "up_idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "UP/NORTH: rear view, looking at back armor and rear leg joints; feet and long body-mounted cannon point toward the top of the image. Keep robot upright, do not rotate the image upside down. Four idle poses, feet planted and same stance, minimal piston settling. Frame 4 returns to first pose. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "up_walk": {
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "action": "UP/NORTH: rear view, looking at back armor and rear leg joints; feet and long body-mounted cannon point toward the top of the image. Keep robot upright, do not rotate the image upside down. Six distinct consecutive poses of ONE in-place walk cycle: 1 left leg forward/right back, 2 right leg lifts and passes, 3 right leg contacts ahead, 4 right leg forward/left back, 5 left leg lifts and passes, 6 left leg contacts ahead to loop to frame 1. Only legs articulate; torso and barrel stay consistent. No repeated identical poses. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "up_attack": {
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "action": "UP/NORTH: rear view, looking at back armor and rear leg joints; feet and long body-mounted cannon point toward the top of the image. Keep robot upright, do not rotate the image upside down. Four poses of ONE cannon shot: 1 neutral braced, 2 barrel recoils and a compact amber flash attached to muzzle, 3 barrel recovers with no flash, 4 same neutral as frame 1. Feet planted. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "right_idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "RIGHT/EAST: elevated right-facing side profile, cannon extends horizontally toward screen-right, both toes point screen-right. Robot upright with two legs beneath torso. Four idle poses, feet planted and same stance, minimal piston settling. Frame 4 returns to first pose. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "right_walk": {
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "action": "RIGHT/EAST: elevated right-facing side profile, cannon extends horizontally toward screen-right, both toes point screen-right. Robot upright with two legs beneath torso. Six distinct consecutive poses of ONE in-place walk cycle: 1 left leg forward/right back, 2 right leg lifts and passes, 3 right leg contacts ahead, 4 right leg forward/left back, 5 left leg lifts and passes, 6 left leg contacts ahead to loop to frame 1. Only legs articulate; torso and barrel stay consistent. No repeated identical poses. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "right_attack": {
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "action": "RIGHT/EAST: elevated right-facing side profile, cannon extends horizontally toward screen-right, both toes point screen-right. Robot upright with two legs beneath torso. Four poses of ONE cannon shot: 1 neutral braced, 2 barrel recoils and a compact amber flash attached to muzzle, 3 barrel recovers with no flash, 4 same neutral as frame 1. Feet planted. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "left_idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "LEFT/WEST: elevated left-facing side profile, cannon extends horizontally toward screen-left, both toes point screen-left. Robot upright with two legs beneath torso. Draw the opposite side of the same machine, not a mirrored image. Four idle poses, feet planted and same stance, minimal piston settling. Frame 4 returns to first pose. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "left_walk": {
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "action": "LEFT/WEST: elevated left-facing side profile, cannon extends horizontally toward screen-left, both toes point screen-left. Robot upright with two legs beneath torso. Draw the opposite side of the same machine, not a mirrored image. Six distinct consecutive poses of ONE in-place walk cycle: 1 left leg forward/right back, 2 right leg lifts and passes, 3 right leg contacts ahead, 4 right leg forward/left back, 5 left leg lifts and passes, 6 left leg contacts ahead to loop to frame 1. Only legs articulate; torso and barrel stay consistent. No repeated identical poses. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    },
+    "left_attack": {
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "action": "LEFT/WEST: elevated left-facing side profile, cannon extends horizontally toward screen-left, both toes point screen-left. Robot upright with two legs beneath torso. Draw the opposite side of the same machine, not a mirrored image. Four poses of ONE cannon shot: 1 neutral braced, 2 barrel recoils and a compact amber flash attached to muzzle, 3 barrel recovers with no flash, 4 same neutral as frame 1. Feet planted. Same olive/beige armored biped mech, one torso cannon, dark pistons, antenna, no arms, no tracks, no handheld gun. Fixed elevated game camera, consistent body proportions, subject scale and identity in every frame."
+    }
+  },
+  "style": "match the attached base/anchor reference image EXACTLY: same pixel density (logical pixel block size), same body proportions, same outline weight, same palette, same shading style, same level of detail. Do not restyle, do not change proportions, do not add or remove detail density.",
+  "layout": "taxonomy/v1",
+  "fit": {
+    "resample": "lanczos",
+    "align_x": "bbox-center",
+    "align_y": "center",
+    "pixel_unfake": false
+  },
+  "chroma": {
+    "mode": "rgb",
+    "unmix_reach": 4,
+    "spill_max_fraction": 0.005
+  }
+}
