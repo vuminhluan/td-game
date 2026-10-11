@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://gd/enemy_direction.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/enemy_tank/up_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+frames = ExtResource("2")
+anchor = Vector2(64.0, 52.0)
+texture_scale = 0.5
+muzzle_distance = 22.0

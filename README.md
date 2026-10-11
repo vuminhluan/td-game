@@ -59,25 +59,32 @@ Preset bật PWA, chế độ standalone, hướng dọc và icon; tắt `varian
 
 ## Cấu trúc
 
+Giải thích kỹ thuật theo tính năng được lưu trong `docs/features/`: [bắn và va chạm đạn](docs/features/combat.md), [terrain và đường đi](docs/features/map-navigation.md), [skin và animation robot](docs/features/robot-sprites/rendering.md), [hình ảnh map](docs/features/map-art.md). Quy ước comment và tài liệu nằm trong `AGENTS.md`.
+
 | Tệp | Trách nhiệm |
 | --- | --- |
 | `project.godot`, `scenes/main.tscn` | Dự án và scene chính |
 | `gd/rules.gd` | Thông số cân bằng |
 | `gd/battle_map.gd` | Bản đồ, va chạm terrain, Dijkstra có chi phí phá gạch |
 | `gd/simulation.gd` | Mô phỏng gameplay độc lập với scene và renderer |
-| `gd/battle_view.gd` | Vẽ chiến trường, robot, cây và hiệu ứng bằng Godot 2D |
+| `gd/battle_view.gd` | Vẽ robot, lớp cây che phủ và hiệu ứng bằng Godot 2D |
+| `gd/map_skin.gd`, `gd/map_terrain.gd`, `assets/terrain/` | Resource hình ảnh map và lớp terrain cache theo revision/HP |
 | `gd/player_skin.gd`, `assets/sprites/player_mech/` | Sprite player, hướng và lựa chọn frame theo trạng thái mô phỏng |
 | `gd/main.gd` | HUD responsive, bàn phím/cảm ứng, pause/replay, âm thanh |
 | `export_presets.cfg`, `assets/icon.svg` | Cấu hình Web/PWA và icon |
 | `godot_tests/` | Kiểm thử GDScript và render |
 
-Player dùng sprite sheet; địch, terrain và hiệu ứng hiện vẫn được vẽ bằng code. Mô phỏng giữ luật và bản đồ cũ, giao diện được dựng lại bằng Godot Controls. GDScript dùng `RefCounted` và dữ liệu thuần để có thể kiểm thử không cần cửa sổ.
+Player và hai loại enemy dùng sprite sheet; terrain dùng bộ texture riêng qua `MapSkin`, hiệu ứng được vẽ bằng code. Mô phỏng giữ luật và bản đồ cũ, giao diện được dựng lại bằng Godot Controls. GDScript dùng `RefCounted` và dữ liệu thuần để có thể kiểm thử không cần cửa sổ.
+
+Map đã áp dụng hình cho Nhà chính (cả trạng thái phá hủy), gạch, thép, nước, cây và nền công nghiệp. Hướng dẫn thay hình, provenance và kiểm tra: [docs/features/map-art.md](docs/features/map-art.md). [Ảnh map mới](docs/images/map-art-in-game.png). `make test` gồm kiểm tra asset map; `make test-visual` kiểm tra pixels khi phá gạch, phá Nhà chính và chơi lại.
 
 `Makefile` cung cấp lệnh tắt: `make dev` mở game, `make editor` mở editor, `make import` import asset, `make test` kiểm thử, `make test-visual` render kiểm tra và `make build` xuất Web PWA. Có thể dùng các lệnh Godot trực tiếp ở trên nếu không có Make. Export preset loại test và tài liệu khỏi bản phát hành.
 
 ## Player mech — đã áp dụng trong game
 
 Quy trình dùng lại cho tạo/thay player hoặc enemy: [docs/sprite-workflow.md](docs/sprite-workflow.md). Có thể mention file này trong yêu cầu tiếp theo.
+
+Enemy tank và mech hai chân có skin riêng theo loại, với PNG/SpriteFrames/geometry riêng cho DOWN, UP, LEFT, RIGHT. Mỗi loại có 56 frame 128×128; thay một hướng bằng `scripts/install_enemy_direction.py` từ composed manifest. Xem [hướng dẫn enemy](docs/enemy-sprite-workflow.md). Preview 24 animation: `godot --path . scenes/enemy_sprite_preview.tscn`; test enemy được chạy trong `make test` và `make test-visual`.
 
 Player có bốn góc nhìn riêng: Xuống, Lên (nhìn từ sau), Trái và Phải. Mỗi hướng có đứng 4 frame, đi 6 frame, bắn 4 frame: tổng 56 frame 128×128. Sheet Xuống ở `assets/sprites/player_mech/player_mech.png`; ba hướng mới ở `player_mech_directions.png`, với resource `player_mech_directions.tres`. Scene chính dùng `player_skin.tres` để chọn đúng hướng và animation, không xoay hình robot.
 

@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "generator": "built-in image_gen (ChatGPT), no external paid API",
+  "assets": {
+    "floor": {
+      "source": "floor-repeat.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-30db3941-fbbd-4941-8f56-81888e1b4443.png",
+      "size": [
+        320,
+        320
+      ],
+      "transparent": false,
+      "margin": 2,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE square seamless dark graphite industrial concrete/steel yard floor texture, full bleed to all four image edges. Very subdued worn dark blue-grey slabs, sparse fine scratches, a few low contrast seams, NO bold bolts, NO framed border, NO grass. Ground should recede behind bright robot sprites. One continuous square surface, not a sheet.",
+      "raw_source": "raw/floor.png",
+      "postprocess": "sprite-gen background-tile: x then y, period 1180, overlap 64"
+    },
+    "brick": {
+      "source": "raw/brick.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-6755fa8f-8367-46b3-af65-9d86577e2fb8.png",
+      "size": [
+        80,
+        80
+      ],
+      "transparent": false,
+      "margin": 2,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE square full-bleed destructible masonry barricade tile. Overhead squat terracotta/rust-red brick blocks, three horizontal staggered courses, dark mortar gaps, warm upper edge highlights, tiny chips. The wall surface fills image edge to edge; straight square footprint with no exterior margin and no surrounding ground. Modular tiling barricade. Clear red-brown identity."
+    },
+    "steel": {
+      "source": "raw/steel.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-875c0ecd-615a-4820-89cf-eb5df4ccd767.png",
+      "size": [
+        80,
+        80
+      ],
+      "transparent": false,
+      "margin": 2,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE square full-bleed indestructible armored barricade tile. Heavy cool blue-grey steel slab, thick bevels along all four edges, four corner bolts, central dark inset with three thick vent slits, restrained blue highlights, scuffed armour. Straight square footprint fills image edge to edge. No surrounding floor. Visually much cooler and more solid than a brick wall."
+    },
+    "water": {
+      "source": "water-repeat.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-8b43057f-fdce-45ce-9ffd-d7664ce347f8.png",
+      "size": [
+        80,
+        80
+      ],
+      "transparent": false,
+      "margin": 2,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE square seamless full-bleed water surface terrain texture. Dark petrol teal canal water, restrained broad turquoise ripple strokes and a few pale muted glints. No shores, banks, frame or border. Texture fills all edges with water, repeats in both axes. Low noise, definitely water rather than metal. Static water tile.",
+      "raw_source": "raw/water.png",
+      "postprocess": "sprite-gen background-tile: x then y, period 1180, overlap 64"
+    },
+    "grass": {
+      "source": "raw/grass.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-0c45b758-b34f-45a0-baef-2db8d9e0f538.png",
+      "size": [
+        80,
+        80
+      ],
+      "transparent": true,
+      "margin": 2,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE isolated square patch of dense overgrown military yard foliage, transparent background. Muted olive and forest green broad fern clumps and tufts, sparse lighter leaf tips, dense middle, irregular soft silhouette but crisp painted pixels. Seen directly overhead. Foliage fills 85 percent of square width and height with clear transparent margin on every side. No dirt or floor or container under it, no flowers, no ground shadow. Used as canopy over walking robots."
+    },
+    "headquarters": {
+      "source": "raw/headquarters.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-c3e4bb66-2b3d-461e-951e-94f3e60e90e6.png",
+      "size": [
+        224,
+        200
+      ],
+      "transparent": true,
+      "margin": 4,
+      "prompt": "Use case: stylized-concept. Production static terrain texture for a 2D top-down robot defense game. Orthographic straight overhead with only slight south-facing bevels, aligned square to camera, NEVER isometric. Retro hand-painted pixel-art look with crisp chunky clusters, industrial military scrapyard, desaturated slate grey and muted rust, light from upper left. Readable at 40x40 screen pixels; broad shapes, low detail noise. NO text, labels, characters, perspective background, floating objects, watermark. Asset: ONE isolated compact fortified robot command headquarters building on transparent background. Square-ish symmetric military sci-fi bunker, slate steel armour, two short low side buttresses, broad raised rooftop central command module, roof vent above, glowing cyan rectangular command core on roof, small amber accent panels, bottom facing thick armored door. Dark modest contact shadow hugging footprint only. Full silhouette visible with 8 percent transparent margin all sides. Approx 105 wide by 92 tall in game. Single building, no scene, no floor platform outside footprint. Strong readable centerpiece, same retro pixel military style. No logos or readable lettering."
+    },
+    "headquarters_wreck": {
+      "source": "raw/headquarters_wreck.png",
+      "generated_path": "/Users/vuminhluan/.codex/generated_images/01a12442-f5bc-7323-be50-2cd6c5b5f831/exec-8b05f64d-c485-4951-aa9b-6815aeac39cf.png",
+      "size": [
+        224,
+        200
+      ],
+      "transparent": true,
+      "margin": 4,
+      "reference": "raw/headquarters.png",
+      "prompt": "Preserve camera, palette, centered anchor and footprint of the reference headquarters. Draw a collapsed burnt bunker wreck with cracked dark core, torn roof, buckled door and rubble within footprint. Lights off. No smoke, flames or particles. Preserve transparent background."
+    }
+  }
+}

@@ -78,7 +78,6 @@ func run() -> void:
 	bullet(sim, Vector2(180, 118), true)
 	sim.update(0.05)
 	check(sim.bullets.is_empty(), "steel absorbs bullets")
-	# Score and armor are exercised via actual bullet collisions.
 	for kind in ["robot", "tank"]:
 		sim = Sim.new()
 		sim.start()

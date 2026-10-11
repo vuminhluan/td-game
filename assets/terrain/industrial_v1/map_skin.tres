@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://gd/map_skin.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/brick.png" id="brick"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/steel.png" id="steel"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/water.png" id="water"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/grass.png" id="grass"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/headquarters.png" id="base"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/headquarters_wreck.png" id="wreck"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/brick_damage.svg" id="damage"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/brick_critical.svg" id="critical"]
+
+[resource]
+script = ExtResource("1")
+floor_texture = ExtResource("floor")
+brick_texture = ExtResource("brick")
+steel_texture = ExtResource("steel")
+water_texture = ExtResource("water")
+foliage_texture = ExtResource("grass")
+brick_damage = ExtResource("damage")
+brick_critical = ExtResource("critical")
+headquarters_texture = ExtResource("base")
+headquarters_wreck = ExtResource("wreck")
+headquarters_rect = Rect2(-56, -56, 112, 100)

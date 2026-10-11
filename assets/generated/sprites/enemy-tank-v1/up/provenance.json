@@ -1,0 +1,53 @@
+{
+  "generation": "built-in image_gen via existing ChatGPT access",
+  "pipeline": "sprite-gen 2.43.0 component-row prepare/extract/compose/inspect",
+  "direction": "up",
+  "identity_reference": "own extracted idle direction anchor for walk/attack; DOWN establishes type identity for other idle views",
+  "layout_reference": "references/layout-guides/<state>.png",
+  "runtime_contract": "128x128; idle 4 @4; walk 6 @10; attack 4 @12 non-loop",
+  "mirrored": false,
+  "rotated": false,
+  "api_key_used": false,
+  "states": {
+    "idle": {
+      "raw": "raw/idle.png",
+      "sha256": "31cc9df7d2c99d984fbc7da90de02d35675d277fc769e250c224c142f77550e3",
+      "prompt": "prompts/idle-built-in.txt",
+      "reference_stack": [
+        "DOWN identity (see prompt)",
+        "layout guide (except initial tank DOWN)"
+      ],
+      "selected_prompt": "prompts/idle-correction-built-in.txt"
+    },
+    "walk": {
+      "raw": "raw/walk.png",
+      "sha256": "b58da6cff36528dd1a0c31724a1de4b9829e6aa82074c859069de31ca3038e50",
+      "prompt": "prompts/walk-built-in.txt",
+      "reference_stack": [
+        "base-source.png",
+        "references/layout-guides/walk.png"
+      ],
+      "selected_prompt": "prompts/walk-correction-built-in.txt"
+    },
+    "attack": {
+      "raw": "raw/attack.png",
+      "sha256": "dc3fcb6b588b4c11dbe2d64f517e8ef329fb9e909ec711f921e3412bacc879f3",
+      "prompt": "prompts/attack-built-in.txt",
+      "reference_stack": [
+        "base-source.png",
+        "references/layout-guides/attack.png"
+      ],
+      "selected_prompt": "prompts/attack-correction-built-in.txt"
+    }
+  },
+  "corrections": [
+    "UP idle regenerated to remove stray white background fragment; rejected source retained in raw/idle-rejected-alpha.png",
+    "UP attack regenerated to preserve rust red palette if correction prompt exists"
+  ],
+  "correction_prompts": [
+    "prompts/idle-correction-built-in.txt",
+    "prompts/walk-correction-built-in.txt",
+    "prompts/attack-correction-built-in.txt"
+  ],
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+}

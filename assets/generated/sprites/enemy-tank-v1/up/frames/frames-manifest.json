@@ -1,0 +1,255 @@
+{
+  "ok": true,
+  "engine": "component-row",
+  "engine_revision": "472a5b08401d",
+  "extract_args": {
+    "key_threshold": 0.0,
+    "fringe_key_threshold": 0.0,
+    "fringe_delta": 0.0,
+    "fringe_unmix_reach": 0,
+    "spill_max_fraction": 0.0
+  },
+  "run_dir": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/up",
+  "cell": {
+    "shape": "square",
+    "width": 128,
+    "height": 128,
+    "safe_margin_x": 8,
+    "safe_margin_y": 8,
+    "size": 128,
+    "safe_margin": 8
+  },
+  "chroma_key": {
+    "name": "magenta",
+    "hex": "#FF00FF",
+    "rgb": [
+      255,
+      0,
+      255
+    ],
+    "selection": "fallback",
+    "background": {
+      "mode": "absent"
+    },
+    "selection_reason": "no base reference to sample"
+  },
+  "rows": [
+    {
+      "state": "idle",
+      "frames": 4,
+      "method": "components",
+      "files": [
+        "frames/idle/frame-0.png",
+        "frames/idle/frame-1.png",
+        "frames/idle/frame-2.png",
+        "frames/idle/frame-3.png"
+      ],
+      "frame_records": [
+        {
+          "index": 0,
+          "nontransparent_pixels": 7064,
+          "bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 1,
+          "nontransparent_pixels": 7074,
+          "bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 2,
+          "nontransparent_pixels": 7070,
+          "bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 3,
+          "nontransparent_pixels": 7064,
+          "bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        }
+      ],
+      "ok": true,
+      "engine_revision": "472a5b08401d"
+    },
+    {
+      "state": "walk",
+      "frames": 6,
+      "method": "components",
+      "files": [
+        "frames/walk/frame-0.png",
+        "frames/walk/frame-1.png",
+        "frames/walk/frame-2.png",
+        "frames/walk/frame-3.png",
+        "frames/walk/frame-4.png",
+        "frames/walk/frame-5.png"
+      ],
+      "frame_records": [
+        {
+          "index": 0,
+          "nontransparent_pixels": 7343,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 1,
+          "nontransparent_pixels": 7383,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 2,
+          "nontransparent_pixels": 7403,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 3,
+          "nontransparent_pixels": 7277,
+          "bbox": [
+            16,
+            8,
+            111,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 4,
+          "nontransparent_pixels": 7360,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 5,
+          "nontransparent_pixels": 7309,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        }
+      ],
+      "ok": true,
+      "engine_revision": "472a5b08401d"
+    },
+    {
+      "state": "attack",
+      "frames": 4,
+      "method": "components",
+      "files": [
+        "frames/attack/frame-0.png",
+        "frames/attack/frame-1.png",
+        "frames/attack/frame-2.png",
+        "frames/attack/frame-3.png"
+      ],
+      "frame_records": [
+        {
+          "index": 0,
+          "nontransparent_pixels": 7449,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 1,
+          "nontransparent_pixels": 8759,
+          "bbox": [
+            11,
+            8,
+            116,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 2,
+          "nontransparent_pixels": 9848,
+          "bbox": [
+            8,
+            8,
+            120,
+            119
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        },
+        {
+          "index": 3,
+          "nontransparent_pixels": 7428,
+          "bbox": [
+            16,
+            8,
+            112,
+            120
+          ],
+          "edge_pixels": 0,
+          "chroma_adjacent_pixels": 0
+        }
+      ],
+      "ok": true,
+      "engine_revision": "472a5b08401d"
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

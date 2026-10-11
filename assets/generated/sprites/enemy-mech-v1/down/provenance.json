@@ -1,0 +1,47 @@
+{
+  "generation": "built-in image_gen via existing ChatGPT access",
+  "pipeline": "sprite-gen 2.43.0 component-row prepare/extract/compose/inspect",
+  "direction": "down",
+  "identity_reference": "own extracted idle direction anchor for walk/attack; DOWN establishes type identity for other idle views",
+  "layout_reference": "references/layout-guides/<state>.png",
+  "runtime_contract": "128x128; idle 4 @4; walk 6 @10; attack 4 @12 non-loop",
+  "mirrored": false,
+  "rotated": false,
+  "api_key_used": false,
+  "states": {
+    "idle": {
+      "raw": "raw/idle.png",
+      "sha256": "9b4515321c6c04628ec7bf4bd425ed11ad016d5951168619fb57f1a9c8f0f272",
+      "prompt": "prompts/idle-built-in.txt",
+      "reference_stack": [
+        "DOWN identity (see prompt)",
+        "layout guide (except initial tank DOWN)"
+      ],
+      "selected_prompt": "prompts/idle-built-in.txt"
+    },
+    "walk": {
+      "raw": "raw/walk.png",
+      "sha256": "bdb8e4db6a4f4770cf4bbf104c5e120bae07527c242f85ec5ee4990376a23a4c",
+      "prompt": "prompts/walk-built-in.txt",
+      "reference_stack": [
+        "base-source.png",
+        "references/layout-guides/walk.png"
+      ],
+      "selected_prompt": "prompts/walk-correction-built-in.txt"
+    },
+    "attack": {
+      "raw": "raw/attack.png",
+      "sha256": "cdd6114ced6f8ce8dd95ee38f48c28d4a7141c08854a5ec8f2542e8e4c177408",
+      "prompt": "prompts/attack-built-in.txt",
+      "reference_stack": [
+        "base-source.png",
+        "references/layout-guides/attack.png"
+      ],
+      "selected_prompt": "prompts/attack-built-in.txt"
+    }
+  },
+  "correction_prompts": [
+    "prompts/walk-correction-built-in.txt"
+  ],
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+}

@@ -75,7 +75,6 @@ func integration_checks() -> void:
 		var muzzle: Vector2 = sim.player.pos + R.VECTOR[direction] * skin.muzzle_distances[direction]
 		require(sim.effects.back().pos.is_equal_approx(muzzle), "flash must start at muzzle in each direction")
 		require((sim.bullets[0].pos - muzzle).dot(R.VECTOR[direction]) > 0, "bullet must travel forward from muzzle")
-	# A long visual barrel must not let shots skip a close wall or a close enemy.
 	for direction in ["up", "right", "down", "left"]:
 		for kind in ["steel", "brick"]:
 			var wall_sim = Sim.new()
@@ -108,7 +107,6 @@ func integration_checks() -> void:
 		close_sim.fire(close_sim.player)
 		close_sim.update(0.01)
 		require(target.hp == 1 and close_sim.bullets.is_empty(), "long barrel must not skip close enemy")
-	# Stop at a steel wall: walking clocks must not continue against an obstacle.
 	sim.player.pos = Vector2(146, 140)
 	sim.player.shot_clock = 0
 	sim.update(0.05, "right")

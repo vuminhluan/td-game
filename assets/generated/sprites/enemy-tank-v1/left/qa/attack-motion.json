@@ -1,0 +1,217 @@
+{
+  "kind": "sprite-gen-motion-report",
+  "version": 1,
+  "status": "needs-review",
+  "frame_count": 4,
+  "duration_seconds": 0.332,
+  "size": [
+    128,
+    128
+  ],
+  "anchor_px": [
+    64.0,
+    128.0
+  ],
+  "facing": null,
+  "contacts": [],
+  "foot_box": null,
+  "duplicate_frames": {
+    "exact": 0,
+    "adjacent_exact": 0,
+    "exact_silhouette": 0,
+    "near_silhouette": 0
+  },
+  "motion": {
+    "present": true,
+    "changed_transitions": 3,
+    "silhouette_changed_transitions": 3,
+    "silhouette_change_per_second": 0.9711642264363627
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "time_seconds": 0.0,
+      "duration_seconds": 0.083,
+      "bbox": [
+        8,
+        20,
+        120,
+        108
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -108.0,
+        56.0,
+        -20.0
+      ],
+      "centroid_px": [
+        65.64270286948472,
+        70.92070348657822
+      ],
+      "opaque_pixels": 6482,
+      "edge_sides": []
+    },
+    {
+      "frame": 1,
+      "time_seconds": 0.083,
+      "duration_seconds": 0.083,
+      "bbox": [
+        8,
+        22,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -106.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        66.29318895685238,
+        70.80848074061828
+      ],
+      "opaque_pixels": 6049,
+      "edge_sides": []
+    },
+    {
+      "frame": 2,
+      "time_seconds": 0.166,
+      "duration_seconds": 0.083,
+      "bbox": [
+        8,
+        20,
+        120,
+        108
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -108.0,
+        56.0,
+        -20.0
+      ],
+      "centroid_px": [
+        65.36661466458658,
+        72.08096723868955
+      ],
+      "opaque_pixels": 6410,
+      "edge_sides": []
+    },
+    {
+      "frame": 3,
+      "time_seconds": 0.249,
+      "duration_seconds": 0.083,
+      "bbox": [
+        8,
+        19,
+        120,
+        108
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -109.0,
+        56.0,
+        -20.0
+      ],
+      "centroid_px": [
+        65.63034810611869,
+        70.59369728569237
+      ],
+      "opaque_pixels": 6521,
+      "edge_sides": []
+    }
+  ],
+  "bbox_stats": {
+    "union": [
+      8,
+      19,
+      120,
+      108
+    ],
+    "width_range": [
+      112,
+      112
+    ],
+    "height_range": [
+      83,
+      89
+    ],
+    "bottom_range": [
+      105,
+      108
+    ]
+  },
+  "edge_contact": {
+    "frames": [],
+    "sides": {
+      "left": [],
+      "top": [],
+      "right": [],
+      "bottom": []
+    }
+  },
+  "contact_candidates": [],
+  "confidence": 0.0,
+  "sequence": {
+    "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/manifest.json",
+    "state": "attack",
+    "fps_override": null,
+    "frame_count": 4,
+    "size": [
+      128,
+      128
+    ],
+    "anchor_px": [
+      64.0,
+      128.0
+    ],
+    "durations_seconds": [
+      0.083,
+      0.083,
+      0.083,
+      0.083
+    ]
+  },
+  "source_fingerprints": {
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/manifest.json": "387cdcaa3d58c4f81de4a75c52d058441c5bb0fe7db8c831a158969e7f46306f",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/sprite-sheet-alpha.png": "b2ecc278b536e2c28491f2d33c1666fbd59b5994b0d704d7946cb1d94b4298e7"
+  },
+  "stride_verified": false,
+  "foot_velocity_px_per_second": null,
+  "stride_px_per_second": null,
+  "warnings": [
+    "Ground contact is unknown: provide both manual contacts and a single-foot ROI; silhouette bottoms do not identify a planted foot."
+  ],
+  "method": {
+    "silhouette": "alpha > 0 in source canvas coordinates; bbox right/bottom are exclusive",
+    "near_silhouette_iou": 0.98,
+    "duplicates": "Counts frames matching an earlier frame; near excludes exact silhouette matches. No time or frames are removed.",
+    "motion": "Adjacent visible pixel changes; silhouette XOR/union summed over full duration. No loop-seam assumption.",
+    "contact": "User-declared same-foot stance spans plus isolated ROI alpha centroid; no automatic contact or facing inference.",
+    "timing": "Cumulative frame-start seconds; repeated tracked poses use their first onset with all intervening durations retained. Final hold is included in duration but has no displacement endpoint.",
+    "velocity": "Endpoint horizontal displacement / pose-onset elapsed seconds; positive = image right. Stride is absolute velocity under manual ground-contact assumptions.",
+    "confidence": "0.9 = at least 3 distinct poses, stable baseline/shape, monotonic near-linear motion and consistent spans. Heuristic conditional confidence, not a calibrated contact probability.",
+    "sequence": "Identity of the analysed sequence: source, atlas state, fps override, frame count, size, anchor and effective per-frame durations. A consumer applying the stride must match all of it and source_fingerprints; another state or frame rate of the same files is a different sequence."
+  },
+  "source_files": [
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/manifest.json",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/sprite-sheet-alpha.png"
+  ],
+  "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-tank-v1/left/manifest.json"
+}

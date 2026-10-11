@@ -1,5 +1,4 @@
 extends Resource
-# A replaceable sprite set. Gameplay owns animation clocks and firing direction.
 @export var frames: SpriteFrames
 @export var directional_frames: SpriteFrames
 @export var texture_scale = 0.5

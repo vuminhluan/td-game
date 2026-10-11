@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "enemy-tank-right-v1",
+    "description": "",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "square",
+    "width": 128,
+    "height": 128,
+    "safe_margin_x": 8,
+    "safe_margin_y": 8,
+    "size": 128,
+    "safe_margin": 8
+  },
+  "chroma_key": {
+    "name": "magenta",
+    "hex": "#FF00FF",
+    "rgb": [
+      255,
+      0,
+      255
+    ],
+    "selection": "fallback",
+    "background": {
+      "mode": "absent"
+    },
+    "selection_reason": "no base reference to sample"
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "Use case: stylized-concept. Game sprite animation ROW, exactly FOUR separate full tank sprites in ONE horizontal row, transparent generous gutters. Compact chunky dark olive tracked tank with rust red armor panels, charcoal caterpillar tracks, round commander hatch, rivets, centered turret with ONE medium cannon, tiny antenna. No legs. RIGHT/east: elevated SIDE PROFILE facing screen RIGHT, cannon extends horizontally RIGHT, front of hull/toes point RIGHT. Draw this side independently. Fixed elevated orthographic camera ~35 degrees, industrial pixel art with strong readable outlines. All four are the SAME direction and SAME vehicle identity. Idle minimal suspension/piston settling, planted stance, fixed size, same center, same cannon, no pose direction changes. Input 1 identity reference: preserve this design while drawing requested new camera angle; input 2 empty layout guide is geometry only, do not draw guides. No text, grids, floor, cast shadow, labels or extra objects. Keep entire barrel and tracks/feet inside each separated sprite. Wide 1536x512."
+    },
+    "walk": {
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "action": "Correct a game sprite row problem: Lowest track motion of initial set; make distinct advancing tread patterns. Use OWN-DIRECTION idle reference (image 1) as identity truth. Compact chunky dark olive tracked tank with rust red armor panels, charcoal caterpillar tracks, round commander hatch, rivets, centered turret with ONE medium cannon, tiny antenna. No legs. RIGHT/east: elevated SIDE PROFILE facing screen RIGHT, cannon extends horizontally RIGHT, front of hull/toes point RIGHT. Draw this side independently. SIX visibly different consecutive in-place driving poses. Animate the GREY TREAD SHOES and dark gaps in the caterpillar belts: advance ALL links by 1/6 of one shoe spacing per frame, grey front pads visibly shift DOWNWARD around the belt, wheels rotate through six distinct spoke phases. Add visible 2-3 output-pixel compression of suspension in middle poses, first and sixth settle toward loop. Do not merely copy idle and change random detail. Keep the hull/turret design and rust-red plates EXACTLY, stable barrel axis and fixed center. No legs or dust. One horizontal row of exactly 6 FULL separated copies, industrial pixel art, fixed elevated orthographic camera matching reference, same proportions, scale and palette. Image 2 is ONLY empty layout guide, never render it. ALL feet/tracks/cannons complete, generous alpha gutters. Background genuinely transparent, no white noise, no text, no shadows, no effects, no grid, no rotate or mirror. Wide 1536x512."
+    },
+    "attack": {
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "action": "Use case: stylized-concept. Generate ONE HORIZONTAL game sprite animation ROW, exactly 4 full separate sprites of the SAME tank. Compact chunky dark olive tracked tank with rust red armor panels, charcoal caterpillar tracks, round commander hatch, rivets, centered turret with ONE medium cannon, tiny antenna. No legs. RIGHT/east: elevated SIDE PROFILE facing screen RIGHT, cannon extends horizontally RIGHT, front of hull/toes point RIGHT. Draw this side independently. Input 1 is exact OWN-DIRECTION IDLE ANCHOR: preserve this viewing angle, proportions, gun, armor, color palette, silhouette detail and pixel density. Input 2 is geometry-only layout guide, never draw its outlines or white regions. ONE cannon firing cycle: pose 1 neutral braced stance, pose 2 barrel visibly retracts into housing and suspension/legs compress slightly, pose 3 barrel moves forward recovering, pose 4 returns to exact neutral stance. Feet/tracks planted throughout; muzzle flash is rendered by game, DO NOT add flash, smoke, sparks or detached effects. Fixed elevated orthographic game camera, industrial pixel art with crisp readable outline. All 4 copies equally spaced in ONE ROW with generous completely transparent gutters, same scale and barrel axis, centered stable torso. Full cannons/feet/tracks visible in EVERY frame, no crop, no flip, no whole-image rotation. Entire background MUST be genuine alpha, NO white remnants, debris, guide shapes, shadows, floor, text or labels. Wide 1536x512."
+    }
+  },
+  "style": "match the attached base/anchor reference image EXACTLY: same pixel density (logical pixel block size), same body proportions, same outline weight, same palette, same shading style, same level of detail. Do not restyle, do not change proportions, do not add or remove detail density.",
+  "body_plan": [
+    {
+      "plan": "legless",
+      "figure": ""
+    }
+  ],
+  "layout": "taxonomy/v1",
+  "fit": {
+    "resample": "lanczos",
+    "align_x": "bbox-center",
+    "align_y": "center",
+    "pixel_unfake": false
+  },
+  "chroma": {
+    "mode": "rgb",
+    "unmix_reach": 0,
+    "spill_max_fraction": 0.0
+  }
+}

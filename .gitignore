@@ -3,3 +3,4 @@
 build/
 *.sg-rwlock
 *.log
+__pycache__/

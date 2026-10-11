@@ -47,14 +47,14 @@ Skin thay hình ảnh/animation. HP, tốc độ, cooldown, số mạng là dữ
 
 ## 5. Tạo hoặc thêm enemy
 
-**Hiện enemy robot/tank vẫn được vẽ bằng code trong `gd/battle_view.gd`; chưa có hệ skin enemy tương đương player.** Vì vậy enemy chưa thể thay chỉ bằng một PNG.
+**Enemy robot/tank đã có hệ skin theo loại và hướng.** Xem [enemy-sprite-workflow.md](enemy-sprite-workflow.md) để thay riêng LEFT/RIGHT hoặc cài một direction atlas từ manifest. Runtime dùng `BattleView.enemy_skins`, `gd/enemy_skin.gd` và `gd/enemy_direction.gd`; nhánh vẽ code chỉ còn fallback cho loại chưa có skin.
 
 Sau khi tạo asset theo bước 1–2:
 
-1. Nếu chỉ đổi hình enemy hiện có, thêm binding resource theo `actor.kind` và nhánh vẽ sprite; giữ collision/gameplay cũ.
+1. Nếu chỉ đổi hình enemy hiện có, thay resource trong `enemy_skins` theo `actor.kind`, hoặc thay đúng một entry `skin.directions`; giữ collision/gameplay cũ.
 2. Nếu thêm loại enemy mới, bổ sung kind, thông số và spawn/wave theo yêu cầu. Không vô tình đổi robot/tank hiện có.
-3. Cấp và cập nhật animation clocks/moving/fire cho enemy trong simulation; chọn đúng góc theo enemy.dir. Các trường clock có sẵn trong actor chưa có nghĩa mọi enemy đã được cập nhật animation.
-4. Bind anchor/muzzle của từng loại và kiểm tra đoạn từ actor tới muzzle cho va chạm. Cơ chế muzzle theo skin hiện được nối cho player; enemy cần nối tương ứng, không dùng nhầm player geometry.
+3. Enemy clocks/moving/fire đã được cập nhật trong simulation; skin chọn đúng góc theo enemy.dir. Loại mới có thể cần shot_duration khác; thời lượng animation độc lập cooldown bắn.
+4. Anchor/scale/muzzle nằm ở resource từng hướng. BattleView bind muzzle riêng từng loại khi gán sim; simulation trace nòng dài cho cả player và enemy. Kiểm tra geometry của ảnh mới và va chạm sát tường/player.
 5. Giữ thứ tự terrain → actors → foliage → bullets/effects, thanh HP, điểm, damage/death và pathfinding.
 6. Thêm test phù hợp cho loại mới và chạy lại acceptance/player/render.
 
@@ -66,6 +66,7 @@ make test
 godot --path . --script godot_tests/visual_smoke.gd
 godot --path . --script godot_tests/player_mech_visual.gd
 godot --path . scenes/player_mech_preview.tscn
+godot --path . scenes/enemy_sprite_preview.tscn
 ```
 
 Test player hiện kiểm tra bộ 4/6/4 frame và đường dẫn asset player hiện tại. Khi đổi frame count hoặc chuyển hẳn robot mới, cập nhật test theo hợp đồng mới; vẫn kiểm tra đủ góc, texture selection, không xoay hình, pause/replay và va chạm súng. Không xóa assertion để giấu lỗi. Visual test dùng renderer native; chạy headless không thay thế kiểm tra ảnh thật.

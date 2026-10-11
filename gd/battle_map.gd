@@ -58,7 +58,6 @@ static func can_occupy(grid: Array, point: Vector2, radius: float = 13) -> bool:
 				return false
 	return true
 
-# Dijkstra: brick costs 7; steel and water are never traversable.
 static func find_path(grid: Array, start: Vector2i, goal: Vector2i) -> Array:
 	var frontier: Array = [{"point": start, "cost": 0}]
 	var costs = {start: 0}

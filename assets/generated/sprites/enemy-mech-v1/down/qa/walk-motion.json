@@ -1,0 +1,273 @@
+{
+  "kind": "sprite-gen-motion-report",
+  "version": 1,
+  "status": "needs-review",
+  "frame_count": 6,
+  "duration_seconds": 0.6,
+  "size": [
+    128,
+    128
+  ],
+  "anchor_px": [
+    64.0,
+    128.0
+  ],
+  "facing": null,
+  "contacts": [],
+  "foot_box": null,
+  "duplicate_frames": {
+    "exact": 0,
+    "adjacent_exact": 0,
+    "exact_silhouette": 0,
+    "near_silhouette": 0
+  },
+  "motion": {
+    "present": true,
+    "changed_transitions": 5,
+    "silhouette_changed_transitions": 5,
+    "silhouette_change_per_second": 1.162496288620295
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "time_seconds": 0.0,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        96,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        32.0,
+        -8.0
+      ],
+      "centroid_px": [
+        62.5953359358948,
+        61.87970002054654
+      ],
+      "opaque_pixels": 4867,
+      "edge_sides": []
+    },
+    {
+      "frame": 1,
+      "time_seconds": 0.1,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        97,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        33.0,
+        -8.0
+      ],
+      "centroid_px": [
+        65.60024154589372,
+        61.83735909822866
+      ],
+      "opaque_pixels": 4968,
+      "edge_sides": []
+    },
+    {
+      "frame": 2,
+      "time_seconds": 0.2,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        97,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        33.0,
+        -8.0
+      ],
+      "centroid_px": [
+        65.84711075441413,
+        62.118780096308186
+      ],
+      "opaque_pixels": 4984,
+      "edge_sides": []
+    },
+    {
+      "frame": 3,
+      "time_seconds": 0.30000000000000004,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        96,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        32.0,
+        -8.0
+      ],
+      "centroid_px": [
+        62.53382140647556,
+        61.550732109713344
+      ],
+      "opaque_pixels": 4849,
+      "edge_sides": []
+    },
+    {
+      "frame": 4,
+      "time_seconds": 0.4,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        96,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        32.0,
+        -8.0
+      ],
+      "centroid_px": [
+        63.80368338557994,
+        63.0121473354232
+      ],
+      "opaque_pixels": 5104,
+      "edge_sides": []
+    },
+    {
+      "frame": 5,
+      "time_seconds": 0.5,
+      "duration_seconds": 0.1,
+      "bbox": [
+        31,
+        8,
+        96,
+        120
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -33.0,
+        -120.0,
+        32.0,
+        -8.0
+      ],
+      "centroid_px": [
+        65.34959016393442,
+        61.9030737704918
+      ],
+      "opaque_pixels": 4880,
+      "edge_sides": []
+    }
+  ],
+  "bbox_stats": {
+    "union": [
+      31,
+      8,
+      97,
+      120
+    ],
+    "width_range": [
+      65,
+      66
+    ],
+    "height_range": [
+      112,
+      112
+    ],
+    "bottom_range": [
+      120,
+      120
+    ]
+  },
+  "edge_contact": {
+    "frames": [],
+    "sides": {
+      "left": [],
+      "top": [],
+      "right": [],
+      "bottom": []
+    }
+  },
+  "contact_candidates": [],
+  "confidence": 0.0,
+  "sequence": {
+    "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/manifest.json",
+    "state": "walk",
+    "fps_override": null,
+    "frame_count": 6,
+    "size": [
+      128,
+      128
+    ],
+    "anchor_px": [
+      64.0,
+      128.0
+    ],
+    "durations_seconds": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ]
+  },
+  "source_fingerprints": {
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/manifest.json": "726511ccfb4ff2337bcab5b99b0f5351d665251bc441c4fd1cb1593cd86f7770",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/sprite-sheet-alpha.png": "e6569c255da3ede0c2e1fa4b6adb7b76942be8715eb381c70a29168b3b689f93"
+  },
+  "stride_verified": false,
+  "foot_velocity_px_per_second": null,
+  "stride_px_per_second": null,
+  "warnings": [
+    "Ground contact is unknown: provide both manual contacts and a single-foot ROI; silhouette bottoms do not identify a planted foot."
+  ],
+  "method": {
+    "silhouette": "alpha > 0 in source canvas coordinates; bbox right/bottom are exclusive",
+    "near_silhouette_iou": 0.98,
+    "duplicates": "Counts frames matching an earlier frame; near excludes exact silhouette matches. No time or frames are removed.",
+    "motion": "Adjacent visible pixel changes; silhouette XOR/union summed over full duration. No loop-seam assumption.",
+    "contact": "User-declared same-foot stance spans plus isolated ROI alpha centroid; no automatic contact or facing inference.",
+    "timing": "Cumulative frame-start seconds; repeated tracked poses use their first onset with all intervening durations retained. Final hold is included in duration but has no displacement endpoint.",
+    "velocity": "Endpoint horizontal displacement / pose-onset elapsed seconds; positive = image right. Stride is absolute velocity under manual ground-contact assumptions.",
+    "confidence": "0.9 = at least 3 distinct poses, stable baseline/shape, monotonic near-linear motion and consistent spans. Heuristic conditional confidence, not a calibrated contact probability.",
+    "sequence": "Identity of the analysed sequence: source, atlas state, fps override, frame count, size, anchor and effective per-frame durations. A consumer applying the stride must match all of it and source_fingerprints; another state or frame rate of the same files is a different sequence."
+  },
+  "source_files": [
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/manifest.json",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/sprite-sheet-alpha.png"
+  ],
+  "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy-mech-v1/down/manifest.json"
+}

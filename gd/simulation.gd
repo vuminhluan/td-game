@@ -21,8 +21,8 @@ var wave_timer = 0.0
 var invulnerable = 0.0
 var revision = 0
 var shots_fired = 0
-# Runtime skin may supply longer view-specific barrels; standalone simulation keeps defaults.
 var player_muzzle_distances: Dictionary = {}
+var enemy_muzzle_distances: Dictionary = {}
 var message = "Phòng tuyến cuối cùng"
 
 func _init() -> void:
@@ -32,7 +32,8 @@ func make_actor(kind: String, point: Vector2) -> Dictionary:
 	var hp = R.PLAYER_HP if kind == "player" else (4 if kind == "tank" else 2)
 	var actor = {"id": sequence, "pos": point, "kind": kind, "hp": hp, "max_hp": hp,
 		"dir": "up" if kind == "player" else "down", "cooldown": 0.7,
-		"moving": false, "move_clock": 0.0, "shot_clock": 0.0, "hurt_clock": 0.0}
+		"moving": false, "move_clock": 0.0, "shot_clock": 0.0, "hurt_clock": 0.0,
+		"shot_duration": R.SHOT_COOLDOWN if kind == "player" else 4.0 / 12.0}
 	sequence += 1
 	return actor
 
@@ -58,14 +59,14 @@ func fire(actor: Dictionary) -> void:
 		return
 	actor.cooldown = R.SHOT_COOLDOWN if actor.kind == "player" else (1.3 if actor.kind == "tank" else 1.7)
 	var vector: Vector2 = R.VECTOR[actor.dir]
-	var muzzle_distance: float = player_muzzle_distances.get(actor.dir, R.PLAYER_MUZZLE_DISTANCE) if actor.kind == "player" else 20.0
-	if actor.kind == "player":
-		actor.shot_clock = R.SHOT_COOLDOWN
+	var baseline: float = R.PLAYER_MUZZLE_DISTANCE if actor.kind == "player" else 20.0
+	var distances: Dictionary = player_muzzle_distances if actor.kind == "player" else enemy_muzzle_distances.get(actor.kind, {})
+	var muzzle_distance: float = distances.get(actor.dir, baseline)
+	actor.shot_clock = actor.shot_duration
 	var bullet = {"id": sequence, "pos": actor.pos + vector * muzzle_distance, "dir": actor.dir, "friendly": actor.kind == "player"}
 	var blocked = false
-	# Trace the extra barrel length so a muzzle inside/beyond a wall cannot bypass it.
-	if actor.kind == "player" and muzzle_distance > R.PLAYER_MUZZLE_DISTANCE:
-		var distance = R.PLAYER_MUZZLE_DISTANCE
+	if muzzle_distance > baseline:
+		var distance = baseline
 		while distance < muzzle_distance:
 			bullet.pos = actor.pos + vector * distance
 			if bullet_collision(bullet):
@@ -149,8 +150,12 @@ func update(delta: float, direction: String = "", shooting: bool = false) -> voi
 			spawn_timer = R.SPAWN_DELAY
 	for enemy in enemies:
 		enemy.cooldown = maxf(0, enemy.cooldown - dt)
+		enemy.shot_clock = maxf(0, enemy.shot_clock - dt)
+		enemy.hurt_clock = maxf(0, enemy.hurt_clock - dt)
+		var previous_position: Vector2 = enemy.pos
 		move_enemy(enemy, dt)
-	# Five-pixel substeps prevent bullets tunneling through tiles or actors.
+		enemy.moving = not enemy.pos.is_equal_approx(previous_position)
+		enemy.move_clock = enemy.move_clock + dt if enemy.moving else 0.0
 	for bullet in bullets.duplicate():
 		var dead = false
 		var vector: Vector2 = R.VECTOR[bullet.dir]
@@ -193,6 +198,7 @@ func bullet_collision(bullet: Dictionary) -> bool:
 		for enemy in enemies:
 			if absf(enemy.pos.x - point.x) < 16 and absf(enemy.pos.y - point.y) < 16:
 				enemy.hp -= 1
+				enemy.hurt_clock = 0.16
 				effect(enemy.pos, "explosion" if enemy.hp <= 0 else "spark")
 				if enemy.hp <= 0:
 					enemies.erase(enemy)

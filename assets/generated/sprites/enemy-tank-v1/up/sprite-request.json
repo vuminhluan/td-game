@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "enemy-tank-up-v1",
+    "description": "",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "square",
+    "width": 128,
+    "height": 128,
+    "safe_margin_x": 8,
+    "safe_margin_y": 8,
+    "size": 128,
+    "safe_margin": 8
+  },
+  "chroma_key": {
+    "name": "magenta",
+    "hex": "#FF00FF",
+    "rgb": [
+      255,
+      0,
+      255
+    ],
+    "selection": "fallback",
+    "background": {
+      "mode": "absent"
+    },
+    "selection_reason": "no base reference to sample"
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "Precise correction of the attached game sprite row. Preserve the FOUR identical rear-view tanks, their design, pose, barrel pointing UP, scale, horizontal layout, rust red/olive colors and details. Remove ALL white/black background debris and stray fragments around tanks, especially above cannons and corners. Only the four complete tanks may have nontransparent pixels. Absolutely transparent background and transparent gutters, crisp isolated silhouettes, no noise, no ground, no guides. This is still one horizontal idle animation row of FOUR rear-view tanks, not a grid. Each full cannon visible with ample transparent margin. Do not rotate, mirror or switch views."
+    },
+    "walk": {
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "action": "Correct a game sprite row problem: Track motion low; make six clear tread phases. Use OWN-DIRECTION idle reference (image 1) as identity truth. Compact chunky dark olive tracked tank with rust red armor panels, charcoal caterpillar tracks, round commander hatch, rivets, centered turret with ONE medium cannon, tiny antenna. No legs. UP/north: REAR view with rear vents and rear of hull/heels visible, cannon and hull/toes aim toward top of screen. Upright artwork, never rotate canvas upside down. SIX visibly different consecutive in-place driving poses. Animate the GREY TREAD SHOES and dark gaps in the caterpillar belts: advance ALL links by 1/6 of one shoe spacing per frame, grey front pads visibly shift DOWNWARD around the belt, wheels rotate through six distinct spoke phases. Add visible 2-3 output-pixel compression of suspension in middle poses, first and sixth settle toward loop. Do not merely copy idle and change random detail. Keep the hull/turret design and rust-red plates EXACTLY, stable barrel axis and fixed center. No legs or dust. One horizontal row of exactly 6 FULL separated copies, industrial pixel art, fixed elevated orthographic camera matching reference, same proportions, scale and palette. Image 2 is ONLY empty layout guide, never render it. ALL feet/tracks/cannons complete, generous alpha gutters. Background genuinely transparent, no white noise, no text, no shadows, no effects, no grid, no rotate or mirror. Wide 1536x512."
+    },
+    "attack": {
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "action": "Correct a game sprite row problem: Generated attack armor shifted rust red to yellow/ochre; preserve exact rust red palette and silhouette. Use OWN-DIRECTION idle reference (image 1) as identity truth. Compact chunky dark olive tracked tank with rust red armor panels, charcoal caterpillar tracks, round commander hatch, rivets, centered turret with ONE medium cannon, tiny antenna. No legs. UP/north: REAR view with rear vents and rear of hull/heels visible, cannon and hull/toes aim toward top of screen. Upright artwork, never rotate canvas upside down. FOUR consecutive one-shot poses: 1 exact neutral idle, 2 cannon barrel retracts into mounting while body remains same scale, 3 barrel halfway recovered, 4 exact neutral. ONLY barrel and small suspension movement. Keep ALL red armor RUST RED in ALL frames, never yellow/ochre, no illumination color shift. One horizontal row of exactly 4 FULL separated copies, industrial pixel art, fixed elevated orthographic camera matching reference, same proportions, scale and palette. Image 2 is ONLY empty layout guide, never render it. ALL feet/tracks/cannons complete, generous alpha gutters. Background genuinely transparent, no white noise, no text, no shadows, no effects, no grid, no rotate or mirror. Wide 1536x512."
+    }
+  },
+  "style": "match the attached base/anchor reference image EXACTLY: same pixel density (logical pixel block size), same body proportions, same outline weight, same palette, same shading style, same level of detail. Do not restyle, do not change proportions, do not add or remove detail density.",
+  "body_plan": [
+    {
+      "plan": "legless",
+      "figure": ""
+    }
+  ],
+  "layout": "taxonomy/v1",
+  "fit": {
+    "resample": "lanczos",
+    "align_x": "bbox-center",
+    "align_y": "center",
+    "pixel_unfake": false
+  },
+  "chroma": {
+    "mode": "rgb",
+    "unmix_reach": 0,
+    "spill_max_fraction": 0.0
+  }
+}

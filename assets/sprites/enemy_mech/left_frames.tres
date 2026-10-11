@@ -1,0 +1,64 @@
+[gd_resource type="SpriteFrames" load_steps=16 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/enemy_mech/left.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="idle_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="idle_1"]
+atlas = ExtResource("1")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="idle_2"]
+atlas = ExtResource("1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="idle_3"]
+atlas = ExtResource("1")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_1"]
+atlas = ExtResource("1")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_2"]
+atlas = ExtResource("1")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_3"]
+atlas = ExtResource("1")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_4"]
+atlas = ExtResource("1")
+region = Rect2(512, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_5"]
+atlas = ExtResource("1")
+region = Rect2(640, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="attack_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="attack_1"]
+atlas = ExtResource("1")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="attack_2"]
+atlas = ExtResource("1")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="attack_3"]
+atlas = ExtResource("1")
+region = Rect2(384, 256, 128, 128)
+
+[resource]
+animations = [{"frames": [{"duration": 1.0, "texture": SubResource("idle_0")}, {"duration": 1.0, "texture": SubResource("idle_1")}, {"duration": 1.0, "texture": SubResource("idle_2")}, {"duration": 1.0, "texture": SubResource("idle_3")}], "loop": true, "name": &"idle", "speed": 4.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("walk_0")}, {"duration": 1.0, "texture": SubResource("walk_1")}, {"duration": 1.0, "texture": SubResource("walk_2")}, {"duration": 1.0, "texture": SubResource("walk_3")}, {"duration": 1.0, "texture": SubResource("walk_4")}, {"duration": 1.0, "texture": SubResource("walk_5")}], "loop": true, "name": &"walk", "speed": 10.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("attack_0")}, {"duration": 1.0, "texture": SubResource("attack_1")}, {"duration": 1.0, "texture": SubResource("attack_2")}, {"duration": 1.0, "texture": SubResource("attack_3")}], "loop": false, "name": &"attack", "speed": 12.0}]

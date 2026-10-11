@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 40 40">
+  <path d="M19 0l-3 8 7 7-8 8 5 8-3 9M23 15l9-3M15 23l-8 3" fill="none" stroke="#221b19" stroke-width="2" stroke-linejoin="miter"/>
+  <path d="M20 0l-3 8 7 7-8 8 5 8-3 9" fill="none" stroke="#d39a69" stroke-opacity=".4" stroke-width=".6"/>
+</svg>
