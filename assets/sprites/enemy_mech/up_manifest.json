@@ -179,7 +179,7 @@
   },
   "runtime_sheet": "res://assets/sprites/enemy_mech/up.png",
   "runtime_frames": "res://assets/sprites/enemy_mech/up_frames.tres",
-  "source_run": "assets/generated/sprites/enemy-mech-v1/up",
+  "source_run": "assets/generated/sprites/enemy_mech/up",
   "geometry": {
     "anchor": [
       65.0,

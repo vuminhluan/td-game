@@ -172,5 +172,6 @@
         }
       ]
     }
-  }
+  },
+  "source_run": "assets/generated/sprites/player_mech/down"
 }

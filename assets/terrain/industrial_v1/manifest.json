@@ -2,11 +2,11 @@
   "version": 1,
   "type": "static-map-art",
   "generator": "built-in image_gen (ChatGPT), no external paid API",
-  "source_request": "assets/generated/map/industrial-v1/request.json",
+  "source_request": "assets/generated/map/industrial/request.json",
   "logical_tile_size": 40,
   "assets": {
     "floor": {
-      "source": "assets/generated/map/industrial-v1/floor-repeat.png",
+      "source": "assets/generated/map/industrial/floor-repeat.png",
       "source_sha256": "781e3d4f429c59332aab53459d3dfc58cf153a09642e3a94eba1ab3ea08e8aa2",
       "runtime": "assets/terrain/industrial_v1/floor.png",
       "size": [
@@ -31,7 +31,7 @@
       ]
     },
     "brick": {
-      "source": "assets/generated/map/industrial-v1/raw/brick.png",
+      "source": "assets/generated/map/industrial/raw/brick.png",
       "source_sha256": "819767ccd6a5e0aecb632d6a82f8e3b1def981987ae56269ae37813f7d146261",
       "runtime": "assets/terrain/industrial_v1/brick.png",
       "size": [
@@ -56,7 +56,7 @@
       ]
     },
     "steel": {
-      "source": "assets/generated/map/industrial-v1/raw/steel.png",
+      "source": "assets/generated/map/industrial/raw/steel.png",
       "source_sha256": "535229464acfc7e5ec5812554035f6a620cc3c70374e5e8bea3359e6e2ccf980",
       "runtime": "assets/terrain/industrial_v1/steel.png",
       "size": [
@@ -81,7 +81,7 @@
       ]
     },
     "water": {
-      "source": "assets/generated/map/industrial-v1/water-repeat.png",
+      "source": "assets/generated/map/industrial/water-repeat.png",
       "source_sha256": "8f825b32f40c169704e9b002142ca0d09d2809dea1e5613718eeaf3bf6b66641",
       "runtime": "assets/terrain/industrial_v1/water.png",
       "size": [
@@ -106,7 +106,7 @@
       ]
     },
     "grass": {
-      "source": "assets/generated/map/industrial-v1/raw/grass.png",
+      "source": "assets/generated/map/industrial/raw/grass.png",
       "source_sha256": "a9ed70a5c568e6ff5bae6c98e3bdcd76f49951cd1713f29b4e43d332fb76474b",
       "runtime": "assets/terrain/industrial_v1/grass.png",
       "size": [
@@ -131,7 +131,7 @@
       ]
     },
     "headquarters": {
-      "source": "assets/generated/map/industrial-v1/raw/headquarters.png",
+      "source": "assets/generated/map/industrial/raw/headquarters.png",
       "source_sha256": "6331c3cfeab3b0635d12046f445e62b45b735e5524a1eae3f395ec1bd40aaa6b",
       "runtime": "assets/terrain/industrial_v1/headquarters.png",
       "size": [
@@ -156,7 +156,7 @@
       ]
     },
     "headquarters_wreck": {
-      "source": "assets/generated/map/industrial-v1/raw/headquarters_wreck.png",
+      "source": "assets/generated/map/industrial/raw/headquarters_wreck.png",
       "source_sha256": "1e7fdd8cd73932c19513174eef0e35a4b474306cc70cd42502bdfb53489997ff",
       "runtime": "assets/terrain/industrial_v1/headquarters_wreck.png",
       "size": [

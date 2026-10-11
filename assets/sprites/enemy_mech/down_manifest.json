@@ -179,7 +179,7 @@
   },
   "runtime_sheet": "res://assets/sprites/enemy_mech/down.png",
   "runtime_frames": "res://assets/sprites/enemy_mech/down_frames.tres",
-  "source_run": "assets/generated/sprites/enemy-mech-v1/down",
+  "source_run": "assets/generated/sprites/enemy_mech/down",
   "geometry": {
     "anchor": [
       62.0,

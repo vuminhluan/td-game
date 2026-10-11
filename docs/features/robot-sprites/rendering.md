@@ -20,10 +20,10 @@ Thay entry LEFT chỉ thay hình học và frame LEFT, giữ các hướng khác
 
 ## Thứ tự lớp vẽ
 
-Terrain và Nhà chính nằm sau robot. BattleView vẽ actors, sau đó foliage, rồi đạn/effects và thanh HP enemy. Cây che robot nhưng đạn và hiệu ứng vẫn nhìn thấy. Chi tiết cache terrain và visual rect Nhà chính nằm trong [tính năng hình ảnh map](../map-art.md).
+Terrain và Nhà chính nằm sau robot. BattleView vẽ actors, sau đó foliage, rồi đạn/effects và thanh HP enemy. Cây che robot nhưng đạn và hiệu ứng vẫn nhìn thấy. Chi tiết cache terrain và visual rect Nhà chính nằm trong [tính năng hình ảnh map](../map/art.md).
 
 Khoảng cách nòng cần được kiểm tra cùng [va chạm đạn](../combat.md) khi thay artwork.
 
 ## Tạo, thay asset và kiểm tra
 
-Quy trình asset được giữ ở [sprite-workflow](../../sprite-workflow.md) và [enemy-sprite-workflow](../../enemy-sprite-workflow.md). Chạy `make test` để kiểm tra resource và integration; `make test-visual` để kiểm tra bằng renderer native.
+Quy trình asset được giữ ở [Quy trình sprite](../../workflows/sprites.md) và [Quy trình enemy sprite](../../workflows/enemy-sprites.md). Chạy `make test` để kiểm tra resource và integration; `make test-visual` để kiểm tra bằng renderer native.

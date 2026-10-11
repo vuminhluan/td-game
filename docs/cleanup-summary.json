@@ -1,0 +1,12 @@
+{
+  "deleted_files": 54,
+  "deleted_bytes": 11093455,
+  "source_moves": {
+    "assets/generated/sprites/player-mech-v3": "assets/generated/sprites/player_mech/down",
+    "assets/generated/sprites/player-mech-v4": "assets/generated/sprites/player_mech/directions",
+    "assets/generated/sprites/enemy-mech-v1": "assets/generated/sprites/enemy_mech",
+    "assets/generated/sprites/enemy-tank-v1": "assets/generated/sprites/enemy_tank",
+    "assets/generated/map/industrial-v1": "assets/generated/map/industrial"
+  },
+  "runtime_files_unchanged": 54
+}

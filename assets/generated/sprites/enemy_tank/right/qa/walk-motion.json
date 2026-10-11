@@ -1,0 +1,274 @@
+{
+  "kind": "sprite-gen-motion-report",
+  "version": 1,
+  "status": "needs-review",
+  "frame_count": 6,
+  "duration_seconds": 0.6,
+  "size": [
+    128,
+    128
+  ],
+  "anchor_px": [
+    64.0,
+    128.0
+  ],
+  "facing": null,
+  "contacts": [],
+  "foot_box": null,
+  "duplicate_frames": {
+    "exact": 0,
+    "adjacent_exact": 0,
+    "exact_silhouette": 0,
+    "near_silhouette": 4
+  },
+  "motion": {
+    "present": true,
+    "changed_transitions": 5,
+    "silhouette_changed_transitions": 5,
+    "silhouette_change_per_second": 0.31643857747851944
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "time_seconds": 0.0,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        22,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -106.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        60.28066001534919,
+        69.9062931696086
+      ],
+      "opaque_pixels": 6515,
+      "edge_sides": []
+    },
+    {
+      "frame": 1,
+      "time_seconds": 0.1,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        22,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -106.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        60.062528841716656,
+        69.87701892016612
+      ],
+      "opaque_pixels": 6501,
+      "edge_sides": []
+    },
+    {
+      "frame": 2,
+      "time_seconds": 0.2,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        23,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -105.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        60.16276711901419,
+        70.37147090937451
+      ],
+      "opaque_pixels": 6411,
+      "edge_sides": []
+    },
+    {
+      "frame": 3,
+      "time_seconds": 0.30000000000000004,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        24,
+        120,
+        104
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -104.0,
+        56.0,
+        -24.0
+      ],
+      "centroid_px": [
+        60.112497986793365,
+        70.64285714285714
+      ],
+      "opaque_pixels": 6209,
+      "edge_sides": []
+    },
+    {
+      "frame": 4,
+      "time_seconds": 0.4,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        22,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -106.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        60.22867624579639,
+        69.77514521553042
+      ],
+      "opaque_pixels": 6542,
+      "edge_sides": []
+    },
+    {
+      "frame": 5,
+      "time_seconds": 0.5,
+      "duration_seconds": 0.1,
+      "bbox": [
+        8,
+        23,
+        120,
+        105
+      ],
+      "anchor_px": [
+        64.0,
+        128.0
+      ],
+      "bbox_from_anchor": [
+        -56.0,
+        -105.0,
+        56.0,
+        -23.0
+      ],
+      "centroid_px": [
+        59.756109022556394,
+        70.37484335839599
+      ],
+      "opaque_pixels": 6384,
+      "edge_sides": []
+    }
+  ],
+  "bbox_stats": {
+    "union": [
+      8,
+      22,
+      120,
+      105
+    ],
+    "width_range": [
+      112,
+      112
+    ],
+    "height_range": [
+      80,
+      83
+    ],
+    "bottom_range": [
+      104,
+      105
+    ]
+  },
+  "edge_contact": {
+    "frames": [],
+    "sides": {
+      "left": [],
+      "top": [],
+      "right": [],
+      "bottom": []
+    }
+  },
+  "contact_candidates": [],
+  "confidence": 0.0,
+  "sequence": {
+    "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/manifest.json",
+    "state": "walk",
+    "fps_override": null,
+    "frame_count": 6,
+    "size": [
+      128,
+      128
+    ],
+    "anchor_px": [
+      64.0,
+      128.0
+    ],
+    "durations_seconds": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ]
+  },
+  "source_fingerprints": {
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/manifest.json": "0d66cecf22e117a4ae2d315ef129826527e2738cf4c3af9ddbf32d4da83154fa",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/sprite-sheet-alpha.png": "227b935b6eb5d1a3d93df8c807fad92ca1f6d0ba73474eb774e136b6a6a38b1a"
+  },
+  "stride_verified": false,
+  "foot_velocity_px_per_second": null,
+  "stride_px_per_second": null,
+  "warnings": [
+    "Ground contact is unknown: provide both manual contacts and a single-foot ROI; silhouette bottoms do not identify a planted foot.",
+    "Repeated poses retain all source frame durations; no frames were removed."
+  ],
+  "method": {
+    "silhouette": "alpha > 0 in source canvas coordinates; bbox right/bottom are exclusive",
+    "near_silhouette_iou": 0.98,
+    "duplicates": "Counts frames matching an earlier frame; near excludes exact silhouette matches. No time or frames are removed.",
+    "motion": "Adjacent visible pixel changes; silhouette XOR/union summed over full duration. No loop-seam assumption.",
+    "contact": "User-declared same-foot stance spans plus isolated ROI alpha centroid; no automatic contact or facing inference.",
+    "timing": "Cumulative frame-start seconds; repeated tracked poses use their first onset with all intervening durations retained. Final hold is included in duration but has no displacement endpoint.",
+    "velocity": "Endpoint horizontal displacement / pose-onset elapsed seconds; positive = image right. Stride is absolute velocity under manual ground-contact assumptions.",
+    "confidence": "0.9 = at least 3 distinct poses, stable baseline/shape, monotonic near-linear motion and consistent spans. Heuristic conditional confidence, not a calibrated contact probability.",
+    "sequence": "Identity of the analysed sequence: source, atlas state, fps override, frame count, size, anchor and effective per-frame durations. A consumer applying the stride must match all of it and source_fingerprints; another state or frame rate of the same files is a different sequence."
+  },
+  "source_files": [
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/manifest.json",
+    "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/sprite-sheet-alpha.png"
+  ],
+  "source": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/right/manifest.json"
+}

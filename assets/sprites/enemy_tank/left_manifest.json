@@ -179,7 +179,7 @@
   },
   "runtime_sheet": "res://assets/sprites/enemy_tank/left.png",
   "runtime_frames": "res://assets/sprites/enemy_tank/left_frames.tres",
-  "source_run": "assets/generated/sprites/enemy-tank-v1/left",
+  "source_run": "assets/generated/sprites/enemy_tank/left",
   "geometry": {
     "anchor": [
       76.0,

@@ -179,7 +179,7 @@
   },
   "runtime_sheet": "res://assets/sprites/enemy_mech/left.png",
   "runtime_frames": "res://assets/sprites/enemy_mech/left_frames.tres",
-  "source_run": "assets/generated/sprites/enemy-mech-v1/left",
+  "source_run": "assets/generated/sprites/enemy_mech/left",
   "geometry": {
     "anchor": [
       78.0,

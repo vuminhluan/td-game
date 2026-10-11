@@ -179,7 +179,7 @@
   },
   "runtime_sheet": "res://assets/sprites/enemy_tank/down.png",
   "runtime_frames": "res://assets/sprites/enemy_tank/down_frames.tres",
-  "source_run": "assets/generated/sprites/enemy-tank-v1/down",
+  "source_run": "assets/generated/sprites/enemy_tank/down",
   "geometry": {
     "anchor": [
       64.0,

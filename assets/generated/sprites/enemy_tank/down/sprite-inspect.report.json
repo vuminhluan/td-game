@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "engine": "component-row",
+  "kind": "sprite-gen-inspect-report",
+  "run_dir": "/Users/vuminhluan/Documents/MyProjects/game-td-base/assets/generated/sprites/enemy_tank/down",
+  "states": [
+    "idle",
+    "walk",
+    "attack"
+  ],
+  "thresholds": {
+    "histogram_min": 0.0,
+    "dhash_min": 0.55,
+    "motion_min": 0.01
+  },
+  "rows": [
+    {
+      "state": "idle",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/idle/frame-0.png",
+        "frames/idle/frame-1.png",
+        "frames/idle/frame-2.png",
+        "frames/idle/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9938878703527019,
+          "mean": 0.9950170361982379
+        },
+        "dhash_similarity": {
+          "min": 0.9375,
+          "mean": 0.9557291666666666
+        },
+        "motion_presence": 0.005912990196078431,
+        "centroid_sigma": {
+          "x": 0.08369529200138791,
+          "y": 0.03995746052184829
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": [
+        "idle: motion presence is too low (0.0059 < 0.0100)"
+      ]
+    },
+    {
+      "state": "walk",
+      "source": "frames",
+      "expected_frames": 6,
+      "found_frames": 6,
+      "natural_pose_count": 6,
+      "frame_files": [
+        "frames/walk/frame-0.png",
+        "frames/walk/frame-1.png",
+        "frames/walk/frame-2.png",
+        "frames/walk/frame-3.png",
+        "frames/walk/frame-4.png",
+        "frames/walk/frame-5.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9854476061735362,
+          "mean": 0.9897713361665895
+        },
+        "dhash_similarity": {
+          "min": 0.9375,
+          "mean": 0.9583333333333334
+        },
+        "motion_presence": 0.013732431449142157,
+        "centroid_sigma": {
+          "x": 0.30437619026831536,
+          "y": 0.2580042969601738
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "state": "attack",
+      "source": "frames",
+      "expected_frames": 4,
+      "found_frames": 4,
+      "natural_pose_count": 4,
+      "frame_files": [
+        "frames/attack/frame-0.png",
+        "frames/attack/frame-1.png",
+        "frames/attack/frame-2.png",
+        "frames/attack/frame-3.png"
+      ],
+      "metrics": {
+        "histogram_intersection": {
+          "min": 0.9805331554473398,
+          "mean": 0.9852881140939417
+        },
+        "dhash_similarity": {
+          "min": 0.9375,
+          "mean": 0.9635416666666666
+        },
+        "motion_presence": 0.02592829286662582,
+        "centroid_sigma": {
+          "x": 0.2867977064358018,
+          "y": 0.3661739474535743
+        }
+      },
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    "idle: motion presence is too low (0.0059 < 0.0100)"
+  ]
+}
