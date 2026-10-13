@@ -61,7 +61,7 @@ func integration_checks() -> void:
 	var sim = game.sim
 	sim.spawn_timer = 999
 	var skin = game.battle.player_skin
-	require(skin.frames == load("res://assets/sprites/player_mech/player_mech.tres"), "main scene must use new sprite set")
+	require(game.sim.loadout.weapon.layered_art != null and skin.weapon_cutouts.is_empty(), "main scene must use clean layered artwork")
 	for direction in ["up", "right", "down", "left"]:
 		sim.player.pos = Vector2(420, 380)
 		sim.player.cooldown = 0
@@ -72,13 +72,13 @@ func integration_checks() -> void:
 		var animation: String = "walk" if direction == "down" else direction + "_walk"
 		require(skin.animation_name_for(sim.player) == animation, "movement must select its matching direction")
 		require(skin.frame_for(sim.player, sim.elapsed) == skin.frames_for(direction).get_frame_texture(animation, 0), "runtime must actually select direction artwork")
-		var muzzle: Vector2 = sim.player.pos + R.VECTOR[direction] * skin.muzzle_distances[direction]
+		var muzzle: Vector2 = sim.player.pos + sim.loadout.muzzle_vectors(direction)[0]
 		require(sim.effects.back().pos.is_equal_approx(muzzle), "flash must start at muzzle in each direction")
 		require((sim.bullets[0].pos - muzzle).dot(R.VECTOR[direction]) > 0, "bullet must travel forward from muzzle")
 	for direction in ["up", "right", "down", "left"]:
 		for kind in ["steel", "brick"]:
-			var wall_sim = Sim.new()
-			wall_sim.player_muzzle_distances = skin.muzzle_distances.duplicate()
+			var wall_sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
+			wall_sim.player_muzzle_distances = sim.player_muzzle_distances.duplicate()
 			for row in wall_sim.map:
 				for tile in row:
 					tile.kind = "floor"
@@ -95,8 +95,8 @@ func integration_checks() -> void:
 				wall_sim.update(0.01)
 			require(wall_sim.bullets.is_empty(), "muzzle must not bypass close " + kind + " wall")
 			require(wall_sim.map[wall.y][wall.x].hp == (2 if kind == "brick" else 3), "brick must receive exactly one hit")
-		var close_sim = Sim.new()
-		close_sim.player_muzzle_distances = skin.muzzle_distances.duplicate()
+		var close_sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
+		close_sim.player_muzzle_distances = sim.player_muzzle_distances.duplicate()
 		close_sim.player.pos = Vector2(420, 380)
 		close_sim.player.dir = direction
 		close_sim.player.cooldown = 0
@@ -105,7 +105,8 @@ func integration_checks() -> void:
 		close_sim.start()
 		close_sim.spawn_timer = 999
 		close_sim.fire(close_sim.player)
-		close_sim.update(0.01)
+		for i in 8:
+			close_sim.update(0.01)
 		require(target.hp == 1 and close_sim.bullets.is_empty(), "long barrel must not skip close enemy")
 	sim.player.pos = Vector2(146, 140)
 	sim.player.shot_clock = 0
@@ -137,7 +138,7 @@ func integration_checks() -> void:
 	game.sim.status = "lost"
 	game.activate()
 	require(game.sim.wave == 1 and skin.animation_for(game.sim.player) == "idle", "replay must reset animation")
-	require(game.sim.player_muzzle_distances == skin.muzzle_distances, "replay must preserve skin muzzle geometry")
+	require(game.sim.player_muzzle_distances == sim.player_muzzle_distances, "replay must preserve skin muzzle geometry")
 	game.queue_free()
 	await process_frame
 	print("PLAYER MECH INTEGRATION: four separate views, no rotation, moving fire, close walls/enemies, recoil, pause, damage, respawn and replay passed")

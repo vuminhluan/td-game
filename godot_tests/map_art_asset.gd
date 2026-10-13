@@ -16,7 +16,7 @@ func _initialize() -> void:
 
 func run() -> void:
 	var view = View.new()
-	var sim = Sim.new()
+	var sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	view.sim = sim
 	root.add_child(view)
 	await process_frame
@@ -43,7 +43,7 @@ func run() -> void:
 	sim.base_hp = 0
 	view.terrain.sync(sim, skin)
 	check(view.terrain.base_hp == 0, "base HP invalidates ground independently")
-	var replacement = Sim.new()
+	var replacement = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	view.sim = replacement
 	view.terrain.sync(replacement, skin)
 	check(view.terrain.sim == replacement and view.terrain.base_hp == R.BASE_HP, "replay rebinds terrain")

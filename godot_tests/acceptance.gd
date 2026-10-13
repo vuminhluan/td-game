@@ -22,7 +22,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
-	var sim = Sim.new()
+	var sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	var brick = Vector2(180, 60)
 	check(not Map.can_occupy(sim.map, brick), "brick blocks actors")
 	for hp in [2, 1, 0]:
@@ -45,7 +45,7 @@ func run() -> void:
 	grid[0][1] = {"kind": "brick", "hp": 3}
 	grid[1][0] = {"kind": "steel", "hp": 0}
 	check(Vector2i(1, 0) in Map.find_path(grid, Vector2i.ZERO, Vector2i(2, 0)), "path breaches brick when necessary")
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	step(sim, 1)
 	sim.pause()
@@ -55,7 +55,7 @@ func run() -> void:
 	sim.pause()
 	step(sim, 1)
 	check(sim.elapsed > 1.9, "resume advances time")
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	var original: Vector2 = sim.player.pos
 	sim.update(0.05, "right")
@@ -64,12 +64,12 @@ func run() -> void:
 	sim.update(0.05, "down")
 	check(sim.player.pos == R.BASE - Vector2(0, 26), "player cannot enter base")
 	for friendly in [true, false]:
-		sim = Sim.new()
+		sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 		sim.start()
 		bullet(sim, R.BASE - Vector2(0, 30), friendly)
 		sim.update(0.05)
 		check(sim.base_hp == R.BASE_HP - (0 if friendly else 1), "only enemy shots damage base")
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	bullet(sim, Vector2(140, 158), true)
 	sim.update(0.05)
@@ -79,7 +79,7 @@ func run() -> void:
 	sim.update(0.05)
 	check(sim.bullets.is_empty(), "steel absorbs bullets")
 	for kind in ["robot", "tank"]:
-		sim = Sim.new()
+		sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 		sim.start()
 		sim.to_spawn = 99
 		sim.spawn_timer = 999
@@ -90,7 +90,7 @@ func run() -> void:
 			sim.update(0.02)
 		check(sim.enemies.is_empty() and sim.kills == 1, "enemy dies after armor depleted")
 		check(sim.score == (250 if kind == "tank" else 100), "kill awards correct score")
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	sim.player.pos = Vector2(20, 740)
 	step(sim, 180)
@@ -99,7 +99,7 @@ func run() -> void:
 	for enemy in sim.enemies:
 		check(not ids.has(enemy.id), "actor IDs remain unique")
 		ids[enemy.id] = true
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	for wave in range(1, 6):
 		check(sim.wave == wave, "wave advances in order")
@@ -107,9 +107,9 @@ func run() -> void:
 		sim.enemies.clear()
 		step(sim, 5.1)
 	check(sim.status == "won", "clearing five waves wins")
-	var fresh = Sim.new()
+	var fresh = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	check(fresh.status == "ready" and fresh.score == 0 and fresh.base_hp == 20 and fresh.map[1][4].hp == 3, "restart resets state and terrain")
-	sim = Sim.new()
+	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
 	sim.to_spawn = 99
 	sim.spawn_timer = 999

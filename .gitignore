@@ -1,6 +1,7 @@
 .godot/
 .godot-test-home/
 build/
+.hallmark
 *.sg-rwlock
 *.log
 __pycache__/

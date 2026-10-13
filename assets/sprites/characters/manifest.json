@@ -1,0 +1,562 @@
+{
+  "texture": "res://assets/sprites/characters/layers.png",
+  "source": "assets/generated/sprites/characters/body-weapons/source.png",
+  "reference": "assets/sprites/player_mech/player_mech_directions.png",
+  "provider": "built-in imagegen",
+  "layers": {
+    "robot_body": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            45,
+            209,
+            192
+          ],
+          "anchor": [
+            109,
+            90
+          ],
+          "socket": [
+            109,
+            30
+          ],
+          "collider_radius": 14
+        },
+        "up": {
+          "region": [
+            209,
+            45,
+            209,
+            192
+          ],
+          "anchor": [
+            104,
+            90
+          ],
+          "socket": [
+            104,
+            30
+          ],
+          "collider_radius": 14
+        },
+        "left": {
+          "region": [
+            418,
+            47,
+            209,
+            197
+          ],
+          "anchor": [
+            105,
+            88
+          ],
+          "socket": [
+            105,
+            28
+          ],
+          "collider_radius": 14
+        },
+        "right": {
+          "region": [
+            627,
+            48,
+            209,
+            196
+          ],
+          "anchor": [
+            105,
+            87
+          ],
+          "socket": [
+            105,
+            27
+          ],
+          "collider_radius": 14
+        }
+      },
+      "walk_split_offset": 8,
+      "walk_stride": 1.0
+    },
+    "tank_body": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            287,
+            209,
+            120
+          ],
+          "anchor": [
+            107,
+            62
+          ],
+          "socket": [
+            107,
+            46
+          ],
+          "collider_radius": 14
+        },
+        "up": {
+          "region": [
+            209,
+            287,
+            209,
+            120
+          ],
+          "anchor": [
+            107,
+            62
+          ],
+          "socket": [
+            107,
+            46
+          ],
+          "collider_radius": 14
+        },
+        "left": {
+          "region": [
+            418,
+            286,
+            209,
+            133
+          ],
+          "anchor": [
+            105,
+            63
+          ],
+          "socket": [
+            105,
+            47
+          ],
+          "collider_radius": 14
+        },
+        "right": {
+          "region": [
+            627,
+            286,
+            209,
+            134
+          ],
+          "anchor": [
+            105,
+            63
+          ],
+          "socket": [
+            105,
+            47
+          ],
+          "collider_radius": 14
+        }
+      },
+      "walk_split_offset": 12,
+      "walk_stride": 0.5
+    },
+    "robot_standard": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            454,
+            209,
+            178
+          ],
+          "anchor": [
+            109,
+            65
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            435,
+            209,
+            174
+          ],
+          "anchor": [
+            101,
+            129
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            469,
+            209,
+            112
+          ],
+          "anchor": [
+            140,
+            55
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            469,
+            209,
+            113
+          ],
+          "anchor": [
+            75,
+            55
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "robot_gatling": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            669,
+            209,
+            159
+          ],
+          "anchor": [
+            108,
+            58
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            634,
+            209,
+            178
+          ],
+          "anchor": [
+            101,
+            134
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            674,
+            209,
+            111
+          ],
+          "anchor": [
+            144,
+            53
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            674,
+            209,
+            111
+          ],
+          "anchor": [
+            76,
+            53
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "robot_twin": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            879,
+            209,
+            159
+          ],
+          "anchor": [
+            110,
+            57
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            845,
+            209,
+            177
+          ],
+          "anchor": [
+            102,
+            131
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            879,
+            209,
+            113
+          ],
+          "anchor": [
+            145,
+            54
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            880,
+            209,
+            111
+          ],
+          "anchor": [
+            76,
+            53
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "robot_missiles": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            1079,
+            209,
+            108
+          ],
+          "anchor": [
+            109,
+            61
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            1074,
+            209,
+            108
+          ],
+          "anchor": [
+            101,
+            66
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            1077,
+            209,
+            122
+          ],
+          "anchor": [
+            145,
+            62
+          ],
+          "rear_region": [
+            0,
+            0,
+            209,
+            62
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            1077,
+            209,
+            122
+          ],
+          "anchor": [
+            76,
+            62
+          ],
+          "rear_region": [
+            0,
+            0,
+            209,
+            62
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "tank_standard": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            1271,
+            209,
+            173
+          ],
+          "anchor": [
+            110,
+            59
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            1223,
+            209,
+            192
+          ],
+          "anchor": [
+            103,
+            120
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            1276,
+            209,
+            102
+          ],
+          "anchor": [
+            145,
+            48
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            1276,
+            209,
+            102
+          ],
+          "anchor": [
+            76,
+            48
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "tank_twin": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            1477,
+            209,
+            173
+          ],
+          "anchor": [
+            110,
+            47
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            1428,
+            209,
+            191
+          ],
+          "anchor": [
+            104,
+            123
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            1478,
+            209,
+            103
+          ],
+          "anchor": [
+            145,
+            51
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            1478,
+            209,
+            103
+          ],
+          "anchor": [
+            76,
+            51
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    },
+    "tank_missiles": {
+      "scale": 0.25,
+      "directions": {
+        "down": {
+          "region": [
+            0,
+            1690,
+            209,
+            128
+          ],
+          "anchor": [
+            109,
+            52
+          ]
+        },
+        "up": {
+          "region": [
+            209,
+            1686,
+            209,
+            145
+          ],
+          "anchor": [
+            104,
+            56
+          ]
+        },
+        "left": {
+          "region": [
+            418,
+            1689,
+            209,
+            134
+          ],
+          "anchor": [
+            147,
+            48
+          ],
+          "rear_region": [
+            0,
+            0,
+            209,
+            48
+          ]
+        },
+        "right": {
+          "region": [
+            627,
+            1690,
+            209,
+            133
+          ],
+          "anchor": [
+            75,
+            47
+          ],
+          "rear_region": [
+            0,
+            0,
+            209,
+            47
+          ]
+        }
+      },
+      "recoil_distance": 1.0
+    }
+  },
+  "source_request": "assets/generated/sprites/characters/body-weapons/request.json",
+  "sha256": "47fecb51ef4657696cb0b99c05b387c85651047df07590e31f104172cb805317"
+}

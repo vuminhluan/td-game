@@ -176,5 +176,13 @@
         }
       ]
     }
+  },
+  "geometry": {
+    "anchor": [
+      64,
+      52
+    ],
+    "scale": 0.472,
+    "muzzle_distance": 20.768
   }
 }

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=4 format=3]
+[ext_resource type="Script" path="res://gd/player_loadout.gd" id="1"]
+[ext_resource type="Resource" path="res://assets/sprites/player_mech/player_skin.tres" id="2"]
+[ext_resource type="Resource" path="res://assets/weapons/twin.tres" id="3"]
+[resource]
+script = ExtResource("1")
+body = ExtResource("2")
+weapon = ExtResource("3")

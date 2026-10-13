@@ -1,0 +1,36 @@
+{
+  "provider": "built-in image_gen.imagegen",
+  "transparent_background": true,
+  "generation_id": "exec-a34561e8-940c-4fe4-9ff1-8460ab3b976b",
+  "correction_id": "exec-87f74592-e7bd-4ed1-9760-3b68cd890798",
+  "initial_reference": "assets/sprites/player_mech/player_mech_directions.png",
+  "correction_reference": "assets/generated/sprites/characters/body-weapons/reference-sheet.png",
+  "output": "assets/sprites/characters/layers.png",
+  "prompts": [
+    "assets/generated/sprites/characters/body-weapons/generate-prompt.txt",
+    "assets/generated/sprites/characters/body-weapons/correct-prompt.txt"
+  ],
+  "source_fingerprints": {
+    "assets/sprites/characters/layers.png": "47fecb51ef4657696cb0b99c05b387c85651047df07590e31f104172cb805317",
+    "assets/generated/sprites/characters/body-weapons/source.png": "47fecb51ef4657696cb0b99c05b387c85651047df07590e31f104172cb805317",
+    "assets/generated/sprites/characters/body-weapons/reference-sheet.png": "df680b6a036364123773e2e08fbb9ba336a7ff55ff2c0d92ec76e302a9f89b78",
+    "assets/sprites/player_mech/player_mech_directions.png": "7115647421fcfeb3fbca4bef4fa17dd207fc88eb492ae51f2f3c650e2df7cd10",
+    "assets/generated/sprites/characters/body-weapons/up-heels/reference.png": "7881a228c8f8e07e2f0e69737a8d9a66487723bef56894eeb43e8e2ca07be21d",
+    "assets/generated/sprites/characters/body-weapons/up-heels/generated.png": "ba3f721269141ae81adecfad0f49243a7b99c526ac74bf0fc42c9e1471c84fc8"
+  },
+  "revisions": [
+    {
+      "generation_id": "exec-d9449689-602d-41f0-94bd-df1fa8d99fab",
+      "reference": "assets/generated/sprites/characters/body-weapons/up-heels/reference.png",
+      "generated": "assets/generated/sprites/characters/body-weapons/up-heels/generated.png",
+      "prompt": "assets/generated/sprites/characters/body-weapons/up-heels/prompt.txt",
+      "assembly": "scripts/assemble_robot_heel_fix.gd",
+      "edit_region": [
+        209,
+        145,
+        209,
+        92
+      ]
+    }
+  ]
+}

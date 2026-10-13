@@ -41,7 +41,7 @@ static func create_map() -> Array:
 static func place(grid: Array, kind: String, x: int, y: int, w: int = 1, h: int = 1) -> void:
 	for j in range(y, y + h):
 		for i in range(x, x + w):
-			grid[j][i] = {"kind": kind, "hp": 3 if kind == "brick" else 0}
+			grid[j][i] = {"kind": kind, "hp": 3 if kind == "brick" else (R.STEEL_HP if kind == "steel" else 0)}
 
 static func tile_at(grid: Array, point: Vector2) -> Dictionary:
 	var x = floori(point.x / R.TILE)

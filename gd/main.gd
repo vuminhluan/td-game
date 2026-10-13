@@ -1,10 +1,21 @@
 extends Control
 const Sim = preload("res://gd/simulation.gd")
 const View = preload("res://gd/battle_view.gd")
+const PowerUpHUD = preload("res://gd/power_up_hud.gd")
 const R = preload("res://gd/rules.gd")
 const KEY_DIRECTIONS = {KEY_W: "up", KEY_UP: "up", KEY_D: "right", KEY_RIGHT: "right", KEY_S: "down", KEY_DOWN: "down", KEY_A: "left", KEY_LEFT: "left"}
-var sim = Sim.new()
+const Catalog = preload("res://gd/character_catalog.gd")
+const Selection = preload("res://gd/character_selection.gd")
+var catalog = Catalog.new()
+var preparation: PanelContainer
+var character_id = "robot"
+var body_id = "robot_body"
+var weapon_id = "standard"
+var selected_loadout = 0
+var weapon_selector: OptionButton
+var sim: RefCounted
 var battle: Node2D
+var power_up_hud: Control
 var labels: Dictionary = {}
 var start_button: Button
 var pause_button: Button
@@ -25,12 +36,27 @@ var last_status = ""
 var radar_rect = Rect2()
 
 func _ready() -> void:
+	if not catalog.errors.is_empty():
+		var error_label = Label.new()
+		error_label.text = "Config nhân vật không hợp lệ:\n" + "\n".join(catalog.errors)
+		add_child(error_label)
+		set_process(false)
+		return
+	character_id = catalog.data.default_character
+	body_id = catalog.data.characters[character_id].default_body
+	weapon_id = catalog.data.characters[character_id].default_weapon
+	sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
 	var theme_resource = Theme.new()
 	theme_resource.default_font_size = 14
 	theme = theme_resource
 	battle = View.new()
 	battle.sim = sim
 	add_child(battle)
+	power_up_hud = PowerUpHUD.new()
+	power_up_hud.sim = sim
+	power_up_hud.mouse_filter = Control.MOUSE_FILTER_PASS
+	power_up_hud.size = Vector2(190, 38)
+	add_child(power_up_hud)
 	for id in ["brand", "sector", "heading", "field", "clock", "message", "stats", "help", "campaign", "enemies", "score", "robot", "base", "radar", "footer"]:
 		var label = Label.new()
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -43,7 +69,7 @@ func _ready() -> void:
 	labels.sector.text = "KHU VỰC 07 / KHU CÔNG NGHIỆP"
 	labels.heading.text = "Giữ vững phòng tuyến."
 	labels.heading.add_theme_font_size_override("font_size", 30)
-	labels.help.text = "WASD / ↑↓←→: di chuyển    SPACE: bắn    P / ESC: tạm dừng\nGạch: 3 phát · Thép: bất hoại · Nước: chặn đường · Cây: đi xuyên"
+	labels.help.text = "WASD / ↑↓←→: di chuyển    SPACE: bắn    P / ESC: tạm dừng\nGạch: 3 HP · Thép: chặn mọi đạn · Nước: chặn đường · Cây: đi xuyên"
 	labels.footer.text = "ROBOT DEFENSE / GODOT     •     MỘT ROBOT. MỘT CĂN CỨ. GIỮ ĐẾN CÙNG."
 	pause_button = make_button("TẠM DỪNG [P]", toggle_pause)
 	sound_button = make_button("ÂM THANH: TẮT", toggle_sound)
@@ -67,6 +93,13 @@ func _ready() -> void:
 	add_child(audio)
 	audio.stream = shot_sound()
 	audio.volume_db = -24
+	preparation = Selection.new()
+	preparation.catalog = catalog
+	preparation.character_id = character_id
+	preparation.deployed.connect(activate)
+	add_child(preparation)
+	weapon_selector = preparation.weapon_selector
+	preparation.selection_changed.connect(apply_selection)
 	resized.connect(layout)
 	get_window().focus_exited.connect(focus_lost)
 	layout()
@@ -109,6 +142,8 @@ func layout() -> void:
 	var factor = maxf(0.05, minf(available.x / R.WIDTH, available.y / R.HEIGHT))
 	var dimensions = Vector2(R.WIDTH, R.HEIGHT) * factor
 	board_rect = Rect2(Vector2(margin + (available.x - dimensions.x) / 2, top), dimensions)
+	power_up_hud.position = board_rect.position + Vector2(4, 4)
+	power_up_hud.scale = Vector2.ONE * minf(1.0, board_rect.size.x / 198.0)
 	battle.position = board_rect.position
 	battle.scale = Vector2.ONE * factor
 	put(labels.field, Rect2(board_rect.position.x, top - 28, 230, 24))
@@ -148,16 +183,38 @@ func layout() -> void:
 		touch_rects.down = Rect2(x + edge + 4, y + edge + 4, edge, edge)
 		touch_rects.right = Rect2(x + 2 * (edge + 4), y + edge + 4, edge, edge)
 		touch_rects.fire = Rect2(size.x - margin - 98, y + 20, 98, 68)
+	put(preparation, Rect2(Vector2((size.x - minf(500, size.x - 24)) / 2, 104 if mobile else 96), Vector2(minf(500, size.x - 24), minf(640, size.y - (120 if mobile else 112)))))
 	var overlay_width = minf(430, board_rect.size.x - 12)
-	var overlay_height = minf(238, board_rect.size.y - 12)
+	var overlay_height = minf(278, board_rect.size.y - 12)
 	put(overlay, Rect2(board_rect.get_center() - Vector2(overlay_width, overlay_height) / 2, Vector2(overlay_width, overlay_height)))
 	put(overlay_title, Rect2(8, 16, overlay_width - 16, 42))
 	overlay_title.add_theme_font_size_override("font_size", (16 if overlay_width < 240 else 22) if mobile else 28)
 	overlay_copy.add_theme_font_size_override("font_size", 12 if overlay_width < 240 else 14)
-	put(overlay_copy, Rect2(16, 62, overlay_width - 32, maxf(40, overlay_height - 130)))
+	put(overlay_copy, Rect2(16, 62, overlay_width - 32, maxf(30, overlay_height - 174)))
 	put(start_button, Rect2(16, overlay_height - 54, overlay_width - 32, 40))
 	clear_inputs()
 	queue_redraw()
+
+func apply_selection(character: String, body: String, weapon: String) -> void:
+	if sim.status not in ["ready", "won", "lost"]:
+		return
+	character_id = character
+	body_id = body
+	weapon_id = weapon
+	selected_loadout = catalog.data.characters[character_id].weapons.find(weapon_id)
+	if sim.status == "ready":
+		sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
+		battle.sim = sim
+		power_up_hud.sim = sim
+	refresh_hud()
+	battle.queue_redraw()
+
+func select_loadout(index: int) -> void:
+	if sim.status not in ["ready", "won", "lost"]:
+		weapon_selector.select(selected_loadout)
+		return
+	preparation.choose_weapon(index)
+	weapon_selector.select(index)
 
 func activate() -> void:
 	clear_inputs()
@@ -166,8 +223,9 @@ func activate() -> void:
 	elif sim.status == "paused":
 		sim.pause()
 	else:
-		sim = Sim.new()
+		sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
 		battle.sim = sim
+		power_up_hud.sim = sim
 		sim.start()
 		last_shots = 0
 	refresh_hud()
@@ -187,6 +245,8 @@ func clear_inputs() -> void:
 	keyboard_fire = false
 
 func focus_lost() -> void:
+	if sim == null:
+		return
 	clear_inputs()
 	if sim.status == "playing":
 		sim.pause()
@@ -203,6 +263,8 @@ func pointer_action(point: Vector2) -> String:
 	return ""
 
 func _input(event: InputEvent) -> void:
+	if sim == null:
+		return
 	if event is InputEventKey:
 		if event.echo:
 			return
@@ -243,6 +305,7 @@ func _process(dt: float) -> void:
 	last_shots = sim.shots_fired
 	refresh_hud()
 	battle.queue_redraw()
+	power_up_hud.queue_redraw()
 	queue_redraw()
 
 func refresh_hud() -> void:
@@ -255,12 +318,16 @@ func refresh_hud() -> void:
 	labels.campaign.text = "CHIẾN DỊCH\n%02d / 05" % maxi(1, sim.wave)
 	labels.enemies.text = "ĐỊCH CÒN LẠI\n%02d" % (sim.to_spawn + sim.enemies.size() if sim.status != "ready" else 5)
 	labels.score.text = "ĐIỂM CHIẾN ĐẤU\n%05d" % sim.score
-	labels.robot.text = "ROBOT CỦA BẠN / ATK–01\n× %d robot    •    Giáp %d%%" % [sim.lives, maxi(0, sim.player.hp) * 20]
+	labels.robot.text = "%s\n× %d    •    Giáp %d%%" % [sim.loadout.display_name, sim.lives, roundi(100.0 * maxi(0, sim.player.hp) / sim.player.max_hp)]
 	labels.base.text = "TRẠNG THÁI CĂN CỨ\n%d%%  /  %s" % [base_percent, "AN TOÀN" if base_percent > 50 else "NGUY CẤP"]
-	labels.stats.text = "Đợt %d/5   •   Địch %d   •   Điểm %d\nRobot ×%d   •   Giáp %d%%   •   Căn cứ %d%%" % [maxi(1, sim.wave), sim.to_spawn + sim.enemies.size(), sim.score, sim.lives, maxi(0, sim.player.hp) * 20, base_percent]
+	labels.stats.text = "Đợt %d/5   •   Địch %d   •   Điểm %d\nRobot ×%d   •   Giáp %d%%   •   Căn cứ %d%%" % [maxi(1, sim.wave), sim.to_spawn + sim.enemies.size(), sim.score, sim.lives, roundi(100.0 * maxi(0, sim.player.hp) / sim.player.max_hp), base_percent]
 	pause_button.disabled = sim.status not in ["playing", "paused"]
 	pause_button.text = "TIẾP TỤC [P]" if sim.status == "paused" else "TẠM DỪNG [P]"
-	overlay.visible = sim.status != "playing"
+	weapon_selector.visible = sim.status in ["ready", "won", "lost"]
+	weapon_selector.disabled = not weapon_selector.visible
+	preparation.visible = sim.status in ["ready", "won", "lost"]
+	preparation.heading.text = "THẮNG TRẬN · CHỌN LẠI" if sim.status == "won" else "THUA TRẬN · CHỌN LẠI" if sim.status == "lost" else "CHUẨN BỊ VÀO TRẬN"
+	overlay.visible = sim.status == "paused"
 	if sim.status != last_status:
 		last_status = sim.status
 		match sim.status:
@@ -278,6 +345,8 @@ func refresh_hud() -> void:
 				start_button.text = "CHƠI LẠI ↻"
 
 func _draw() -> void:
+	if sim == null:
+		return
 	draw_rect(Rect2(Vector2.ZERO, size), Color("11181b"))
 	draw_line(Vector2(12, 92 if mobile else 62), Vector2(size.x - 12, 92 if mobile else 62), Color("3f4c46"))
 	draw_rect(board_rect.grow(2), Color("7b8067"), false, 2)
@@ -304,7 +373,7 @@ func _draw() -> void:
 			draw_circle(radar_rect.position + enemy.pos / 4 * radar_scale, 3 * radar_scale, Color("f47e56"))
 		var side = radar_rect.position.x
 		draw_rect(Rect2(side, labels.robot.position.y + 80, 210, 6), Color("283439"))
-		draw_rect(Rect2(side, labels.robot.position.y + 80, 210.0 * maxi(0, sim.player.hp) / R.PLAYER_HP, 6), Color("e98450"))
+		draw_rect(Rect2(side, labels.robot.position.y + 80, 210.0 * maxi(0, sim.player.hp) / sim.player.max_hp, 6), Color("e98450"))
 		draw_rect(Rect2(side, labels.base.position.y + 66, 210, 6), Color("283439"))
 		draw_rect(Rect2(side, labels.base.position.y + 66, 210.0 * maxi(0, sim.base_hp) / R.BASE_HP, 6), Color("8dc6b8"))
 

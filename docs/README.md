@@ -7,9 +7,12 @@ Nếu mới vào dự án, đọc [phát triển dự án](development.md) để
 | Tài liệu | Nội dung |
 | --- | --- |
 | [Bắn và va chạm đạn](features/combat.md) | Cooldown, nòng dài, chống xuyên vật cản |
+| [Power-up](features/power-ups.md) | 5 hiệu ứng đã triển khai, sinh/rơi vật phẩm, countdown, tuning và gameplay QA |
 | [Map: terrain và đường đi](features/map/navigation.md) | Grid, collision, Dijkstra, phá tường |
 | [Map: hình ảnh](features/map/art.md) | Skin, cache terrain, lớp vẽ, bờ nước, Nhà chính |
 | [Robot: skin và animation](features/robot-sprites/rendering.md) | Hướng, clock, moving fire, thay geometry |
+| [Tùy biến thân robot và súng](features/player-loadout.md) | Chọn súng trước trận, socket, ghép lớp thân/súng, đạn hai nòng và QA |
+| [Chọn và tùy biến nhân vật trước trận](features/character-selection.md) | Đã triển khai Robot/Xe tăng, Body sạch, 7 loadout, lịch bắn, khóa di chuyển và config chung |
 
 ## Quy trình
 
@@ -23,7 +26,8 @@ Khi thay artwork: đọc tài liệu tính năng → asset đang dùng → workf
 
 | Bộ | Hợp đồng runtime | Nguồn hiện hành |
 | --- | --- | --- |
-| Player mech | [Player](assets/player-mech.md) | `assets/generated/sprites/player_mech/down/`, `player_mech/directions/` |
+| Nhân vật và vũ khí tách lớp | [Characters](assets/characters.md) | `assets/generated/sprites/characters/body-weapons/` |
+| Player mech tham chiếu | [Player](assets/player-mech.md) | `assets/generated/sprites/player_mech/down/`, `player_mech/directions/` |
 | Enemy mech | [Mech](assets/enemy-mech.md) | `assets/generated/sprites/enemy_mech/` |
 | Enemy tank | [Tank](assets/enemy-tank.md) | `assets/generated/sprites/enemy_tank/` |
 | Map công nghiệp | [Map](assets/industrial-map.md) | `assets/generated/map/industrial/` |

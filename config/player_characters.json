@@ -1,0 +1,385 @@
+{
+  "power_ups": {
+    "rapid_fire_rest_multiplier": 0.5,
+    "double_shot_delay": 0.08
+  },
+  "weapons": {
+    "standard": {
+      "name": "Một nòng",
+      "damage": 3,
+      "bullet_speed": 410,
+      "rest": 1,
+      "times": [
+        0
+      ],
+      "barrels": [
+        0
+      ],
+      "muzzles": {
+        "robot": {
+          "down": [
+            [
+              0.0,
+              11.25
+            ]
+          ],
+          "up": [
+            [
+              0.0,
+              -46.25
+            ]
+          ],
+          "left": [
+            [
+              -32.5,
+              -15.0
+            ]
+          ],
+          "right": [
+            [
+              30.5,
+              -15.0
+            ]
+          ]
+        },
+        "tank": {
+          "down": [
+            [
+              -0.25,
+              16.0
+            ]
+          ],
+          "up": [
+            [
+              -0.5,
+              -33.5
+            ]
+          ],
+          "left": [
+            [
+              -33.75,
+              -7.5
+            ]
+          ],
+          "right": [
+            [
+              30.25,
+              -7.5
+            ]
+          ]
+        }
+      },
+      "firing_mode": "parallel",
+      "double_mode": "repeat_volley"
+    },
+    "gatling": {
+      "name": "Gatling",
+      "damage": 1,
+      "bullet_speed": 410,
+      "rest": 0.8,
+      "times": [
+        0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "barrels": [
+        0
+      ],
+      "muzzles": {
+        "robot": {
+          "down": [
+            [
+              0.25,
+              9.5
+            ]
+          ],
+          "up": [
+            [
+              0.0,
+              -47.0
+            ]
+          ],
+          "left": [
+            [
+              -33.5,
+              -15.5
+            ]
+          ],
+          "right": [
+            [
+              30.25,
+              -15.5
+            ]
+          ]
+        }
+      },
+      "firing_mode": "parallel",
+      "double_mode": "uniform_duration"
+    },
+    "twin": {
+      "name": "Hai nòng",
+      "damage": 1,
+      "bullet_speed": 410,
+      "rest": 0.6,
+      "times": [
+        0
+      ],
+      "barrels": [
+        -4,
+        4
+      ],
+      "muzzles": {
+        "robot": {
+          "down": [
+            [
+              -3.0,
+              9.75
+            ],
+            [
+              3.5,
+              9.75
+            ]
+          ],
+          "up": [
+            [
+              4.25,
+              -48.25
+            ],
+            [
+              -3.0,
+              -48.25
+            ]
+          ],
+          "left": [
+            [
+              -34.5,
+              -11.25
+            ],
+            [
+              -34.5,
+              -17.25
+            ]
+          ],
+          "right": [
+            [
+              30.5,
+              -18.0
+            ],
+            [
+              30.5,
+              -11.75
+            ]
+          ]
+        },
+        "tank": {
+          "down": [
+            [
+              -3.0,
+              20.75
+            ],
+            [
+              3.5,
+              20.75
+            ]
+          ],
+          "up": [
+            [
+              3.75,
+              -34.0
+            ],
+            [
+              -3.5,
+              -34.0
+            ]
+          ],
+          "left": [
+            [
+              -34.5,
+              -2.25
+            ],
+            [
+              -34.5,
+              -8.25
+            ]
+          ],
+          "right": [
+            [
+              30.5,
+              -9.0
+            ],
+            [
+              30.5,
+              -2.75
+            ]
+          ]
+        }
+      },
+      "firing_mode": "parallel",
+      "double_mode": "repeat_volley"
+    },
+    "missiles": {
+      "name": "Tên lửa hai bên",
+      "damage": 3,
+      "bullet_speed": 300,
+      "rest": 1.5,
+      "times": [
+        0,
+        0.3
+      ],
+      "barrels": [
+        -9,
+        9
+      ],
+      "muzzles": {
+        "robot": {
+          "down": [
+            [
+              -12.75,
+              -4.5
+            ],
+            [
+              12.25,
+              -4.5
+            ]
+          ],
+          "up": [
+            [
+              13.5,
+              -26.5
+            ],
+            [
+              -12.5,
+              -26.5
+            ]
+          ],
+          "left": [
+            [
+              -29.5,
+              -20.75
+            ],
+            [
+              -28.75,
+              -10.0
+            ]
+          ],
+          "right": [
+            [
+              29.25,
+              -10.5
+            ],
+            [
+              29.25,
+              -21.75
+            ]
+          ]
+        },
+        "tank": {
+          "down": [
+            [
+              -12.75,
+              5.5
+            ],
+            [
+              12.25,
+              5.5
+            ]
+          ],
+          "up": [
+            [
+              12.75,
+              -16.5
+            ],
+            [
+              -13.25,
+              -16.5
+            ]
+          ],
+          "left": [
+            [
+              -30.0,
+              -9.75
+            ],
+            [
+              -29.25,
+              1.0
+            ]
+          ],
+          "right": [
+            [
+              29.5,
+              0.5
+            ],
+            [
+              29.5,
+              -10.75
+            ]
+          ]
+        }
+      },
+      "firing_mode": "alternating",
+      "double_mode": "alternating_pairs"
+    }
+  },
+  "characters": {
+    "robot": {
+      "name": "Robot hai chân",
+      "hp": 5,
+      "speed": 150,
+      "bodies": [
+        "robot_body"
+      ],
+      "default_body": "robot_body",
+      "weapons": [
+        "standard",
+        "gatling",
+        "twin",
+        "missiles"
+      ],
+      "default_weapon": "standard",
+      "weapon_art": {
+        "standard": "robot_standard",
+        "gatling": "robot_gatling",
+        "twin": "robot_twin",
+        "missiles": "robot_missiles"
+      },
+      "collider_radius": 14
+    },
+    "tank": {
+      "name": "Xe tăng",
+      "hp": 10,
+      "speed": 100,
+      "bodies": [
+        "tank_body"
+      ],
+      "default_body": "tank_body",
+      "weapons": [
+        "standard",
+        "twin",
+        "missiles"
+      ],
+      "default_weapon": "standard",
+      "weapon_art": {
+        "standard": "tank_standard",
+        "twin": "tank_twin",
+        "missiles": "tank_missiles"
+      },
+      "collider_radius": 14
+    }
+  },
+  "bodies": {
+    "robot_body": {
+      "name": "ATK–01",
+      "character": "robot",
+      "art_id": "robot_body"
+    },
+    "tank_body": {
+      "name": "Vanguard",
+      "character": "tank",
+      "art_id": "tank_body"
+    }
+  },
+  "default_character": "robot"
+}

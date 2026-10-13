@@ -9,7 +9,9 @@ func _ready() -> void:
 			for column in 3:
 				var state: String = ["idle", "walk", "attack"][column]
 				var sprite = AnimatedSprite2D.new()
-				sprite.sprite_frames = SKINS[kind_index].direction_for(direction).frames
+				var view: Resource = SKINS[kind_index].direction_for(direction)
+				sprite.sprite_frames = view.frames
+				sprite.scale = Vector2.ONE * view.texture_scale * 2.0
 				sprite.position = Vector2(105 + kind_index * 620 + column * 195, 190 + row * 190)
 				add_child(sprite)
 				sprite.play(state)

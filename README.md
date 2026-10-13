@@ -9,6 +9,9 @@ make test
 
 Bắt đầu đọc tại [mục lục tài liệu](docs/README.md). Hướng dẫn chạy, kiểm thử và Web PWA ở [phát triển dự án](docs/development.md).
 
+- [Resource loadout](docs/features/player-loadout.md): nền tảng socket/geometry và bộ atlas tham chiếu.
+- [Chọn nhân vật](docs/features/character-selection.md): Robot/Xe tăng, Body sạch, 7 bộ vũ khí và config gameplay chung.
+- [Power-up](docs/features/power-ups.md): 5 vật phẩm, countdown, luật sinh và tuning.
 - [Tính năng và kiến trúc](docs/README.md#tính-năng): gameplay, map và rendering robot.
 - [Quy trình nâng cấp](docs/README.md#quy-trình): tạo/thay sprite, tích hợp và kiểm tra.
 - [Asset đang dùng](docs/README.md#asset): runtime resources, nguồn và geometry.

@@ -7,5 +7,5 @@
 script = ExtResource("1")
 frames = ExtResource("2")
 anchor = Vector2(64.0, 52.0)
-texture_scale = 0.5
-muzzle_distance = 22.0
+texture_scale = 0.472
+muzzle_distance = 20.768
