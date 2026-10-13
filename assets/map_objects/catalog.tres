@@ -6,7 +6,10 @@
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/robot_wreck.tres" id="4_tij8b"]
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/drink_can.tres" id="5_pg2fq"]
 [ext_resource type="Script" path="res://gd/map_object_catalog.gd" id="6_lxbcc"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/single_pipe.tres" id="6_tij8b"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/water_pump.tres" id="7_pg2fq"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/water_pump_right.tres" id="8_lxbcc"]
 
 [resource]
 script = ExtResource("6_lxbcc")
-objects = Array[ExtResource("1_4ttgd")]([ExtResource("2_6oy08"), ExtResource("3_avyx2"), ExtResource("4_tij8b"), ExtResource("5_pg2fq")])
+objects = Array[ExtResource("1_4ttgd")]([ExtResource("2_6oy08"), ExtResource("3_avyx2"), ExtResource("4_tij8b"), ExtResource("5_pg2fq"), ExtResource("6_tij8b"), ExtResource("7_pg2fq"), ExtResource("8_lxbcc")])

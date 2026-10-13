@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_gwev4"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/water_pump.png" id="2_n805i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwev4"]
+atlas = ExtResource("2_n805i")
+region = Rect2(404, 131, 1178, 679)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_gwev4")
+object_id = "industrial_water_pump"
+display_name = "Mô tơ bơm nước"
+tags = Array[String](["industrial", "water_pump"])
+texture = SubResource("AtlasTexture_gwev4")
+visual_rect = Rect2(12.74976213, -1.99809705, 67.25023787, 38.76308278)
+category = "fixed"
+connections = {
+"inlet": Vector2(20.00000000, 0)
+}
+footprint = Vector2i(2, 1)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

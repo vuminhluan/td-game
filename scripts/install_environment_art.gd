@@ -6,7 +6,10 @@ const OBJECTS = {
 	"machinery": {"name": "Máy nén nhà xưởng", "category": "fixed", "footprint": Vector2i(3, 2), "frame": Rect2(0, 0, 120, 80), "blocks_bullets": true},
 	"pipes": {"name": "Cụm ống nước thấp", "category": "fixed", "footprint": Vector2i(4, 1), "frame": Rect2(0, -4, 160, 48), "blocks_bullets": false},
 	"robot_wreck": {"name": "Robot bỏ hoang", "category": "fixed", "footprint": Vector2i(2, 2), "frame": Rect2(0, 0, 80, 80), "blocks_bullets": true},
-	"drink_can": {"name": "Lon nước cũ", "category": "decoration", "footprint": Vector2i.ONE, "frame": Rect2(-9, -9, 18, 18), "blocks_bullets": false}
+	"drink_can": {"name": "Lon nước cũ", "category": "decoration", "footprint": Vector2i.ONE, "frame": Rect2(-9, -9, 18, 18), "blocks_bullets": false},
+	"single_pipe": {"name": "Ống nước đơn dọc", "category": "fixed", "footprint": Vector2i(1, 4), "frame": Rect2(0, 0, 40, 160), "blocks_bullets": false, "source_role": "single_pipe", "connections": {"start": Vector2(20, 0), "end": Vector2(20, 160)}},
+	"water_pump": {"name": "Mô tơ bơm nước", "category": "fixed", "footprint": Vector2i(2, 1), "frame": Rect2(12.74976213, -1.99809705, 67.25023787, 38.76308278), "blocks_bullets": true, "source_role": "water_pump", "connections": {"inlet": Vector2(20, 0)}},
+	"water_pump_right": {"name": "Mô tơ bơm nước — đầu nối bên phải", "category": "fixed", "footprint": Vector2i(2, 1), "frame": Rect2(0, -1.99809705, 67.25023787, 38.76308278), "blocks_bullets": true, "source_role": "water_pump", "png_role": "water_pump", "flip_h": true, "connections": {"inlet": Vector2(7.25023787, 0)}}
 }
 
 func visible_bounds(image: Image) -> Rect2i:
@@ -24,7 +27,7 @@ func _initialize() -> void:
 	var manifest := {"provider": "built-in imagegen", "style": "aged_factory", "objects": {}}
 	for role in OBJECTS:
 		var config: Dictionary = OBJECTS[role]
-		var path := "res://assets/map_objects/industrial/%s.png" % role
+		var path := "res://assets/map_objects/industrial/%s.png" % config.get("png_role", role)
 		var image := Image.new()
 		if image.load_png_from_buffer(FileAccess.get_file_as_bytes(path)) != OK or image.detect_alpha() == Image.ALPHA_NONE:
 			push_error(role + ": artwork must retain generated alpha")
@@ -50,6 +53,8 @@ func _initialize() -> void:
 			definition.display_name = config.name
 			definition.tags.assign(["industrial", role])
 			definition.visual_rect = Rect2(frame.get_center() - size / 2, size)
+			definition.flip_h = config.get("flip_h", false)
+			definition.connections = config.get("connections", {}).duplicate()
 			definition.category = config.category
 			definition.footprint = config.footprint
 			definition.move_blocked = config.category == "fixed"
@@ -69,7 +74,7 @@ func _initialize() -> void:
 				break
 		if not replaced:
 			catalog.objects.append(saved)
-		var source_role: String = "machinery" if role == "machinery" else ("wreck" if role == "robot_wreck" else ("can" if role == "drink_can" else role))
+		var source_role: String = config.get("source_role", "machinery" if role == "machinery" else ("wreck" if role == "robot_wreck" else ("can" if role == "drink_can" else role)))
 		manifest.objects[role] = {"runtime_texture": path, "definition": resource_path, "source": "assets/generated/map/industrial/objects/%s/source.png" % source_role,
 			"prompt": "assets/generated/map/industrial/objects/%s/prompt.txt" % source_role, "sha256": FileAccess.get_sha256(path),
 			"source_region": [region.position.x, region.position.y, region.size.x, region.size.y]}

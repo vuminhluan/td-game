@@ -28,12 +28,16 @@ const Definition = preload("res://gd/map_object_definition.gd")
 	set(value):
 		visual_rect = value
 		queue_redraw()
+@export var flip_h := false:
+	set(value):
+		flip_h = value
+		queue_redraw()
 @export var drop_settings: Resource
 @export_enum("power_up", "weapon") var pickup_category := "power_up"
 @export var pickup_id := ""
 
 func _validate_property(property: Dictionary) -> void:
-	if definition != null and property.name in ["category", "footprint", "footprint_offset", "move_blocked", "bullet_blocked", "initial_hp", "steel", "texture", "visual_rect", "drop_settings", "pickup_category", "pickup_id"]:
+	if definition != null and property.name in ["category", "footprint", "footprint_offset", "move_blocked", "bullet_blocked", "initial_hp", "steel", "texture", "visual_rect", "flip_h", "drop_settings", "pickup_category", "pickup_id"]:
 		property.usage = property.usage & ~PROPERTY_USAGE_EDITOR
 
 func _definition_changed() -> void:
@@ -67,7 +71,10 @@ func runtime_data(identifier: int, map_position: Vector2) -> Dictionary:
 func _draw() -> void:
 	var config: Object = configuration()
 	if config.texture != null:
+		if config.flip_h:
+			draw_set_transform(Vector2(config.visual_rect.get_center().x * 2, 0), 0, Vector2(-1, 1))
 		draw_texture_rect(config.texture, config.visual_rect, false)
+		draw_set_transform(Vector2.ZERO)
 	if Engine.is_editor_hint() and config.category in ["fixed", "destructible"]:
 		var origin := Vector2(config.footprint_offset) * R.TILE - Vector2(fposmod(global_position.x, R.TILE), fposmod(global_position.y, R.TILE))
 		draw_rect(Rect2(origin, Vector2(config.footprint) * R.TILE), Color(1, 0.65, 0.3, 0.7), false, 2)

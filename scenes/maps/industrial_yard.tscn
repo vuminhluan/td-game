@@ -3,14 +3,10 @@
 [ext_resource type="Script" path="res://gd/map_definition.gd" id="1_palji"]
 [ext_resource type="TileSet" path="res://assets/maps/industrial/terrain.tres" id="3_w6b8v"]
 [ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/floor.png" id="3_ww58n"]
-[ext_resource type="PackedScene" path="res://scenes/objects/industrial/machinery.tscn" id="5_783wv"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/water_line_west.tscn" id="5_palji"]
 [ext_resource type="Script" path="res://gd/map_marker.gd" id="5_w6b8v"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/water_line_east.tscn" id="6_15gun"]
 [ext_resource type="Script" path="res://gd/map_object.gd" id="6_783wv"]
-[ext_resource type="Resource" path="res://assets/map_objects/industrial/machinery.tres" id="7_i6g3g"]
-[ext_resource type="PackedScene" path="res://scenes/objects/industrial/pipes.tscn" id="8_7r4j5"]
-[ext_resource type="Resource" path="res://assets/map_objects/industrial/pipes.tres" id="9_u7qlb"]
-[ext_resource type="PackedScene" path="res://scenes/objects/industrial/robot_wreck.tscn" id="10_5ps47"]
-[ext_resource type="Resource" path="res://assets/map_objects/industrial/robot_wreck.tres" id="11_ak4v6"]
 [ext_resource type="PackedScene" path="res://scenes/objects/industrial/drink_can.tscn" id="12_4uavf"]
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/drink_can.tres" id="13_adme7"]
 
@@ -26,7 +22,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 840, 760)
 
 [node name="Terrain" type="TileMapLayer" parent="." unique_id=1522366761]
-tile_map_data = PackedByteArray("AAAEAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAAMAAEAAAAAAAAAAAANAAEAAAAAAAAAAAAOAAEAAAAAAAAAAAAPAAEAAAAAAAAAAAAQAAEAAAAAAAAAAAAEAAMAAAABAAAAAAAFAAMAAAABAAAAAAAEAAQAAAABAAAAAAAFAAQAAAABAAAAAAAEAAgAAAABAAAAAAAFAAgAAAABAAAAAAAEAAkAAAABAAAAAAAFAAkAAAABAAAAAAAEAAwAAAABAAAAAAAFAAwAAAABAAAAAAAEAA0AAAABAAAAAAAFAA0AAAABAAAAAAAEAAUAAAADAAAAAAAFAAUAAAADAAAAAAAEAAoAAAADAAAAAAAFAAoAAAADAAAAAAAEAA4AAAADAAAAAAAFAA4AAAADAAAAAAAPAAMAAAABAAAAAAAQAAMAAAABAAAAAAAPAAQAAAABAAAAAAAQAAQAAAABAAAAAAAPAAgAAAABAAAAAAAQAAgAAAABAAAAAAAPAAkAAAABAAAAAAAQAAkAAAABAAAAAAAPAAwAAAABAAAAAAAQAAwAAAABAAAAAAAPAA0AAAABAAAAAAAQAA0AAAABAAAAAAAPAAUAAAADAAAAAAAQAAUAAAADAAAAAAAPAAoAAAADAAAAAAAQAAoAAAADAAAAAAAPAA4AAAADAAAAAAAQAA4AAAADAAAAAAADAAQAAAACAAAAAAADAAUAAAACAAAAAAADAAkAAAACAAAAAAADAAoAAAACAAAAAAARAAQAAAACAAAAAAARAAUAAAACAAAAAAARAAkAAAACAAAAAAARAAoAAAACAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAA0AAAAAAAAAAAATAAQAAAAAAAAAAAATAAUAAAAAAAAAAAATAAgAAAAAAAAAAAATAAkAAAAAAAAAAAATAA0AAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAHAAUAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAUAAAAAAAAAAAAIAAkAAAADAAAAAAAIAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAMAAkAAAADAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAHAA4AAAAAAAAAAAANAAsAAAAAAAAAAAANAA4AAAAAAAAAAAAGABAAAAAAAAAAAAAGABEAAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAEABEAAAAAAAAAAAAFABEAAAAAAAAAAAAPABEAAAAAAAAAAAAQABEAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAEAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAHAAEA//////////8IAAEA//////////8MAAEAAAAAAAAAAAANAAEAAAAAAAAAAAAOAAEAAAAAAAAAAAAPAAEA//////////8QAAEA//////////8EAAMAAAABAAAAAAAFAAMAAAABAAAAAAAEAAQAAAABAAAAAAAFAAQAAAABAAAAAAAEAAgA//////////8FAAgA//////////8EAAkA//////////8FAAkA//////////8EAAwA//////////8FAAwA//////////8EAA0A//////////8FAA0A//////////8EAAUA//////////8FAAUA//////////8EAAoA//////////8FAAoA//////////8EAA4A//////////8FAA4A//////////8PAAMAAAABAAAAAAAQAAMAAAABAAAAAAAPAAQAAAABAAAAAAAQAAQAAAABAAAAAAAPAAgA//////////8QAAgA//////////8PAAkA//////////8QAAkA//////////8PAAwA//////////8QAAwA//////////8PAA0A//////////8QAA0A//////////8PAAUA//////////8QAAUA//////////8PAAoA//////////8QAAoA//////////8PAA4A//////////8QAA4A//////////8DAAQAAAACAAAAAAADAAUAAAACAAAAAAADAAkA//////////8DAAoA//////////8RAAQAAAACAAAAAAARAAUAAAACAAAAAAARAAkA//////////8RAAoA//////////8BAAQA//////////8BAAUA//////////8BAAgA//////////8BAAkA//////////8BAA0A//////////8TAAQA//////////8TAAUA//////////8TAAgA//////////8TAAkA//////////8TAA0A//////////8IAAUA//////////8IAAYAAAAAAAAAAAAIAAcA//////////8HAAUA//////////8MAAUA//////////8MAAYA//////////8MAAcA//////////8NAAUA//////////8IAAkA//////////8IAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAMAAkA//////////8MAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAHAAsA//////////8HAA4A//////////8NAAsA//////////8NAA4A//////////8GABAAAAAAAAAAAAAGABEAAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAEABEA//////////8FABEA//////////8PABEA//////////8QABEA//////////8HAAYAAAAAAAAAAAAMAAgAAAAAAAAAAAANAAgAAAAAAAAAAAA=")
 tile_set = ExtResource("3_w6b8v")
 
 [node name="Headquarters" type="Marker2D" parent="." unique_id=447855565]
@@ -51,74 +47,19 @@ script = ExtResource("5_w6b8v")
 position = Vector2(780, 20)
 script = ExtResource("5_w6b8v")
 
-[node name="Environment" type="Node2D" parent="." unique_id=1515771618]
+[node name="Environment" type="Node2D" parent="." unique_id=1409026031]
 
-[node name="WestCompressorNorth" type="Node2D" parent="Environment" unique_id=172508419 instance=ExtResource("5_783wv")]
-position = Vector2(0, 240)
-script = ExtResource("6_783wv")
-definition = ExtResource("7_i6g3g")
+[node name="WestWaterLine" type="Node2D" parent="Environment" unique_id=2070669914 instance=ExtResource("5_palji")]
 
-[node name="WestCompressorSouth" type="Node2D" parent="Environment" unique_id=740282213 instance=ExtResource("5_783wv")]
-position = Vector2(0, 600)
-script = ExtResource("6_783wv")
-definition = ExtResource("7_i6g3g")
+[node name="EastWaterLine" type="Node2D" parent="Environment" unique_id=1723184070 instance=ExtResource("6_15gun")]
+position = Vector2(760, 0)
 
-[node name="WestPipes" type="Node2D" parent="Environment" unique_id=1637853749 instance=ExtResource("8_7r4j5")]
-position = Vector2(0, 480)
-script = ExtResource("6_783wv")
-definition = ExtResource("9_u7qlb")
-
-[node name="WestWreck" type="Node2D" parent="Environment" unique_id=2114508689 instance=ExtResource("10_5ps47")]
-position = Vector2(0, 400)
-script = ExtResource("6_783wv")
-definition = ExtResource("11_ak4v6")
-
-[node name="EastCompressorNorth" type="Node2D" parent="Environment" unique_id=532688587 instance=ExtResource("5_783wv")]
-position = Vector2(720, 240)
-script = ExtResource("6_783wv")
-definition = ExtResource("7_i6g3g")
-
-[node name="EastCompressorSouth" type="Node2D" parent="Environment" unique_id=391794679 instance=ExtResource("5_783wv")]
-position = Vector2(720, 600)
-script = ExtResource("6_783wv")
-definition = ExtResource("7_i6g3g")
-
-[node name="EastPipes" type="Node2D" parent="Environment" unique_id=1052783669 instance=ExtResource("8_7r4j5")]
-position = Vector2(680, 480)
-script = ExtResource("6_783wv")
-definition = ExtResource("9_u7qlb")
-
-[node name="EastWreck" type="Node2D" parent="Environment" unique_id=557254375 instance=ExtResource("10_5ps47")]
-position = Vector2(760, 400)
-script = ExtResource("6_783wv")
-definition = ExtResource("11_ak4v6")
-
-[node name="DiscardedCan8" type="Node2D" parent="Environment" unique_id=1010612310 instance=ExtResource("12_4uavf")]
-position = Vector2(285, 320)
+[node name="WestServiceCan" type="Node2D" parent="Environment" unique_id=1546630405 instance=ExtResource("12_4uavf")]
+position = Vector2(98, 530)
 script = ExtResource("6_783wv")
 definition = ExtResource("13_adme7")
 
-[node name="DiscardedCan9" type="Node2D" parent="Environment" unique_id=1602572231 instance=ExtResource("12_4uavf")]
-position = Vector2(550, 455)
-script = ExtResource("6_783wv")
-definition = ExtResource("13_adme7")
-
-[node name="DiscardedCan10" type="Node2D" parent="Environment" unique_id=731376376 instance=ExtResource("12_4uavf")]
-position = Vector2(285, 610)
-script = ExtResource("6_783wv")
-definition = ExtResource("13_adme7")
-
-[node name="DiscardedCan11" type="Node2D" parent="Environment" unique_id=1959526781 instance=ExtResource("12_4uavf")]
-position = Vector2(565, 625)
-script = ExtResource("6_783wv")
-definition = ExtResource("13_adme7")
-
-[node name="DiscardedCan12" type="Node2D" parent="Environment" unique_id=369740960 instance=ExtResource("12_4uavf")]
-position = Vector2(115, 555)
-script = ExtResource("6_783wv")
-definition = ExtResource("13_adme7")
-
-[node name="DiscardedCan13" type="Node2D" parent="Environment" unique_id=1555653403 instance=ExtResource("12_4uavf")]
-position = Vector2(725, 555)
+[node name="EastServiceCan" type="Node2D" parent="Environment" unique_id=1655204337 instance=ExtResource("12_4uavf")]
+position = Vector2(742, 370)
 script = ExtResource("6_783wv")
 definition = ExtResource("13_adme7")

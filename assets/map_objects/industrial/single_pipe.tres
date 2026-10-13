@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_issex"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/single_pipe.png" id="2_kijkl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhx70"]
+atlas = ExtResource("2_kijkl")
+region = Rect2(425, 17, 176, 1501)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_issex")
+object_id = "industrial_single_pipe"
+display_name = "Ống nước đơn dọc"
+tags = Array[String](["industrial", "single_pipe"])
+texture = SubResource("AtlasTexture_xhx70")
+visual_rect = Rect2(10.619587, 0, 18.760826, 160)
+category = "fixed"
+connections = {
+"end": Vector2(20, 160),
+"start": Vector2(20, 0)
+}
+footprint = Vector2i(1, 4)
+move_blocked = true
+initial_hp = 0

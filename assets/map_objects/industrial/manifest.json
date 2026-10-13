@@ -51,6 +51,45 @@
 				1193,
 				1025
 			]
+		},
+		"single_pipe": {
+			"definition": "res://assets/map_objects/industrial/single_pipe.tres",
+			"prompt": "assets/generated/map/industrial/objects/single_pipe/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/single_pipe.png",
+			"sha256": "9ab12148578dfcac798488765e76e8de748011cd31b9ac347476ecb1f4499398",
+			"source": "assets/generated/map/industrial/objects/single_pipe/source.png",
+			"source_region": [
+				425,
+				17,
+				176,
+				1501
+			]
+		},
+		"water_pump": {
+			"definition": "res://assets/map_objects/industrial/water_pump.tres",
+			"prompt": "assets/generated/map/industrial/objects/water_pump/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/water_pump.png",
+			"sha256": "8876385268eded4a171e451040586952399b4c032524f9bd356a5028cc304fae",
+			"source": "assets/generated/map/industrial/objects/water_pump/source.png",
+			"source_region": [
+				404,
+				131,
+				1178,
+				679
+			]
+		},
+		"water_pump_right": {
+			"definition": "res://assets/map_objects/industrial/water_pump_right.tres",
+			"prompt": "assets/generated/map/industrial/objects/water_pump/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/water_pump.png",
+			"sha256": "8876385268eded4a171e451040586952399b4c032524f9bd356a5028cc304fae",
+			"source": "assets/generated/map/industrial/objects/water_pump/source.png",
+			"source_region": [
+				404,
+				131,
+				1178,
+				679
+			]
 		}
 	},
 	"provider": "built-in imagegen",

@@ -11,6 +11,7 @@ Nếu mới vào dự án, đọc [phát triển dự án](development.md) để
 | [Map: terrain và đường đi](features/map/navigation.md) | Grid, collision, Dijkstra, phá tường |
 | [Map: camera và input](features/map/camera.md) | Camera cuộn/clamp, HUD màn hình, landscape, safe area và screen/world conversion |
 | [Map: hình ảnh](features/map/art.md) | Skin, cache terrain, lớp vẽ, bờ nước, Nhà chính |
+| [Bố cục nhà máy cũ](features/map/industrial-layout.md) | Cụm cấp nước dọc biên, giảm mật độ cover/scenery, giữ grass cho map khác |
 | [Object môi trường và weapon pickup](features/map/environment-objects.md) | Bộ artwork nhà máy cũ, reusable Resource/scene, flags độc lập và catalog không giới hạn theme |
 | [Biên soạn map](features/map/authoring.md) | Scene map, TileSet custom data, object, marker và validation |
 | [Refactor map](features/map/refactor-plan.md) | Phạm vi triển khai và tiêu chí hoàn thành |
@@ -40,6 +41,7 @@ Runtime PNG/TRES nằm trong `assets/sprites/` và `assets/terrain/`. Manifest r
 
 ## QA
 
+- [Bố cục nhà máy thoáng](qa/industrial-layout.md): tuyến ống/bơm, giữ grass cho map khác và kiểm tra mật độ/pathfinding.
 - [Object và artwork](qa/environment-objects.md): collision, sprite weapon chính xác và native rendering.
 - [Refactor map](qa/map-refactor.md): kết quả gameplay, scene validation, camera và native rendering; giới hạn Web/handheld.
 

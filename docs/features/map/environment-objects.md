@@ -17,7 +17,7 @@ Object catalog độc lập với map/theme. Designer được dùng object côn
 
 ## Rìa map
 
-Máy móc, đường ống và robot cũ được đặt dọc hai biên trái/phải trong world space, đi cùng map khi camera cuộn. Các vật thể có footprint vẫn dùng collision/pathfinding chung. Bố trí phải giữ vùng spawn, player, căn cứ và tuyến tiếp cận hợp lệ. Object trang trí trên sàn có thể đặt tự do. Không tự ghim máy móc vào rìa màn hình vì camera có thể nhìn vào giữa một map lớn.
+Bố cục hiện tại dùng hai cụm cấp nước dọc biên, đi cùng map khi camera cuộn; xem [thiết kế layout](industrial-layout.md). Máy nén, cụm ba ống và xác robot còn trong catalog nhưng không đặt trong map mẫu. Các vật thể có footprint vẫn dùng collision/pathfinding chung. Bố trí phải giữ vùng spawn, player, căn cứ và tuyến tiếp cận hợp lệ. Object trang trí trên sàn có thể đặt tự do. Không tự ghim máy móc vào rìa màn hình vì camera có thể nhìn vào giữa một map lớn.
 
 ## Weapon pickup
 
@@ -29,15 +29,15 @@ Nguồn generation giữ dưới `assets/generated/map/industrial/objects/`, ass
 
 ## Dùng trong Godot
 
-Catalog tổng ở `assets/map_objects/catalog.tres` tham chiếu các Resource riêng ở `assets/map_objects/industrial/`. Scene kéo thả tương ứng nằm trong `scenes/objects/industrial/`: `machinery.tscn`, `pipes.tscn`, `robot_wreck.tscn`, `drink_can.tscn`. Kéo scene vào bất kỳ map nào rồi đổi vị trí node. `tags` chỉ là metadata để tổ chức; không kiểm tra theme của map.
+Catalog tổng ở `assets/map_objects/catalog.tres` tham chiếu các Resource riêng ở `assets/map_objects/industrial/`. Scene kéo thả tương ứng nằm trong `scenes/objects/industrial/`: `machinery.tscn`, `pipes.tscn`, `robot_wreck.tscn`, `drink_can.tscn`, cùng `single_pipe.tscn`, `water_pump.tscn`, `water_pump_right.tscn` và hai prefab `water_line_west/east.tscn`. Kéo scene vào bất kỳ map nào rồi đổi vị trí node. `tags` chỉ là metadata để tổ chức; không kiểm tra theme của map.
 
 `gd/map_object_definition.gd` định nghĩa hình ảnh và gameplay; `gd/map_object.gd` là instance có vị trí. Khi instance có `definition`, Inspector chỉ hiện Resource này và ẩn các trường standalone để tránh hai nơi chỉnh cùng một giá trị. Chỉnh Resource dùng chung để đổi mọi instance; Make Unique nếu muốn biến thể riêng. Artwork/visual rect/footprint đổi trong Resource sẽ cập nhật preview editor. Các node standalone vẫn dùng các trường cũ để designer tạo object riêng mà chưa cần đưa vào catalog; cả hai cách đều tạo cùng cấu trúc runtime và dùng cùng validation/collision/pathfinding.
 
-Snapshot gameplay được tạo khi bắt đầu simulation. HP, alive và các flags runtime không sửa Resource dùng chung. Máy và robot chặn cả di chuyển/đạn; ống chỉ chặn di chuyển. Radar cũng đọc flags object để thể hiện footprint chặn đường. Map mẫu có 4 vật cản mỗi bên biên và 6 lon trên sàn, vẫn giữ cả ba spawn có đường đến căn cứ.
+Snapshot gameplay được tạo khi bắt đầu simulation. HP, alive và các flags runtime không sửa Resource dùng chung. Máy và robot chặn cả di chuyển/đạn; ống chỉ chặn di chuyển. Radar cũng đọc flags object để thể hiện footprint chặn đường. Map mẫu dùng hai tuyến ống đơn nối vào bơm và hai lon cạnh khu bảo trì, vẫn giữ cả ba spawn có đường đến căn cứ.
 
 ## Artwork và tái tạo Resource
 
-Bốn PNG sinh riêng bằng **ImageGen tích hợp**, không dùng API/CLI trả phí. Ảnh nguồn alpha được giữ nguyên byte; runtime cũng dùng cùng PNG. AtlasTexture cắt vùng hiển thị, không thay alpha hay repaint ảnh. Ngưỡng alpha 0,1 trong installer chỉ chọn visual region để bỏ padding/haze rất nhạt; footprint khai báo độc lập và không suy từ vùng này.
+Sáu PNG sinh riêng bằng **ImageGen tích hợp**, không dùng API/CLI trả phí. Ảnh nguồn alpha được giữ nguyên byte; runtime cũng dùng cùng PNG. AtlasTexture cắt vùng hiển thị, không thay alpha hay repaint ảnh. Ngưỡng alpha 0,1 trong installer chỉ chọn visual region để bỏ padding/haze rất nhạt; footprint khai báo độc lập và không suy từ vùng này.
 
 Prompts và request chính xác:
 
@@ -46,7 +46,7 @@ Prompts và request chính xác:
 - wreck: [prompt](../../../assets/generated/map/industrial/objects/wreck/prompt.txt), [request](../../../assets/generated/map/industrial/objects/wreck/request.json), [PNG nguồn](../../../assets/generated/map/industrial/objects/wreck/source.png).
 - can: [prompt](../../../assets/generated/map/industrial/objects/can/prompt.txt), [request](../../../assets/generated/map/industrial/objects/can/request.json), [PNG nguồn](../../../assets/generated/map/industrial/objects/can/source.png).
 
-Pipes/can dùng machinery làm style reference; wreck dùng machinery và atlas character làm reference. Runtime PNG/TRES nằm trong `assets/map_objects/industrial/`; [manifest](../../../assets/map_objects/industrial/manifest.json) ghi từng đường dẫn asset, nguồn và SHA-256. Nguồn generation được loại khỏi import/export bởi `.gdignore` của `assets/generated/`.
+[Ống đơn và bơm](industrial-layout.md#artwork-và-kiểm-tra) có source/prompt riêng cho bố cục mới. Pipes/can dùng machinery làm style reference; wreck dùng machinery và atlas character làm reference. Runtime PNG/TRES nằm trong `assets/map_objects/industrial/`; [manifest](../../../assets/map_objects/industrial/manifest.json) ghi từng đường dẫn asset, nguồn và SHA-256. Nguồn generation được loại khỏi import/export bởi `.gdignore` của `assets/generated/`.
 
 Tái tạo vùng sprite, visual rect và catalog từ PNG đã chọn:
 

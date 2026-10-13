@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_h6deo"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/water_pump.png" id="2_frn66"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6deo"]
+atlas = ExtResource("2_frn66")
+region = Rect2(404, 131, 1178, 679)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_h6deo")
+object_id = "industrial_water_pump_right"
+display_name = "Mô tơ bơm nước — đầu nối bên phải"
+tags = Array[String](["industrial", "water_pump_right"])
+texture = SubResource("AtlasTexture_h6deo")
+visual_rect = Rect2(0.00000000, -1.99809705, 67.25023787, 38.76308278)
+category = "fixed"
+flip_h = true
+connections = {
+"inlet": Vector2(7.25023787, 0)
+}
+footprint = Vector2i(2, 1)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

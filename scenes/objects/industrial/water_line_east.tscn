@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/single_pipe.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/water_pump_right.tscn" id="2"]
+
+[node name="EastWaterLine" type="Node2D"]
+
+[node name="Pipe1" parent="." instance=ExtResource("1")]
+position = Vector2(40, 0)
+
+[node name="Pipe2" parent="." instance=ExtResource("1")]
+position = Vector2(40, 160)
+
+[node name="Pump" parent="." instance=ExtResource("2")]
+position = Vector2(0, 320)

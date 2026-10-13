@@ -2,6 +2,8 @@
 
 Phạm vi và quyết định đã chốt nằm ở [object môi trường](../features/map/environment-objects.md). Đã thay SVG placeholder bằng bốn artwork PNG alpha dùng ImageGen tích hợp: machinery, pipes, robot wreck, drink can. Không tạo sprite weapon mới: pickup lấy trực tiếp sprite súng trong atlas character hiện hành.
 
+Kết quả bên dưới ghi nhận lần thêm catalog/artwork ban đầu. Thiết kế layout tiếp theo giảm mật độ và bỏ grass khỏi scene, có kết quả mới trong [QA bố cục nhà máy](industrial-layout.md).
+
 ## Kiểm thử
 
 Godot 4.7.2, renderer Compatibility, macOS Apple M4 Pro. Import cuối hoàn thành không có script/resource error. `make test` pass tất cả suite với **2417 checks có bộ đếm**, cùng player mech integration và 56 atlas frames. `make test-visual` pass cả **9 suite**; native environment có **13 checks**, camera có **82 checks**, các kiểm tra rendering còn lại không có failures.

@@ -1,0 +1,8 @@
+{
+  "provider": "built-in imagegen",
+  "intent": "generate",
+  "prompt": "Use case: stylized-concept. Asset type: production transparent sprite for an overhead 2D aged-factory map. Input image1 is STYLE reference only for rusted steel materials; create a DIFFERENT object: ONE SINGLE straight narrow metal water pipe running VERTICALLY, from top to bottom. Not three pipes and not horizontal. A long continuous run with just two modest flange collars and small anchoring clips, no huge valve wheel, no machine attached. The upper and lower pipe ends align on exactly the same vertical centerline, with flat straight coupling ends to mate to another pipe or to a pump. Restrained old factory steel gray, slight rust and worn paint, fine professional hand-painted game details and upper-left lighting. Orthographic overhead top-down, no diagonal isometric perspective. Composition tall portrait canvas: one thin straight pipe occupies roughly85%height and only10-15%width; centered, complete ends visible. Intended display: about20-28world units wide, 320world units long along map edge. Genuine transparent background, fully empty outer margin, no floor, no pedestal, no scene, no smoke/haze, no backdrop gradient, no labels/text/logo/watermark. Subtle tight contact shadow only. Clear, simple silhouette with generous visual breathing room.",
+  "transparent_background": true,
+  "reference": "assets/map_objects/industrial/pipes.png",
+  "source": "source.png"
+}

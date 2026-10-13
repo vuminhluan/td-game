@@ -17,6 +17,11 @@ extends Resource
 	set(value):
 		category = value
 		emit_changed()
+@export var flip_h := false:
+	set(value):
+		flip_h = value
+		emit_changed()
+@export var connections: Dictionary = {}
 @export var footprint := Vector2i.ONE:
 	set(value):
 		footprint = value
@@ -32,6 +37,12 @@ extends Resource
 @export var drop_settings: Resource
 @export_enum("power_up", "weapon") var pickup_category := "power_up"
 @export var pickup_id := ""
+
+func connection_point(connection: String) -> Vector2:
+	var point: Vector2 = connections.get(connection, Vector2.INF)
+	if flip_h:
+		point.x = visual_rect.get_center().x * 2 - point.x
+	return point
 
 func validate() -> Array[String]:
 	var errors: Array[String] = []
@@ -49,4 +60,7 @@ func validate() -> Array[String]:
 		errors.append("Object %s requires artwork." % object_id)
 	if not visual_rect.position.is_finite() or not visual_rect.size.is_finite() or visual_rect.size.x <= 0 or visual_rect.size.y <= 0:
 		errors.append("Object %s requires a positive finite visual rectangle." % object_id)
+	for connection in connections:
+		if not connections[connection] is Vector2 or not connections[connection].is_finite():
+			errors.append("Object %s connection '%s' requires a finite point." % [object_id, connection])
 	return errors

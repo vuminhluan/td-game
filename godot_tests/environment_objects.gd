@@ -45,8 +45,8 @@ func map_with_object(role: String, map_id: String = "city_prototype") -> PackedS
 	return scene
 
 func test_catalog_and_collision() -> void:
-	check(OBJECT_CATALOG.validate().is_empty() and OBJECT_CATALOG.objects.size() >= 4, "all reusable object definitions validate")
-	for role in ["machinery", "pipes", "robot_wreck", "drink_can"]:
+	check(OBJECT_CATALOG.validate().is_empty() and OBJECT_CATALOG.objects.size() >= 7, "all reusable object definitions validate")
+	for role in ["machinery", "pipes", "robot_wreck", "drink_can", "single_pipe", "water_pump", "water_pump_right"]:
 		var definition: Resource = OBJECT_CATALOG.find("industrial_" + role)
 		check(definition != null and definition == load("res://assets/map_objects/industrial/%s.tres" % role), "catalog references the same editable resource used by scenes: " + role)
 		var texture: AtlasTexture = definition.texture
@@ -58,7 +58,7 @@ func test_catalog_and_collision() -> void:
 		var object: Dictionary = sim.map_objects[0]
 		var point: Vector2 = object.pos + Vector2(20, 20)
 		var should_block_movement: bool = role != "drink_can"
-		var should_block_bullets: bool = role in ["machinery", "robot_wreck"]
+		var should_block_bullets: bool = role in ["machinery", "robot_wreck", "water_pump", "water_pump_right"]
 		check(Map.can_occupy(sim.map, point) != should_block_movement, "movement flag applies independently: " + role)
 		check(sim.bullet_collision({"pos": point, "friendly": true, "damage": 1000}) == should_block_bullets, "bullet flag applies independently: " + role)
 		for cell in object.footprint_cells:
@@ -73,12 +73,33 @@ func test_catalog_and_collision() -> void:
 
 func test_sample_edges() -> void:
 	var sim := Sim.new()
-	check(sim.validation_errors.is_empty(), "sample map remains valid after edge decoration becomes solid")
-	check(sim.map_objects.size() == 14, "sample contains eight boundary objects and six floor props")
+	check(sim.validation_errors.is_empty(), "redesigned sample retains valid map configuration")
+	var traversable := 0
+	for row in sim.map:
+		for tile in row:
+			traversable += int(not Map.move_blocked(tile))
+	check(sim.map.all(func(row): return row.all(func(tile): return tile.kind != "grass")), "factory scene has no painted foliage")
+	check(float(traversable) / (sim.dimensions.x * sim.dimensions.y) >= 0.8, "most of factory floor remains open for gameplay")
+	for object in sim.map_objects:
+		check(not Rect2(160, 200, 520, 400).has_point(object.pos), "environment objects stay outside central combat area")
 	for side in ["West", "East"]:
-		for label in ["CompressorNorth", "CompressorSouth", "Pipes", "Wreck"]:
-			var node: Node2D = sim.map_scene.get_node("Environment/" + side + label)
-			check(node.definition != null and node.definition.category == "fixed", "map edges use reusable permanent objects: " + side + label)
+		var group: Node2D = sim.map_scene.get_node("Environment/" + side + "WaterLine")
+		var pump: Node2D = group.get_node("Pump")
+		var previous: Node2D = null
+		for child in group.get_children():
+			if not child.name.begins_with("Pipe"):
+				continue
+			check(child.definition.category == "fixed" and not child.definition.bullet_blocked and child.definition.move_blocked, "single pipes retain independent movement/bullet flags")
+			var cell := Vector2i(child.global_position / 40)
+			check(cell.x in [0, sim.dimensions.x - 1], "vertical pipe stays immediately alongside map boundary")
+			if previous != null:
+				check((previous.global_position + previous.definition.connection_point("end")).is_equal_approx(child.global_position + child.definition.connection_point("start")), "pipe modules connect end to end without gaps")
+			previous = child
+		check(previous != null and (previous.global_position + previous.definition.connection_point("end")).is_equal_approx(pump.global_position + pump.definition.connection_point("inlet")), "continuous pipe line terminates at pump inlet: " + side)
+		check(pump.definition.move_blocked and pump.definition.bullet_blocked and pump.definition.category == "fixed", "water motor remains a permanent solid obstacle")
+	var grass := preload("res://godot_tests/terrain_fixture.gd").tile("grass")
+	check(grass.kind == "grass" and not Map.move_blocked(grass), "unused grass tile remains available for other maps")
+	check(load("res://assets/terrain/industrial_v1/grass.png") != null, "foliage artwork is retained")
 	for spawn in sim.enemy_spawns:
 		check(not Map.find_path(sim.map, Vector2i(spawn / 40), sim.base_goal).is_empty(), "all sample spawn lanes still reach the base")
 	check(Map.can_occupy(sim.map, sim.player_spawn, sim.loadout.collider_radius), "player spawn stays free")

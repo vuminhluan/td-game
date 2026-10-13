@@ -30,7 +30,7 @@ func run() -> void:
 		sim.damage_brick(brick)
 		check(sim.map[1][4].hp == hp, "brick loses one HP per hit")
 	check(sim.map[1][4].kind == "floor" and Map.can_occupy(sim.map, brick), "three hits open brick path")
-	check(Map.can_occupy(sim.map, Vector2(180, 220)), "grass is traversable")
+	check(Map.can_occupy(sim.map, Vector2(180, 220)), "open factory floor is traversable")
 	check(not Map.can_occupy(sim.map, Vector2(140, 180)), "water blocks actors")
 	check(not Map.can_occupy(sim.map, Vector2(180, 140)), "steel blocks actors")
 	check(not Map.can_occupy(sim.map, Vector2(1, 1)), "boundaries block actors")

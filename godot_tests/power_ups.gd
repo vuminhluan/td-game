@@ -121,15 +121,16 @@ func _initialize() -> void:
 	for i in 30:
 		sim.spawn_power_ups()
 	check(sim.power_ups.size() == 10, "spawns respect map cap")
-	check(not sim.place_power_up(Vector2(20, 20)), "wall drop placement also respects cap")
+	check(not sim.place_power_up(Vector2(100, 20)), "wall drop placement also respects cap")
 	sim.power_ups.clear()
 	check(not sim.place_power_up(sim.tile_center(sim.player.pos)) and not sim.place_power_up(sim.base_position), "actors and base block item placement")
 	check(not sim.place_power_up(Vector2(180, 60)) and not sim.place_power_up(Vector2(140, 180)), "walls and water block items")
-	check(sim.place_power_up(Vector2(20, 20)) and not sim.place_power_up(Vector2(20, 20)), "items cannot overlap")
+	check(sim.place_power_up(Vector2(100, 20)) and not sim.place_power_up(Vector2(100, 20)), "items cannot overlap")
 	sim.map[0][1] = Terrain.tile("steel", 5)
-	sim.map[1][0] = Terrain.tile("steel", 5)
+	sim.map[0][3] = Terrain.tile("steel", 5)
+	sim.map[1][2] = Terrain.tile("steel", 5)
 	sim.power_ups.clear()
-	check(not sim.place_power_up(Vector2(20, 20)), "isolated floor rejected")
+	check(not sim.place_power_up(Vector2(100, 20)), "isolated floor rejected")
 	for row in sim.map:
 		for tile in row:
 			Terrain.apply(tile, "steel")
@@ -148,8 +149,8 @@ func _initialize() -> void:
 		for i in 200:
 			sim = fresh()
 			sim.rng.seed = i + 1
-			sim.map[0][0] = Terrain.tile(kind, 1)
-			sim.damage_wall(Vector2(20, 20), true)
+			sim.map[0][2] = Terrain.tile(kind, 1)
+			sim.damage_wall(Vector2(100, 20), true)
 			drops[kind] += sim.power_ups.size() + sim.weapon_pickups.size()
 	check(drops.brick > 50 and drops.brick < 110 and drops.brick == drops.steel, "brick and steel share drop chance and placement")
 	var counts = {}
