@@ -1,4 +1,5 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 const Sim = preload("res://gd/simulation.gd")
 const R = preload("res://gd/rules.gd")
 const LOADOUTS = [preload("res://assets/loadouts/standard.tres"), preload("res://assets/loadouts/twin.tres")]
@@ -15,7 +16,7 @@ func fresh(configuration: Resource) -> RefCounted:
 	var sim = Sim.new(configuration)
 	for row in sim.map:
 		for tile in row:
-			tile.kind = "floor"
+			Terrain.apply(tile, "floor")
 	sim.player.pos = Vector2(420, 380)
 	sim.player.cooldown = 0
 	sim.start()
@@ -56,7 +57,7 @@ func run() -> void:
 				sim.player.dir = direction
 				sim.player.pos += R.VECTOR[direction] * 3
 				var cell = Vector2i(Vector2(420, 380) / R.TILE) + Vector2i(R.VECTOR[direction])
-				sim.map[cell.y][cell.x] = {"kind": kind, "hp": 5}
+				sim.map[cell.y][cell.x] = Terrain.tile(kind, 5)
 				sim.fire(sim.player)
 				for frame in 12:
 					sim.update(0.01)
@@ -143,7 +144,7 @@ func independent_barrels() -> void:
 		var second: Vector2 = sim.player.pos + sim.loadout.muzzle_vectors(direction)[1]
 		var wall_cell = Vector2i(first / R.TILE)
 		check(wall_cell != Vector2i(second / R.TILE), "test places barrels on separate sides of tile seam")
-		sim.map[wall_cell.y][wall_cell.x] = {"kind": "steel", "hp": 5}
+		sim.map[wall_cell.y][wall_cell.x] = Terrain.tile("steel", 5)
 		sim.fire(sim.player)
 		check(sim.bullets.size() == 1 and sim.bullets[0].pos == second, "one blocked barrel cannot suppress or teleport the other")
 

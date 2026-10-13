@@ -1,0 +1,58 @@
+{
+	"objects": {
+		"drink_can": {
+			"definition": "res://assets/map_objects/industrial/drink_can.tres",
+			"prompt": "assets/generated/map/industrial/objects/can/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/drink_can.png",
+			"sha256": "6d07c79d3e971362eec7c96daa5f9414128fb324c07360d35b4ffc2bc70fc851",
+			"source": "assets/generated/map/industrial/objects/can/source.png",
+			"source_region": [
+				182,
+				72,
+				1173,
+				864
+			]
+		},
+		"machinery": {
+			"definition": "res://assets/map_objects/industrial/machinery.tres",
+			"prompt": "assets/generated/map/industrial/objects/machinery/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/machinery.png",
+			"sha256": "328574561641373ed892ce1d2161b3837fe8d5deaccfb898b3074632ee1c3b5f",
+			"source": "assets/generated/map/industrial/objects/machinery/source.png",
+			"source_region": [
+				22,
+				145,
+				1509,
+				672
+			]
+		},
+		"pipes": {
+			"definition": "res://assets/map_objects/industrial/pipes.tres",
+			"prompt": "assets/generated/map/industrial/objects/pipes/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/pipes.png",
+			"sha256": "db4462158e9d0eec53309403e6fafd7497375c61a46359699f982f89ad5f084e",
+			"source": "assets/generated/map/industrial/objects/pipes/source.png",
+			"source_region": [
+				53,
+				229,
+				1670,
+				454
+			]
+		},
+		"robot_wreck": {
+			"definition": "res://assets/map_objects/industrial/robot_wreck.tres",
+			"prompt": "assets/generated/map/industrial/objects/wreck/prompt.txt",
+			"runtime_texture": "res://assets/map_objects/industrial/robot_wreck.png",
+			"sha256": "7bd83c94b51de101421a435728114af80b561dfd4feefa3550cdf5519d4e9632",
+			"source": "assets/generated/map/industrial/objects/wreck/source.png",
+			"source_region": [
+				40,
+				102,
+				1193,
+				1025
+			]
+		}
+	},
+	"provider": "built-in imagegen",
+	"style": "aged_factory"
+}

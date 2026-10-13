@@ -1,6 +1,8 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 const Sim = preload("res://gd/simulation.gd")
 const R = preload("res://gd/rules.gd")
+const Settings = preload("res://gd/pickup_settings.gd")
 const Map = preload("res://gd/battle_map.gd")
 var checks = 0
 var failures = 0
@@ -25,7 +27,7 @@ func step(sim: RefCounted, seconds: float) -> void:
 
 func _initialize() -> void:
 	var sim = fresh()
-	for kind in R.POWER_UP_WEIGHTS:
+	for kind in Settings.POWER_UP_IDS:
 		sim.power_ups.append({"kind": kind, "pos": sim.player.pos, "life": 10.0})
 	sim.update(0.01)
 	check(sim.power_ups.is_empty() and sim.active_power_ups.size() == 5, "player collects all distinct effects")
@@ -41,7 +43,7 @@ func _initialize() -> void:
 	for i in 20:
 		sim.invulnerable = 0
 		sim.hit_player()
-		sim.bullet_collision({"pos": R.BASE, "friendly": false})
+		sim.bullet_collision({"pos": sim.base_position, "friendly": false})
 	check(sim.player.hp == 5 and sim.base_hp == 20, "both shields absorb unlimited hits")
 	check(is_equal_approx(sim.player_shot_cooldown(), 0.2), "rapid fire halves tuned base cooldown")
 	var origin: Vector2 = sim.player.pos
@@ -51,7 +53,7 @@ func _initialize() -> void:
 	check(sim.active_power_ups.is_empty() and is_equal_approx(sim.player_shot_cooldown(), 0.4), "expiry restores baseline")
 	sim.invulnerable = 0
 	sim.hit_player()
-	sim.bullet_collision({"pos": R.BASE, "friendly": false})
+	sim.bullet_collision({"pos": sim.base_position, "friendly": false})
 	check(sim.player.hp == 4 and sim.base_hp == 19, "shield expiry restores damage to player and base")
 	origin = sim.player.pos
 	sim.update(0.04, "right")
@@ -121,16 +123,16 @@ func _initialize() -> void:
 	check(sim.power_ups.size() == 10, "spawns respect map cap")
 	check(not sim.place_power_up(Vector2(20, 20)), "wall drop placement also respects cap")
 	sim.power_ups.clear()
-	check(not sim.place_power_up(sim.tile_center(sim.player.pos)) and not sim.place_power_up(R.BASE), "actors and base block item placement")
+	check(not sim.place_power_up(sim.tile_center(sim.player.pos)) and not sim.place_power_up(sim.base_position), "actors and base block item placement")
 	check(not sim.place_power_up(Vector2(180, 60)) and not sim.place_power_up(Vector2(140, 180)), "walls and water block items")
 	check(sim.place_power_up(Vector2(20, 20)) and not sim.place_power_up(Vector2(20, 20)), "items cannot overlap")
-	sim.map[0][1] = {"kind": "steel", "hp": 5}
-	sim.map[1][0] = {"kind": "steel", "hp": 5}
+	sim.map[0][1] = Terrain.tile("steel", 5)
+	sim.map[1][0] = Terrain.tile("steel", 5)
 	sim.power_ups.clear()
 	check(not sim.place_power_up(Vector2(20, 20)), "isolated floor rejected")
 	for row in sim.map:
 		for tile in row:
-			tile.kind = "steel"
+			Terrain.apply(tile, "steel")
 	sim.spawn_power_ups()
 	check(sim.power_ups.is_empty(), "no valid cells skips spawn safely")
 	sim = fresh()
@@ -146,18 +148,18 @@ func _initialize() -> void:
 		for i in 200:
 			sim = fresh()
 			sim.rng.seed = i + 1
-			sim.map[0][0] = {"kind": kind, "hp": 1}
+			sim.map[0][0] = Terrain.tile(kind, 1)
 			sim.damage_wall(Vector2(20, 20), true)
-			drops[kind] += sim.power_ups.size()
-	check(drops.brick > 20 and drops.brick < 80 and drops.brick == drops.steel, "brick and steel share drop chance and placement")
+			drops[kind] += sim.power_ups.size() + sim.weapon_pickups.size()
+	check(drops.brick > 50 and drops.brick < 110 and drops.brick == drops.steel, "brick and steel share drop chance and placement")
 	var counts = {}
 	sim = fresh()
-	for kind in R.POWER_UP_WEIGHTS:
+	for kind in Settings.POWER_UP_IDS:
 		counts[kind] = 0
 	for i in 10000:
 		counts[sim.choose_power_up()] += 1
 	for kind in counts:
-		check(absf(counts[kind] / 10000.0 - R.POWER_UP_WEIGHTS[kind] / 100.0) < 0.02, "weighted type selection: " + kind)
+		check(absf(counts[kind] / 10000.0 - 1.0 / Settings.POWER_UP_IDS.size()) < 0.02, "weighted type selection: " + kind)
 	check(Sim.new(preload("res://assets/loadouts/standard.tres")).active_power_ups.is_empty() and Sim.new(preload("res://assets/loadouts/standard.tres")).power_ups.is_empty(), "new game clears power-ups")
 	print("POWER UPS: %d checks, %d failures" % [checks, failures])
 	quit(1 if failures else 0)

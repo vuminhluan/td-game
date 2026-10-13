@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_7btxr"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/drink_can.png" id="2_ch30e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do6vb"]
+atlas = ExtResource("2_ch30e")
+region = Rect2(182, 72, 1173, 864)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_7btxr")
+object_id = "industrial_drink_can"
+display_name = "Lon nước cũ"
+tags = Array[String](["industrial", "drink_can"])
+texture = SubResource("AtlasTexture_do6vb")
+visual_rect = Rect2(-9, -6.629156, 18, 13.258312)
+initial_hp = 0

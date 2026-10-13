@@ -1,0 +1,11 @@
+{
+  "provider": "built-in imagegen",
+  "use_case": "stylized-concept",
+  "intent": "generate",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: production 2D top-down game environment sprite. Reference image 1 is STYLE REFERENCE ONLY: use the same polished realistic hand-painted materials, old factory setting, overhead camera and upper-left lighting. Primary request: ONE discarded dented aluminum drink can lying on its side on an abandoned factory floor, aged faded dark red and cream painted wrapper, scuffed bare silver end caps, open pull tab, subtle grime and corrosion. A tiny passable floor prop, not an explosive barrel or pickup. Composition one complete can at a slight diagonal, compact silhouette centered filling about65%canvas, no extra litter or objects. Camera orthographic directly overhead; sprite has readable highlights and silhouette at18x18 world units. TRANSPARENT background with genuine alpha and fully clear empty outer margin; NO floor, dirt patch, shadow haze, dark or checkerboard backdrop, gradients. Only small tight contact shadow immediately under can. No readable text, branding, logos, letters, UI or watermark. Professional game raster artwork consistent with weathered industrial environment rather than a flat icon.",
+  "references": [
+    "assets/map_objects/industrial/machinery.png"
+  ],
+  "source": "source.png"
+}

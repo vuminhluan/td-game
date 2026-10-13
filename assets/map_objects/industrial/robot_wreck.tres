@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_hxg5c"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/robot_wreck.png" id="2_53wuy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26m1h"]
+atlas = ExtResource("2_53wuy")
+region = Rect2(40, 102, 1193, 1025)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_hxg5c")
+object_id = "industrial_robot_wreck"
+display_name = "Robot bỏ hoang"
+tags = Array[String](["industrial", "robot_wreck"])
+texture = SubResource("AtlasTexture_26m1h")
+visual_rect = Rect2(0, 5.6328583, 80, 68.73428)
+category = "fixed"
+footprint = Vector2i(2, 2)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

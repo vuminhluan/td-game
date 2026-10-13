@@ -1,4 +1,5 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -81,10 +82,10 @@ func integration_checks() -> void:
 			wall_sim.player_muzzle_distances = sim.player_muzzle_distances.duplicate()
 			for row in wall_sim.map:
 				for tile in row:
-					tile.kind = "floor"
+					Terrain.apply(tile, "floor")
 			var center = Vector2(420, 380)
 			var wall: Vector2i = Vector2i(center / R.TILE) + Vector2i(R.VECTOR[direction])
-			wall_sim.map[wall.y][wall.x] = {"kind": kind, "hp": 3}
+			wall_sim.map[wall.y][wall.x] = Terrain.tile(kind, 3)
 			wall_sim.player.pos = center + R.VECTOR[direction] * 3
 			wall_sim.player.dir = direction
 			wall_sim.player.cooldown = 0

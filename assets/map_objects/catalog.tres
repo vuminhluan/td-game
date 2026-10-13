@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MapObjectCatalog" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_4ttgd"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/machinery.tres" id="2_6oy08"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/pipes.tres" id="3_avyx2"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/robot_wreck.tres" id="4_tij8b"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/drink_can.tres" id="5_pg2fq"]
+[ext_resource type="Script" path="res://gd/map_object_catalog.gd" id="6_lxbcc"]
+
+[resource]
+script = ExtResource("6_lxbcc")
+objects = Array[ExtResource("1_4ttgd")]([ExtResource("2_6oy08"), ExtResource("3_avyx2"), ExtResource("4_tij8b"), ExtResource("5_pg2fq")])

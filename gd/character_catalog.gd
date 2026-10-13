@@ -181,6 +181,7 @@ func create(character_id: String, body_id: String, weapon_id: String) -> Resourc
 	result.body = body
 	result.weapon = weapon
 	result.character_id = character_id
+	result.body_id = body_id
 	result.display_name = c.name
 	result.collider_radius = c.collider_radius
 	result.max_hp = int(c.hp)

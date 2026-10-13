@@ -1,11 +1,6 @@
 extends RefCounted
 
 const TILE = 40
-const COLS = 21
-const ROWS = 19
-const WIDTH = COLS * TILE
-const HEIGHT = ROWS * TILE
-const BASE = Vector2(420, 700)
 const PLAYER_SPEED = 150.0
 const PLAYER_HP = 5
 const LIVES = 3
@@ -13,17 +8,12 @@ const BASE_HP = 20
 const SHOT_COOLDOWN = 0.4
 const PLAYER_SHOT_DURATION = 0.23
 const POWER_UP_DURATION = 5.0
-const POWER_UP_INTERVAL = 5.0
-const POWER_UP_LIFETIME = 10.0
-const POWER_UP_LIMIT = 10
 const POWER_UP_SAFE_DISTANCE = 3.0 * TILE
 const POWER_UP_PICKUP_RADIUS = 25.0
-const WALL_DROP_CHANCE = 0.25
 const STEEL_HP = 5
 const RAPID_FIRE_MULTIPLIER = 2.0
 const SPEED_BOOST_MULTIPLIER = 1.5
 const DOUBLE_SHOT_DELAY = 0.08
-const POWER_UP_WEIGHTS = {"shield": 30, "rapid_fire": 25, "speed_boost": 20, "double_shot": 15, "base_shield": 10}
 const PLAYER_MUZZLE_DISTANCE = 15.0
 const BULLET_SPEED = 410.0
 const WAVE_COUNTS = [5, 7, 9, 11, 14]

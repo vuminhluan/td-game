@@ -22,7 +22,7 @@ func run() -> void:
 	game.set_process(false)
 	game.activate()
 	var index = 0
-	for kind in R.POWER_UP_WEIGHTS:
+	for kind in preload("res://gd/pickup_settings.gd").POWER_UP_IDS:
 		game.sim.active_power_ups[kind] = 5.0 - index * 0.75
 		game.sim.power_ups.append({"kind": kind, "pos": Vector2(260 + index * 80, 380), "life": 10.0})
 		index += 1

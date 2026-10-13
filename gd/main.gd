@@ -3,9 +3,11 @@ const Sim = preload("res://gd/simulation.gd")
 const View = preload("res://gd/battle_view.gd")
 const PowerUpHUD = preload("res://gd/power_up_hud.gd")
 const R = preload("res://gd/rules.gd")
+const Map = preload("res://gd/battle_map.gd")
 const KEY_DIRECTIONS = {KEY_W: "up", KEY_UP: "up", KEY_D: "right", KEY_RIGHT: "right", KEY_S: "down", KEY_DOWN: "down", KEY_A: "left", KEY_LEFT: "left"}
 const Catalog = preload("res://gd/character_catalog.gd")
 const Selection = preload("res://gd/character_selection.gd")
+@export var map_scene: PackedScene = preload("res://scenes/maps/industrial_yard.tscn")
 var catalog = Catalog.new()
 var preparation: PanelContainer
 var character_id = "robot"
@@ -34,6 +36,24 @@ var sound_enabled = false
 var last_shots = 0
 var last_status = ""
 var radar_rect = Rect2()
+var battle_container: SubViewportContainer
+var battle_viewport: SubViewport
+var camera: Camera2D
+var touch_surface: TouchSurface
+var safe_rect = Rect2()
+
+class TouchSurface extends Control:
+	var rects: Dictionary = {}
+	var pressed: Array = []
+	func _draw() -> void:
+		var font = ThemeDB.fallback_font
+		for action in rects:
+			var rect: Rect2 = rects[action]
+			draw_rect(rect, Color("5d4935") if action in pressed else Color("303d3d"))
+			draw_rect(rect, Color("657365"), false)
+			var caption: String = {"up": "↑", "left": "←", "down": "↓", "right": "→", "fire": "BẮN ◎"}[action]
+			var text_size = font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 20)
+			draw_string(font, rect.get_center() + Vector2(-text_size.x / 2, 7), caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("e2d4af"))
 
 func _ready() -> void:
 	if not catalog.errors.is_empty():
@@ -45,19 +65,34 @@ func _ready() -> void:
 	character_id = catalog.data.default_character
 	body_id = catalog.data.characters[character_id].default_body
 	weapon_id = catalog.data.characters[character_id].default_weapon
-	sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
+	sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 	var theme_resource = Theme.new()
 	theme_resource.default_font_size = 14
 	theme = theme_resource
+	battle_container = SubViewportContainer.new()
+	battle_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	battle_container.stretch = false
+	add_child(battle_container)
+	battle_viewport = SubViewport.new()
+	battle_viewport.disable_3d = true
+	battle_viewport.gui_disable_input = true
+	battle_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	battle_container.add_child(battle_viewport)
 	battle = View.new()
 	battle.sim = sim
-	add_child(battle)
+	battle_viewport.add_child(battle)
+	camera = Camera2D.new()
+	camera.position_smoothing_enabled = false
+	battle_viewport.add_child(camera)
+	touch_surface = TouchSurface.new()
+	touch_surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(touch_surface)
 	power_up_hud = PowerUpHUD.new()
 	power_up_hud.sim = sim
 	power_up_hud.mouse_filter = Control.MOUSE_FILTER_PASS
 	power_up_hud.size = Vector2(190, 38)
 	add_child(power_up_hud)
-	for id in ["brand", "sector", "heading", "field", "clock", "message", "stats", "help", "campaign", "enemies", "score", "robot", "base", "radar", "footer"]:
+	for id in ["brand", "sector", "heading", "field", "clock", "message", "stats", "help", "campaign", "enemies", "score", "robot", "base", "radar", "footer", "weapon"]:
 		var label = Label.new()
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.add_theme_color_override("font_color", Color("c4ceca"))
@@ -126,74 +161,114 @@ func put(control: Control, rect: Rect2) -> void:
 	control.position = rect.position
 	control.size = rect.size
 
+func display_safe_rect() -> Rect2:
+	var full = Rect2(Vector2.ZERO, size)
+	if not (OS.has_feature("android") or OS.has_feature("ios")):
+		return full
+	var native: Rect2i = DisplayServer.get_display_safe_area()
+	var window_size = Vector2(DisplayServer.window_get_size())
+	if native.size.x <= 0 or native.size.y <= 0 or window_size.x <= 0 or window_size.y <= 0:
+		return full
+	var ratio = size / window_size
+	var relative = Vector2(native.position - DisplayServer.window_get_position())
+	return full.intersection(Rect2(relative * ratio, Vector2(native.size) * ratio))
+
 func layout() -> void:
 	if battle == null:
 		return
-	mobile = size.x < 850
-	var margin = 12.0 if mobile else 28.0
-	put(labels.brand, Rect2(margin, 10, 260, 34))
-	put(sound_button, Rect2(size.x - margin - 140, 52 if mobile else 16, 140, 32))
-	put(pause_button, Rect2(margin if mobile else size.x - margin - 296, 52 if mobile else 16, 140, 32))
-	put(labels.sector, Rect2(margin, 96 if mobile else 76, size.x - 2 * margin, 24))
-	put(labels.heading, Rect2(margin, 120 if mobile else 100, size.x - 2 * margin, 42))
-	labels.heading.add_theme_font_size_override("font_size", 24 if mobile else 30)
-	var top = 240.0 if mobile else 176.0
-	var available = Vector2(size.x - margin * 2 - (0 if mobile else 280), size.y - top - (154 if mobile else 104))
-	var factor = maxf(0.05, minf(available.x / R.WIDTH, available.y / R.HEIGHT))
-	var dimensions = Vector2(R.WIDTH, R.HEIGHT) * factor
-	board_rect = Rect2(Vector2(margin + (available.x - dimensions.x) / 2, top), dimensions)
-	power_up_hud.position = board_rect.position + Vector2(4, 4)
-	power_up_hud.scale = Vector2.ONE * minf(1.0, board_rect.size.x / 198.0)
-	battle.position = board_rect.position
-	battle.scale = Vector2.ONE * factor
-	put(labels.field, Rect2(board_rect.position.x, top - 28, 230, 24))
-	put(labels.clock, Rect2(board_rect.end.x - 52, top - 28, 52, 24))
-	put(labels.message, Rect2(margin, board_rect.end.y + 6, size.x - margin * 2, 24))
+	safe_rect = display_safe_rect()
+	var bounds = safe_rect.grow(-12)
+	mobile = OS.has_feature("mobile") or bounds.size.x < 1000 or bounds.size.y < 560
+	var portrait = bounds.size.y > bounds.size.x
+	var button_width = minf(140, (bounds.size.x - 12) / 2)
+	put(labels.brand, Rect2(bounds.position, Vector2(260, 32)))
+	labels.brand.add_theme_font_size_override("font_size", 18 if mobile else 23)
+	var button_top = bounds.position.y + (38 if portrait else 0)
+	put(sound_button, Rect2(bounds.end.x - button_width, button_top, button_width, 32))
+	put(pause_button, Rect2(bounds.end.x - 2 * button_width - 8, button_top, button_width, 32))
+	labels.sector.visible = not mobile
+	labels.heading.visible = not mobile
+	put(labels.sector, Rect2(bounds.position.x, bounds.position.y + 36, 360, 24))
+	put(labels.heading, Rect2(bounds.position.x + 380, bounds.position.y + 30, 420, 32))
+	labels.heading.add_theme_font_size_override("font_size", 23)
+	var top = bounds.position.y + (156 if portrait else 102 if mobile else 96)
+	var sidebar = 0.0 if mobile else 252.0
+	var bottom = 46.0 if not mobile else 8.0
+	board_rect = Rect2(Vector2(bounds.position.x, top), Vector2(maxf(1, bounds.size.x - sidebar), maxf(1, bounds.end.y - top - bottom)))
+	put(battle_container, board_rect)
+	battle_viewport.size = Vector2i(board_rect.size)
+	camera.zoom = Vector2.ONE * clampf(board_rect.size.y / 600.0, 0.55, 1.25)
+	power_up_hud.position = board_rect.position + Vector2(8, 8)
+	power_up_hud.scale = Vector2.ONE * minf(1.0, board_rect.size.x / 220.0)
+	put(labels.field, Rect2(board_rect.position.x, top - 26, 230, 24))
+	put(labels.clock, Rect2(board_rect.end.x - 52, top - 26, 52, 24))
+	put(labels.message, Rect2(board_rect.position.x, board_rect.end.y + 4, board_rect.size.x, 24))
+	labels.message.visible = not mobile
 	labels.stats.visible = mobile
-	put(labels.stats, Rect2(margin, 166, size.x - 2 * margin, 50))
-	labels.stats.add_theme_font_size_override("font_size", 13)
+	put(labels.stats, Rect2(bounds.position.x, bounds.position.y + (76 if portrait else 36), bounds.size.x, 36))
+	labels.stats.add_theme_font_size_override("font_size", 12)
 	for id in ["campaign", "enemies", "score", "robot", "base", "radar"]:
 		labels[id].visible = not mobile
 	radar_rect = Rect2()
 	if not mobile:
-		var side = size.x - margin - 252
-		var compact = size.y < 900
-		put(labels.campaign, Rect2(side, top, 252, 80))
-		labels.campaign.add_theme_font_size_override("font_size", 25)
-		put(labels.enemies, Rect2(side, top + (80 if compact else 94), 252, 50))
-		put(labels.score, Rect2(side, top + (130 if compact else 158), 252, 50))
-		put(labels.robot, Rect2(side, top + (180 if compact else 222), 252, 72))
-		put(labels.base, Rect2(side, top + (268 if compact else 328), 252, 60))
-		put(labels.radar, Rect2(side, top + (348 if compact else 412), 252, 24))
+		var side = board_rect.end.x + 20
+		put(labels.campaign, Rect2(side, top, 220, 54))
+		labels.campaign.add_theme_font_size_override("font_size", 20)
+		put(labels.enemies, Rect2(side, top + 66, 220, 44))
+		put(labels.score, Rect2(side, top + 116, 220, 44))
+		put(labels.robot, Rect2(side, top + 166, 220, 48))
+		put(labels.base, Rect2(side, top + 230, 220, 48))
+		put(labels.radar, Rect2(side, top + 300, 220, 24))
 		labels.radar.text = "BẢN ĐỒ CHIẾN THUẬT"
-		var radar_top = top + (376 if compact else 446)
-		var radar_scale = clampf((size.y - 84 - radar_top) / 190.0, 0, 1)
-		radar_rect = Rect2(side, radar_top, 210 * radar_scale, 190 * radar_scale)
+		var radar_height = clampf(board_rect.size.y - 334, 0, 180)
+		var aspect = maxf(1, sim.dimensions.x) / maxf(1, sim.dimensions.y)
+		var radar_width = minf(210, radar_height * aspect)
+		radar_rect = Rect2(side, top + 328, radar_width, radar_width / aspect)
+	put(labels.weapon, Rect2(board_rect.position.x + 8, board_rect.position.y + 48, minf(220, board_rect.size.x - 16), 24))
+	labels.weapon.add_theme_font_size_override("font_size", 12)
 	labels.help.visible = not mobile
-	labels.footer.visible = not mobile
-	put(labels.help, Rect2(margin, size.y - 76, size.x - 2 * margin, 48))
-	put(labels.footer, Rect2(margin, size.y - 28, size.x - 2 * margin, 24))
+	labels.footer.visible = false
+	labels.help.text = "WASD / ↑↓←→: di chuyển    SPACE: bắn    P / ESC: tạm dừng"
+	put(labels.help, Rect2(bounds.position.x, bounds.end.y - 20, bounds.size.x, 24))
 	touch_rects.clear()
 	if mobile:
-		var y = board_rect.end.y + 38
-		var edge = 44.0
-		var x = margin + 10
-		touch_rects.up = Rect2(x + edge + 4, y, edge, edge)
-		touch_rects.left = Rect2(x, y + edge + 4, edge, edge)
-		touch_rects.down = Rect2(x + edge + 4, y + edge + 4, edge, edge)
-		touch_rects.right = Rect2(x + 2 * (edge + 4), y + edge + 4, edge, edge)
-		touch_rects.fire = Rect2(size.x - margin - 98, y + 20, 98, 68)
-	put(preparation, Rect2(Vector2((size.x - minf(500, size.x - 24)) / 2, 104 if mobile else 96), Vector2(minf(500, size.x - 24), minf(640, size.y - (120 if mobile else 112)))))
-	var overlay_width = minf(430, board_rect.size.x - 12)
-	var overlay_height = minf(278, board_rect.size.y - 12)
-	put(overlay, Rect2(board_rect.get_center() - Vector2(overlay_width, overlay_height) / 2, Vector2(overlay_width, overlay_height)))
-	put(overlay_title, Rect2(8, 16, overlay_width - 16, 42))
-	overlay_title.add_theme_font_size_override("font_size", (16 if overlay_width < 240 else 22) if mobile else 28)
-	overlay_copy.add_theme_font_size_override("font_size", 12 if overlay_width < 240 else 14)
-	put(overlay_copy, Rect2(16, 62, overlay_width - 32, maxf(30, overlay_height - 174)))
-	put(start_button, Rect2(16, overlay_height - 54, overlay_width - 32, 40))
+		var edge = clampf(minf(bounds.size.y * 0.12, bounds.size.x / 7), 36, 56)
+		var origin = Vector2(bounds.position.x + 8, board_rect.end.y - 2 * edge - 12)
+		touch_rects.up = Rect2(origin + Vector2(edge + 4, 0), Vector2.ONE * edge)
+		touch_rects.left = Rect2(origin + Vector2(0, edge + 4), Vector2.ONE * edge)
+		touch_rects.down = Rect2(origin + Vector2(edge + 4, edge + 4), Vector2.ONE * edge)
+		touch_rects.right = Rect2(origin + Vector2(2 * (edge + 4), edge + 4), Vector2.ONE * edge)
+		touch_rects.fire = Rect2(bounds.end.x - edge * 1.8 - 8, board_rect.end.y - edge * 1.4 - 8, edge * 1.8, edge * 1.4)
+	touch_surface.size = size
+	touch_surface.rects = touch_rects
+	touch_surface.queue_redraw()
+	var preparation_size = Vector2(minf(500, bounds.size.x), minf(640, bounds.size.y - 44))
+	put(preparation, Rect2(bounds.get_center() - preparation_size / 2, preparation_size))
+	var overlay_size = Vector2(minf(430, board_rect.size.x - 12), minf(278, board_rect.size.y - 12))
+	put(overlay, Rect2(board_rect.get_center() - overlay_size / 2, overlay_size))
+	put(overlay_title, Rect2(8, 12, overlay_size.x - 16, 42))
+	overlay_title.add_theme_font_size_override("font_size", 18 if mobile else 28)
+	put(overlay_copy, Rect2(16, 62, overlay_size.x - 32, maxf(30, overlay_size.y - 126)))
+	put(start_button, Rect2(16, overlay_size.y - 54, overlay_size.x - 32, 40))
 	clear_inputs()
+	update_camera()
 	queue_redraw()
+
+func update_camera() -> void:
+	if camera == null or sim == null:
+		return
+	var world = Vector2(sim.dimensions) * R.TILE
+	var visible_world = Vector2(battle_viewport.size) / camera.zoom
+	var half = visible_world / 2
+	var target: Vector2 = sim.player.pos
+	camera.position = Vector2(world.x / 2 if world.x <= visible_world.x else clampf(target.x, half.x, world.x - half.x), world.y / 2 if world.y <= visible_world.y else clampf(target.y, half.y, world.y - half.y))
+	camera.force_update_scroll()
+
+func screen_to_world(point: Vector2) -> Vector2:
+	return camera.position + (point - board_rect.position - Vector2(battle_viewport.size) / 2) / camera.zoom
+
+func world_to_screen(point: Vector2) -> Vector2:
+	return board_rect.position + Vector2(battle_viewport.size) / 2 + (point - camera.position) * camera.zoom
 
 func apply_selection(character: String, body: String, weapon: String) -> void:
 	if sim.status not in ["ready", "won", "lost"]:
@@ -203,9 +278,10 @@ func apply_selection(character: String, body: String, weapon: String) -> void:
 	weapon_id = weapon
 	selected_loadout = catalog.data.characters[character_id].weapons.find(weapon_id)
 	if sim.status == "ready":
-		sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
+		sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 		battle.sim = sim
 		power_up_hud.sim = sim
+	update_camera()
 	refresh_hud()
 	battle.queue_redraw()
 
@@ -223,11 +299,12 @@ func activate() -> void:
 	elif sim.status == "paused":
 		sim.pause()
 	else:
-		sim = Sim.new(catalog.create(character_id, body_id, weapon_id))
+		sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 		battle.sim = sim
 		power_up_hud.sim = sim
 		sim.start()
 		last_shots = 0
+	update_camera()
 	refresh_hud()
 
 func toggle_pause() -> void:
@@ -303,15 +380,29 @@ func _process(dt: float) -> void:
 	if sound_enabled and sim.shots_fired > last_shots:
 		audio.play()
 	last_shots = sim.shots_fired
+	update_camera()
 	refresh_hud()
 	battle.queue_redraw()
 	power_up_hud.queue_redraw()
+	touch_surface.pressed = pointers.values()
+	touch_surface.queue_redraw()
 	queue_redraw()
 
 func refresh_hud() -> void:
 	if labels.is_empty():
 		return
-	var base_percent = maxi(0, sim.base_hp) * 5
+	var base_percent = roundi(100.0 * maxi(0, sim.base_hp) / R.BASE_HP)
+	labels.weapon.text = "VŨ KHÍ: " + sim.loadout.weapon.display_name
+	if sim.status == "invalid":
+		labels.message.text = "Map không hợp lệ: " + "; ".join(sim.validation_errors)
+		labels.message.visible = true
+		labels.message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		labels.message.position = board_rect.position + Vector2(8, 80)
+		labels.message.size = board_rect.size - Vector2(16, 88)
+		preparation.visible = false
+		overlay.visible = false
+		pause_button.disabled = true
+		return
 	labels.clock.text = "%02d:%02d" % [floori(sim.elapsed / 60), int(sim.elapsed) % 60]
 	labels.field.text = {"ready": "● CHỜ TRIỂN KHAI", "playing": "● ĐANG GIAO TRANH", "paused": "● TẠM DỪNG", "won": "● HOÀN THÀNH", "lost": "● THẤT THỦ"}[sim.status]
 	labels.message.text = sim.message
@@ -348,34 +439,30 @@ func _draw() -> void:
 	if sim == null:
 		return
 	draw_rect(Rect2(Vector2.ZERO, size), Color("11181b"))
-	draw_line(Vector2(12, 92 if mobile else 62), Vector2(size.x - 12, 92 if mobile else 62), Color("3f4c46"))
+	draw_line(Vector2(safe_rect.position.x + 12, board_rect.position.y - 30), Vector2(safe_rect.end.x - 12, board_rect.position.y - 30), Color("3f4c46"))
 	draw_rect(board_rect.grow(2), Color("7b8067"), false, 2)
-	var font = ThemeDB.fallback_font
-	for action in touch_rects:
-		var rect: Rect2 = touch_rects[action]
-		draw_rect(rect, Color("5d4935") if action in pointers.values() else Color("303d3d"))
-		draw_rect(rect, Color("657365"), false)
-		var caption: String = {"up": "↑", "left": "←", "down": "↓", "right": "→", "fire": "BẮN ◎"}[action]
-		var text_size = font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 20)
-		draw_string(font, rect.get_center() + Vector2(-text_size.x / 2, 7), caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("e2d4af"))
-	if radar_rect.has_area():
+	if radar_rect.has_area() and sim.status != "invalid":
 		draw_rect(radar_rect, Color("152023"))
 		var colors = {"brick": Color("a86242"), "steel": Color("768487"), "water": Color("316b83"), "grass": Color("536c37")}
-		var radar_scale = radar_rect.size.x / 210.0
-		for y in R.ROWS:
-			for x in R.COLS:
-				var kind: String = sim.map[y][x].kind
-				if colors.has(kind):
-					draw_rect(Rect2(radar_rect.position + Vector2(x * 10 + 1, y * 10 + 1) * radar_scale, Vector2(8, 8) * radar_scale), colors[kind])
-		draw_rect(Rect2(radar_rect.position + (R.BASE / 4 - Vector2(6, 6)) * radar_scale, Vector2(12, 12) * radar_scale), Color("8dc6b8"))
-		draw_circle(radar_rect.position + sim.player.pos / 4 * radar_scale, 3 * radar_scale, Color("bae393"))
+		var world = Vector2(sim.dimensions) * R.TILE
+		var radar_scale = radar_rect.size / world
+		for y in sim.dimensions.y:
+			for x in sim.dimensions.x:
+				var tile: Dictionary = sim.map[y][x]
+				var color: Color = colors.get(tile.kind, Color.TRANSPARENT)
+				if Map.move_blocked(tile) and (tile.has("object") or color == Color.TRANSPARENT):
+					color = Color("8a8070")
+				if color.a > 0:
+					draw_rect(Rect2(radar_rect.position + (Vector2(x, y) * R.TILE + Vector2.ONE * 4) * radar_scale, Vector2.ONE * (R.TILE - 8) * radar_scale), color)
+		draw_rect(Rect2(radar_rect.position + (sim.base_position - Vector2(24, 24)) * radar_scale, Vector2(48, 48) * radar_scale), Color("8dc6b8"))
+		draw_circle(radar_rect.position + sim.player.pos * radar_scale, 3, Color("bae393"))
 		for enemy in sim.enemies:
-			draw_circle(radar_rect.position + enemy.pos / 4 * radar_scale, 3 * radar_scale, Color("f47e56"))
+			draw_circle(radar_rect.position + enemy.pos * radar_scale, 3, Color("f47e56"))
 		var side = radar_rect.position.x
-		draw_rect(Rect2(side, labels.robot.position.y + 80, 210, 6), Color("283439"))
-		draw_rect(Rect2(side, labels.robot.position.y + 80, 210.0 * maxi(0, sim.player.hp) / sim.player.max_hp, 6), Color("e98450"))
-		draw_rect(Rect2(side, labels.base.position.y + 66, 210, 6), Color("283439"))
-		draw_rect(Rect2(side, labels.base.position.y + 66, 210.0 * maxi(0, sim.base_hp) / R.BASE_HP, 6), Color("8dc6b8"))
+		draw_rect(Rect2(side, labels.robot.position.y + 52, 210, 6), Color("283439"))
+		draw_rect(Rect2(side, labels.robot.position.y + 52, 210.0 * maxi(0, sim.player.hp) / sim.player.max_hp, 6), Color("e98450"))
+		draw_rect(Rect2(side, labels.base.position.y + 52, 210, 6), Color("283439"))
+		draw_rect(Rect2(side, labels.base.position.y + 52, 210.0 * maxi(0, sim.base_hp) / R.BASE_HP, 6), Color("8dc6b8"))
 
 func shot_sound() -> AudioStreamWAV:
 	var wav = AudioStreamWAV.new()

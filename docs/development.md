@@ -24,7 +24,7 @@ Phiên bản đã kiểm thử: `4.7.2.stable.official.ed1daf0bf`.
 - Căn cứ có 20 HP. Căn cứ bị phá hoặc hết robot thì thua; hạ hết 5 đợt thì thắng.
 - Gạch cần 3 phát để phá, có trạng thái nứt. Thép chặn robot và đạn; nước chặn robot nhưng đạn đi qua; cây đi/bắn xuyên và che robot.
 - Đạn người chơi không gây sát thương căn cứ. Robot địch 2 HP/100 điểm; xe tăng 4 HP/250 điểm.
-- Âm thanh tổng hợp tùy chọn, mặc định tắt. Không có vật phẩm, lưu tiến trình hoặc multiplayer.
+- Âm thanh tổng hợp tùy chọn, mặc định tắt. Có power-up và weapon pickup; chưa có lưu tiến trình hoặc multiplayer.
 
 ## Kiểm thử Godot
 
@@ -53,7 +53,7 @@ python3 -m http.server 8080 --directory build/web
 
 Mở `http://localhost:8080`. Không mở trực tiếp HTML bằng `file://`. Khi phát hành, dùng HTTPS và giữ nguyên toàn bộ file xuất ra, gồm WebAssembly, `.pck`, manifest và service worker. Server cần phục vụ `.wasm` với MIME `application/wasm`.
 
-Preset bật PWA, chế độ standalone, hướng dọc và icon; tắt `variant/thread_support` và hỗ trợ GDExtension. Single-thread không cần SharedArrayBuffer/COOP/COEP. Godot Web cần WebGL 2.0; Compatibility là renderer thích hợp. Xem [tài liệu xuất Web chính thức](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html).
+Preset bật PWA, chế độ standalone, hướng ngang và icon; tắt `variant/thread_support` và hỗ trợ GDExtension. Single-thread không cần SharedArrayBuffer/COOP/COEP. Godot Web cần WebGL 2.0; Compatibility là renderer thích hợp. Xem [tài liệu xuất Web chính thức](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html).
 
 **Trạng thái:** đã thử export; máy hiện chưa cài `web_nothreads_debug.zip` và `web_nothreads_release.zip` cho 4.7.2. Chưa tạo được bản Web, nên chưa kiểm chứng cài PWA, service worker, offline, âm thanh hay thao tác cảm ứng trong trình duyệt. Sau khi cài template, cần kiểm tra Chrome/Safari, thêm vào màn hình chính, tải lần đầu online rồi thử offline. File build không được commit.
 
@@ -65,16 +65,18 @@ Giải thích kỹ thuật theo tính năng được lưu trong `docs/features/`
 | --- | --- |
 | `project.godot`, `scenes/main.tscn` | Dự án và scene chính |
 | `gd/rules.gd` | Thông số cân bằng |
-| `gd/battle_map.gd` | Bản đồ, va chạm terrain, Dijkstra có chi phí phá gạch |
+| `gd/map_definition.gd`, `scenes/maps/` | Scene map, metadata terrain/object/marker và validation |
+| `gd/battle_map.gd` | Va chạm theo flags và Dijkstra có chi phí phá vật cản |
+| `gd/pickup_settings.gd`, `assets/maps/default_pickups.tres` | Pool, trọng số, lifetime và luật sinh/rơi pickup |
 | `gd/simulation.gd` | Mô phỏng gameplay độc lập với scene và renderer |
-| `gd/battle_view.gd` | Vẽ robot, lớp cây che phủ và hiệu ứng bằng Godot 2D |
-| `gd/map_skin.gd`, `gd/map_terrain.gd`, `assets/terrain/` | Resource hình ảnh map và lớp terrain cache theo revision/HP |
+| `gd/battle_view.gd` | Vẽ robot, pickup và hiệu ứng bằng Godot 2D |
+| `gd/map_skin.gd`, `gd/map_terrain.gd`, `gd/map_overlay.gd` | Gắn scene map, sync phá hủy và vẽ overlay/base theo runtime |
 | `gd/player_skin.gd`, `assets/sprites/player_mech/` | Sprite player, hướng và lựa chọn frame theo trạng thái mô phỏng |
 | `gd/main.gd` | HUD responsive, bàn phím/cảm ứng, pause/replay, âm thanh |
 | `export_presets.cfg`, `assets/icon.svg` | Cấu hình Web/PWA và icon |
 | `godot_tests/` | Kiểm thử GDScript và render |
 
-Player và hai loại enemy dùng sprite sheet; terrain dùng bộ texture riêng qua `MapSkin`, hiệu ứng được vẽ bằng code. Mô phỏng giữ luật và bản đồ cũ, giao diện được dựng lại bằng Godot Controls. GDScript dùng `RefCounted` và dữ liệu thuần để có thể kiểm thử không cần cửa sổ.
+Player và hai loại enemy dùng sprite sheet; terrain dùng bộ texture riêng qua `MapSkin`, hiệu ứng được vẽ bằng code. Simulation tạo runtime từ scene map, camera dùng SubViewport và giao diện dùng Godot Controls. GDScript dùng `RefCounted` và dữ liệu thuần để có thể kiểm thử không cần cửa sổ.
 
 Map đã áp dụng hình cho Nhà chính (cả trạng thái phá hủy), gạch, thép, nước, cây và nền công nghiệp. Hướng dẫn thay hình, provenance và kiểm tra: [docs/features/map/art.md](features/map/art.md). [Ảnh map mới](images/map-art-in-game.png). `make test` gồm kiểm tra asset map; `make test-visual` kiểm tra pixels khi phá gạch, phá Nhà chính và chơi lại.
 

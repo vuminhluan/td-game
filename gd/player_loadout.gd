@@ -1,6 +1,7 @@
 extends Resource
 @export var body: Resource
 @export var weapon: Resource
+@export var body_id = "robot_body"
 @export var character_id = "robot"
 @export var display_name = "Robot hai chân"
 @export var collider_radius = 14.0

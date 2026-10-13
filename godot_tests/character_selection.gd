@@ -1,4 +1,5 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 const Catalog = preload("res://gd/character_catalog.gd")
 const Sim = preload("res://gd/simulation.gd")
 const R = preload("res://gd/rules.gd")
@@ -16,7 +17,7 @@ func fresh(configuration: Resource) -> RefCounted:
 	var sim = Sim.new(configuration)
 	for row in sim.map:
 		for tile in row:
-			tile.kind = "floor"
+			Terrain.apply(tile, "floor")
 	sim.player.pos = Vector2(420, 380)
 	sim.player.cooldown = 0
 	sim.start()
@@ -149,7 +150,7 @@ func collision_checks(configuration: Resource, direction: String, kind: String) 
 	else:
 		for point in muzzles:
 			var cell = Vector2i((sim.player.pos + point) / R.TILE)
-			sim.map[cell.y][cell.x] = {"kind": kind, "hp": 100}
+			sim.map[cell.y][cell.x] = Terrain.tile(kind, 100)
 	sim.fire(sim.player)
 	check(sim.bullets.is_empty(), "every first volley collides at muzzle: " + kind)
 	if kind == "enemy":

@@ -1,17 +1,32 @@
 extends RefCounted
 const R = preload("res://gd/rules.gd")
 const Map = preload("res://gd/battle_map.gd")
+const PickupConfig = preload("res://gd/pickup_settings.gd")
+const MapDefinition = preload("res://gd/map_definition.gd")
 
 var loadout: Resource
 var sequence = 1
-var map: Array = Map.create_map()
+const DEFAULT_MAP = preload("res://scenes/maps/industrial_yard.tscn")
+var catalog = preload("res://gd/character_catalog.gd").new()
+var map: Array = []
+var map_scene: Node2D
+var dimensions := Vector2i.ZERO
+var world_size := Vector2.ZERO
+var base_position := Vector2.ZERO
+var base_goal := Vector2i.ZERO
+var player_spawn := Vector2.ZERO
+var enemy_spawns: Array = []
+var map_objects: Array = []
+var validation_errors: Array = []
+var pickup_settings: Resource
+var weapon_pickups: Array = []
 var player: Dictionary
 var enemies: Array = []
 var bullets: Array = []
 var effects: Array = []
 var power_ups: Array = []
 var active_power_ups: Dictionary = {}
-var power_up_timer = R.POWER_UP_INTERVAL
+var power_up_timer = 5.0
 var pending_shots: Array = []
 var rng = RandomNumberGenerator.new()
 var status = "ready"
@@ -31,17 +46,82 @@ var player_muzzle_distances: Dictionary = {}
 var enemy_muzzle_distances: Dictionary = {}
 var message = "Phòng tuyến cuối cùng"
 
-func _init(configuration: Resource = null) -> void:
+func _init(configuration: Resource = null, scene: PackedScene = null) -> void:
 	if configuration == null:
-		var catalog = preload("res://gd/character_catalog.gd").new()
 		var character: String = catalog.data.default_character
 		var c: Dictionary = catalog.data.characters[character]
 		configuration = catalog.create(character, c.default_body, c.default_weapon)
 	loadout = configuration
+	rng.randomize()
+	var instance: Node = (DEFAULT_MAP if scene == null else scene).instantiate()
+	if not instance is MapDefinition:
+		validation_errors.append("Scene map phải có root Node2D dùng gd/map_definition.gd")
+		instance.free()
+		pickup_settings = PickupConfig.new()
+		player = make_actor("player", Vector2.ZERO)
+		refresh_player_muzzles()
+		invalidate_map()
+		return
+	map_scene = instance
+	var runtime: Dictionary = map_scene.build_runtime(catalog)
+	validation_errors = runtime.errors
+	map = runtime.grid
+	dimensions = runtime.dimensions
+	world_size = Vector2(dimensions) * R.TILE
+	base_position = runtime.base_position
+	base_goal = runtime.base_goal
+	player_spawn = runtime.player_position
+	enemy_spawns = runtime.enemy_spawns
+	map_objects = runtime.objects
+	pickup_settings = runtime.settings
+	if not pickup_settings is PickupConfig:
+		validation_errors.append("Map yêu cầu PickupSettings hợp lệ")
+		pickup_settings = PickupConfig.new()
+	power_up_timer = pickup_settings.periodic_interval
+	player = make_actor("player", player_spawn)
+	refresh_player_muzzles()
+	if not Map.can_occupy(map, player_spawn, loadout.collider_radius) or in_base(player_spawn, 25):
+		validation_errors.append("player spawn: không đủ khoảng trống cho character đã chọn")
+	if validation_errors.is_empty():
+		for object in map_objects:
+			if object.category == "pickup":
+				if place_pickup(object.pos, object.pickup_category, object.pickup_id):
+					object.active = false
+				else:
+					validation_errors.append("%s: không thể đặt pickup tại %s" % [object.node.name, object.pos])
+	if not validation_errors.is_empty():
+		invalidate_map()
+
+func invalidate_map() -> void:
+	status = "invalid"
+	message = "Map không hợp lệ:\n" + "\n".join(validation_errors)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and is_instance_valid(map_scene) and not map_scene.is_inside_tree():
+		map_scene.free()
+
+func refresh_player_muzzles() -> void:
+	player_muzzle_distances.clear()
 	for direction in R.VECTOR:
 		player_muzzle_distances[direction] = loadout.muzzle_vectors(direction)[0].dot(R.VECTOR[direction])
-	rng.randomize()
-	player = make_actor("player", R.BASE - Vector2(0, 2 * R.TILE))
+
+func compatible_weapons() -> Array:
+	return catalog.data.characters[loadout.character_id].weapons
+
+func equip_weapon(id: String) -> bool:
+	if id not in compatible_weapons():
+		return false
+	var body_id: String = loadout.body_id if "body_id" in loadout else catalog.data.characters[loadout.character_id].default_body
+	var replacement: Resource = catalog.create(loadout.character_id, body_id, id)
+	if replacement == null:
+		return false
+	loadout = replacement
+	pending_shots.clear()
+	player.shot_duration = loadout.weapon.shot_duration
+	player.shot_clock = 0.0
+	player.cooldown = 0.0
+	refresh_player_muzzles()
+	return true
 
 func make_actor(kind: String, point: Vector2) -> Dictionary:
 	var hp = loadout.max_hp if kind == "player" else (4 if kind == "tank" else 2)
@@ -140,17 +220,25 @@ func damage_brick(point: Vector2) -> void:
 
 func damage_wall(point: Vector2, can_damage_steel: bool = false) -> void:
 	var tile = Map.tile_at(map, point)
-	if tile.get("kind") not in ["brick", "steel"] or (tile.kind == "steel" and not can_damage_steel):
+	if tile.is_empty() or not Map.destructible(tile):
 		return
-	tile.hp -= 1
+	var target: Dictionary = Map.damage_target(tile)
+	if target.get("steel", false) and not can_damage_steel:
+		return
+	target.hp -= 1
 	revision += 1
-	if tile.hp == 0:
-		tile.kind = "floor"
+	if target.hp <= 0:
+		if target == tile:
+			tile.kind = "floor"
+			tile.move_blocked = false
+			tile.bullet_blocked = false
+			tile.destructible = false
+		else:
+			target.active = false
 		for enemy in enemies:
 			enemy.erase("target")
-		if rng.randf() < R.WALL_DROP_CHANCE:
-			place_power_up(tile_center(point))
-	effect(point, "explosion" if tile.hp == 0 else "spark")
+		drop_pickup(tile_center(point), target.get("drop_settings"), target.get("pickup_category", ""), target.get("pickup_id", ""))
+	effect(point, "explosion" if target.hp <= 0 else "spark")
 
 func hit_player() -> void:
 	if invulnerable > 0 or power_up_active("shield"):
@@ -166,11 +254,11 @@ func hit_player() -> void:
 			status = "lost"
 			message = "Robot đã bị vô hiệu hóa"
 			return
-		player = make_actor("player", R.BASE - Vector2(0, 2 * R.TILE))
+		player = make_actor("player", player_spawn)
 		invulnerable = 3.0
 
 func in_base(point: Vector2, radius: float) -> bool:
-	return absf(point.x - R.BASE.x) < radius and absf(point.y - R.BASE.y) < radius
+	return absf(point.x - base_position.x) < radius and absf(point.y - base_position.y) < radius
 
 func update(delta: float, direction: String = "", shooting: bool = false) -> void:
 	if status != "playing":
@@ -208,8 +296,8 @@ func update(delta: float, direction: String = "", shooting: bool = false) -> voi
 	if to_spawn > 0:
 		spawn_timer -= dt
 		if spawn_timer <= 0:
-			var lane: int = [1, 10, 19][(R.WAVE_COUNTS[wave - 1] - to_spawn) % 3]
-			var point = Vector2((lane + 0.5) * R.TILE, R.TILE / 2.0)
+			var spawn_index: int = (R.WAVE_COUNTS[wave - 1] - to_spawn) % enemy_spawns.size()
+			var point: Vector2 = enemy_spawns[spawn_index]
 			if not enemies.any(func(e): return e.pos.distance_to(point) < 35):
 				enemies.append(make_actor("tank" if wave > 1 and to_spawn % 3 == 0 else "robot", point))
 				to_spawn -= 1
@@ -252,14 +340,12 @@ func update(delta: float, direction: String = "", shooting: bool = false) -> voi
 
 func bullet_collision(bullet: Dictionary) -> bool:
 	var point: Vector2 = bullet.pos
-	if point.x < 0 or point.y < 0 or point.x >= R.WIDTH or point.y >= R.HEIGHT:
+	if point.x < 0 or point.y < 0 or point.x >= world_size.x or point.y >= world_size.y:
 		return true
 	var tile = Map.tile_at(map, point)
-	if tile.get("kind") == "brick":
+	if Map.bullet_blocked(tile):
 		for hit in bullet.get("damage", 1):
-			damage_brick(point)
-		return true
-	if tile.get("kind") == "steel":
+			damage_wall(point)
 		effect(point, "spark")
 		return true
 	if bullet.friendly:
@@ -280,7 +366,7 @@ func bullet_collision(bullet: Dictionary) -> bool:
 		if base_hp <= 0:
 			status = "lost"
 			message = "Căn cứ đã bị phá hủy"
-			effect(R.BASE, "explosion")
+			effect(base_position, "explosion")
 		return true
 	elif absf(point.x - player.pos.x) < loadout.collider_radius and absf(point.y - player.pos.y) < loadout.collider_radius:
 		hit_player()
@@ -290,8 +376,9 @@ func bullet_collision(bullet: Dictionary) -> bool:
 func move_enemy(enemy: Dictionary, dt: float) -> void:
 	if enemy.shot_clock > 0:
 		return
-	if absf(enemy.pos.x - R.BASE.x) < 18 and enemy.pos.y > R.BASE.y - 100:
-		enemy.dir = "down"
+	var base_diff: Vector2 = base_position - enemy.pos
+	if (absf(base_diff.x) < 28 or absf(base_diff.y) < 28) and base_diff.length() < 100:
+		enemy.dir = ("down" if base_diff.y > 0 else "up") if absf(base_diff.x) < 28 else ("right" if base_diff.x > 0 else "left")
 		fire(enemy)
 		return
 	var diff: Vector2 = player.pos - enemy.pos
@@ -305,14 +392,14 @@ func move_enemy(enemy: Dictionary, dt: float) -> void:
 		if enemy.pos.distance_to(center) > 1:
 			enemy.target = center
 		else:
-			var path = Map.find_path(map, start, Vector2i(10, 16))
+			var path = Map.find_path(map, start, base_goal)
 			if not path.is_empty():
 				enemy.target = (Vector2(path[0]) + Vector2(0.5, 0.5)) * R.TILE
 	if not enemy.has("target"):
 		return
 	var diff_target: Vector2 = enemy.target - enemy.pos
 	enemy.dir = ("right" if diff_target.x > 0 else "left") if absf(diff_target.x) > 0.5 else ("down" if diff_target.y > 0 else "up")
-	if Map.tile_at(map, enemy.target).get("kind") == "brick":
+	if Map.move_blocked(Map.tile_at(map, enemy.target)) and Map.destructible(Map.tile_at(map, enemy.target)):
 		fire(enemy)
 		return
 	var step = (40 if enemy.kind == "tank" else 54 + wave * 3) * dt
@@ -326,7 +413,7 @@ func power_up_active(kind: String) -> bool:
 	return active_power_ups.get(kind, 0.0) > 0
 
 func activate_power_up(kind: String) -> void:
-	if R.POWER_UP_WEIGHTS.has(kind):
+	if kind in PickupConfig.POWER_UP_IDS:
 		active_power_ups[kind] = R.POWER_UP_DURATION
 
 func player_shot_cooldown() -> float:
@@ -359,34 +446,54 @@ func valid_power_up_cell(point: Vector2) -> bool:
 	for actor in [player] + enemies:
 		if absf(actor.pos.x - point.x) < R.TILE / 2.0 + 16 and absf(actor.pos.y - point.y) < R.TILE / 2.0 + 16:
 			return false
-	return not power_ups.any(func(item): return item.pos == point)
+	return not (power_ups + weapon_pickups).any(func(item): return item.pos == point)
 
 func choose_power_up() -> String:
-	var total = 0
-	for weight in R.POWER_UP_WEIGHTS.values():
-		total += weight
-	var roll = rng.randi_range(1, total)
-	for kind in R.POWER_UP_WEIGHTS:
-		roll -= R.POWER_UP_WEIGHTS[kind]
-		if roll <= 0:
-			return kind
-	return "shield"
+	return pickup_settings.choose("power_up", rng)
+
+func place_pickup(point: Vector2, category: String, kind: String, settings: Resource = null, require_reachable: bool = false) -> bool:
+	if settings == null:
+		settings = pickup_settings
+	if category not in ["power_up", "weapon"] or kind.is_empty():
+		return false
+	if (category == "power_up" and kind not in PickupConfig.POWER_UP_IDS) or (category == "weapon" and not catalog.data.weapons.has(kind)):
+		return false
+	if category == "power_up" and power_ups.size() >= pickup_settings.power_up_limit:
+		return false
+	if not Map.can_occupy(map, point) or in_base(point, 33):
+		return false
+	if power_ups.any(func(item): return item.pos.is_equal_approx(point)) or weapon_pickups.any(func(item): return item.pos.is_equal_approx(point)):
+		return false
+	if require_reachable and (not valid_power_up_cell(point) or point not in reachable_power_up_cells()):
+		return false
+	var collection: Array = power_ups if category == "power_up" else weapon_pickups
+	collection.append({"pos": point, "kind": kind, "life": settings.lifetime_for(kind)})
+	return true
+
+func drop_pickup(point: Vector2, settings: Resource = null, category: String = "", kind: String = "") -> void:
+	if settings == null:
+		settings = pickup_settings
+	if not settings.drop_enabled or rng.randf() >= settings.drop_chance:
+		return
+	if kind.is_empty():
+		category = "weapon" if rng.randf() < settings.weapon_chance else "power_up"
+		kind = settings.choose(category, rng, compatible_weapons())
+	place_pickup(point, category, kind, settings)
 
 func place_power_up(point: Vector2, reachable: Array = []) -> bool:
-	if power_ups.size() >= R.POWER_UP_LIMIT or not valid_power_up_cell(point):
+	if not valid_power_up_cell(point):
 		return false
 	var cells = reachable_power_up_cells() if reachable.is_empty() else reachable
 	if point not in cells:
 		return false
-	power_ups.append({"pos": point, "kind": choose_power_up(), "life": R.POWER_UP_LIFETIME})
-	return true
+	return place_pickup(point, "power_up", choose_power_up())
 
 func spawn_power_ups() -> void:
-	if power_ups.size() >= R.POWER_UP_LIMIT:
+	if power_ups.size() >= pickup_settings.power_up_limit:
 		return
 	var reachable = reachable_power_up_cells()
 	var cells = reachable.duplicate()
-	var count = mini(rng.randi_range(1, 2), R.POWER_UP_LIMIT - power_ups.size())
+	var count = mini(rng.randi_range(pickup_settings.periodic_min, pickup_settings.periodic_max), pickup_settings.power_up_limit - power_ups.size())
 	for i in count:
 		while not cells.is_empty():
 			var index = rng.randi_range(0, cells.size() - 1)
@@ -400,12 +507,15 @@ func update_power_ups(dt: float) -> void:
 		active_power_ups[kind] -= dt
 		if active_power_ups[kind] <= 0:
 			active_power_ups.erase(kind)
-	for item in power_ups:
+	for item in power_ups + weapon_pickups:
 		item.life -= dt
 	power_ups = power_ups.filter(func(item): return item.life > 0)
+	weapon_pickups = weapon_pickups.filter(func(item): return item.life > 0)
+	if not pickup_settings.periodic_enabled:
+		return
 	power_up_timer -= dt
 	if power_up_timer <= 0:
-		power_up_timer += R.POWER_UP_INTERVAL
+		power_up_timer += pickup_settings.periodic_interval
 		spawn_power_ups()
 
 func collect_power_ups() -> void:
@@ -415,3 +525,7 @@ func collect_power_ups() -> void:
 			power_ups.erase(item)
 		elif enemies.any(func(enemy): return enemy.pos.distance_to(item.pos) <= R.POWER_UP_PICKUP_RADIUS):
 			power_ups.erase(item)
+
+	for item in weapon_pickups.duplicate():
+		if player.pos.distance_to(item.pos) <= R.POWER_UP_PICKUP_RADIUS and equip_weapon(item.kind):
+			weapon_pickups.erase(item)

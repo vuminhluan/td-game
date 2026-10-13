@@ -1,4 +1,5 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 const Sim = preload("res://gd/simulation.gd")
 const Map = preload("res://gd/battle_map.gd")
 const R = preload("res://gd/rules.gd")
@@ -42,8 +43,8 @@ func run() -> void:
 			check(sim.map[point.y][point.x].kind not in ["water", "steel"], "path avoids impassable terrain")
 			previous = point
 	var grid = Map.create_map()
-	grid[0][1] = {"kind": "brick", "hp": 3}
-	grid[1][0] = {"kind": "steel", "hp": 0}
+	grid[0][1] = Terrain.tile("brick", 3)
+	grid[1][0] = Terrain.tile("steel", 0)
 	check(Vector2i(1, 0) in Map.find_path(grid, Vector2i.ZERO, Vector2i(2, 0)), "path breaches brick when necessary")
 	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 	sim.start()
@@ -60,13 +61,13 @@ func run() -> void:
 	var original: Vector2 = sim.player.pos
 	sim.update(0.05, "right")
 	check(sim.player.pos.x > original.x and sim.player.pos.y == original.y, "movement stays on one axis")
-	sim.player.pos = R.BASE - Vector2(0, 26)
+	sim.player.pos = sim.base_position - Vector2(0, 26)
 	sim.update(0.05, "down")
-	check(sim.player.pos == R.BASE - Vector2(0, 26), "player cannot enter base")
+	check(sim.player.pos == sim.base_position - Vector2(0, 26), "player cannot enter base")
 	for friendly in [true, false]:
 		sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 		sim.start()
-		bullet(sim, R.BASE - Vector2(0, 30), friendly)
+		bullet(sim, sim.base_position - Vector2(0, 30), friendly)
 		sim.update(0.05)
 		check(sim.base_hp == R.BASE_HP - (0 if friendly else 1), "only enemy shots damage base")
 	sim = Sim.new(preload("res://assets/loadouts/standard.tres"))

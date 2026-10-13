@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_0pwhw"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/pipes.png" id="2_ehw31"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jo1v"]
+atlas = ExtResource("2_ehw31")
+region = Rect2(53, 229, 1670, 454)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_0pwhw")
+object_id = "industrial_pipes"
+display_name = "Cụm ống nước thấp"
+tags = Array[String](["industrial", "pipes"])
+texture = SubResource("AtlasTexture_8jo1v")
+visual_rect = Rect2(0, -1.7485046, 160, 43.49701)
+category = "fixed"
+footprint = Vector2i(4, 1)
+move_blocked = true
+initial_hp = 0

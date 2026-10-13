@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_qk2y2"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/industrial/machinery.png" id="2_kbyad"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbowv"]
+atlas = ExtResource("2_kbyad")
+region = Rect2(22, 145, 1509, 672)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_qk2y2")
+object_id = "industrial_machinery"
+display_name = "Máy nén nhà xưởng"
+tags = Array[String](["industrial", "machinery"])
+texture = SubResource("AtlasTexture_gbowv")
+visual_rect = Rect2(0, 13.280317, 120, 53.439365)
+category = "fixed"
+footprint = Vector2i(3, 2)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

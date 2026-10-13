@@ -7,7 +7,7 @@ func _draw() -> void:
 	if sim == null:
 		return
 	var index = 0
-	for kind in R.POWER_UP_WEIGHTS:
+	for kind in preload("res://gd/pickup_settings.gd").POWER_UP_IDS:
 		if not sim.power_up_active(kind):
 			continue
 		var point = Vector2(19 + index * 38, 19)
@@ -20,7 +20,7 @@ func _get_tooltip(at_position: Vector2) -> String:
 		return ""
 	var index = floori(at_position.x / 38.0)
 	var active: Array = []
-	for kind in R.POWER_UP_WEIGHTS:
+	for kind in preload("res://gd/pickup_settings.gd").POWER_UP_IDS:
 		if sim.power_up_active(kind):
 			active.append(kind)
 	if index < 0 or index >= active.size():

@@ -9,12 +9,12 @@ config/icon="res://assets/icon.svg"
 
 [display]
 window/size/viewport_width=1280
-window/size/viewport_height=1000
-window/size/window_width_override=1152
-window/size/window_height_override=900
-window/size/min_width=320
-window/size/min_height=560
-window/handheld/orientation=1
+window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/size/min_width=568
+window/size/min_height=320
+window/handheld/orientation=0
 
 [rendering]
 renderer/rendering_method="gl_compatibility"

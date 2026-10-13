@@ -1,0 +1,12 @@
+{
+  "provider": "built-in imagegen",
+  "use_case": "stylized-concept",
+  "intent": "generate",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: production 2D top-down game environment sprite. Reference image1 is STYLE REFERENCE ONLY (weathered machinery rendering); reference image2 is DESIGN REFERENCE ONLY for the existing olive two-legged robot game character. Create ONE DIFFERENT abandoned robot wreck, long disused, motionless, collapsed on its back with battered armored torso, dented head, splayed mechanical limbs, one dislocated shoulder, loose cable ends, dead dark eye/lights, heavy rust and chipped muted olive/tan paint. It is a permanent solid obstacle, NOT an active character, NOT firing, no muzzle flashes. Preserve recognizability of the rounded military robot but show clear wreckage. Polished realistic hand-painted 2D sprite with fine material detail and readable silhouette at80x80 world units, consistent overhead top-down camera with slight upper-surface depth; no diagonal isometric. One complete compact wreck centered, square silhouette fits within roughly75%width/height, nothing cropped. Transparent background genuine alpha, fully empty clear outer margin. No floor, ground patch, background gradient, ambient haze, loose scattered props beyond the wreck itself, labels, text, UI or watermarks. Upper-left subdued illumination with only extremely tight subtle contact shadow under metal.",
+  "references": [
+    "assets/map_objects/industrial/machinery.png",
+    "assets/sprites/characters/layers.png"
+  ],
+  "source": "source.png"
+}

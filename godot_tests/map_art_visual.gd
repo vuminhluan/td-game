@@ -22,6 +22,8 @@ func run() -> void:
 	await process_frame
 	game.set_process(false)
 	game.activate()
+	game.camera.zoom = Vector2.ONE * 0.75
+	game.update_camera()
 	game.sim.spawn_timer = 999
 	for i in 3:
 		var enemy = game.sim.make_actor("tank" if i == 0 else "robot", Vector2(220 + i * 200, 300))
@@ -31,7 +33,7 @@ func run() -> void:
 	var intact: Image = await frame_image()
 	check(intact.save_png("res://docs/images/map-art-in-game.png") == OK, "save map screenshot")
 	var brick_point := Vector2(4, 1) * R.TILE + Vector2.ONE * 20
-	var screen_point: Vector2 = game.board_rect.position + brick_point * game.battle.scale.x
+	var screen_point: Vector2 = game.world_to_screen(brick_point)
 	var region := Rect2i(Vector2i(screen_point) - Vector2i(14, 14), Vector2i(28, 28))
 	var previous := intact.get_region(region).get_data()
 	for hp in [2, 1, 0]:
@@ -48,11 +50,13 @@ func run() -> void:
 	game.battle.queue_redraw()
 	var ruined: Image = await frame_image()
 	check(ruined.save_png("res://docs/images/map-art-damage.png") == OK, "save damage screenshot")
-	var base_screen: Vector2 = game.board_rect.position + R.BASE * game.battle.scale.x
+	var base_screen: Vector2 = game.world_to_screen(game.sim.base_position)
 	var base_region := Rect2i(Vector2i(base_screen) - Vector2i(35, 35), Vector2i(70, 70))
 	check(ruined.get_region(base_region).get_data() != intact.get_region(base_region).get_data(), "base destruction changes rendered art")
 	game.sim.status = "lost"
 	game.activate()
+	game.camera.zoom = Vector2.ONE * 0.75
+	game.update_camera()
 	game.battle.queue_redraw()
 	var replay: Image = await frame_image()
 	check(replay.get_region(region).get_data() == intact.get_region(region).get_data(), "replay restores visible intact brick")

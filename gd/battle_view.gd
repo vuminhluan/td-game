@@ -1,5 +1,7 @@
 extends Node2D
 const PowerUpIcons = preload("res://gd/power_up_icons.gd")
+const PickupArt = preload("res://gd/weapon_pickup_art.gd")
+var pickup_art = PickupArt.new()
 const R = preload("res://gd/rules.gd")
 const MapSkin = preload("res://gd/map_skin.gd")
 const Terrain = preload("res://gd/map_terrain.gd")
@@ -13,6 +15,8 @@ var sim: RefCounted:
 			sim.enemy_muzzle_distances.clear()
 			for kind in enemy_skins:
 				sim.enemy_muzzle_distances[kind] = enemy_skins[kind].muzzle_distances()
+		if is_instance_valid(terrain):
+			terrain.sync(sim, map_skin)
 @export var player_skin: Resource = preload("res://assets/sprites/player_mech/player_skin.tres")
 @export var enemy_skins: Dictionary = {
 	"tank": preload("res://assets/sprites/enemy_tank/enemy_skin.tres"),
@@ -26,6 +30,8 @@ func _ready() -> void:
 	terrain.sync(sim, map_skin)
 
 func _process(_dt: float) -> void:
+	if sim != null:
+		player_skin = sim.loadout.body
 	terrain.sync(sim, map_skin)
 
 func plate(rect: Rect2, color: Color) -> void:
@@ -41,17 +47,13 @@ func _draw() -> void:
 		return
 	for actor in [sim.player] + sim.enemies:
 		draw_actor(actor)
-	for y in R.ROWS:
-		for x in R.COLS:
-			if sim.map[y][x].kind != "grass":
-				continue
-			draw_set_transform(Vector2(x, y) * R.TILE)
-			draw_texture_rect(map_skin.foliage_texture, Rect2(Vector2.ZERO, Vector2.ONE * R.TILE), false)
 	draw_set_transform(Vector2.ZERO)
 	for item in sim.power_ups:
 		PowerUpIcons.draw_icon(self, item.kind, item.pos)
+	for item in sim.weapon_pickups:
+		draw_weapon_pickup(item)
 	if sim.power_up_active("base_shield"):
-		draw_arc(R.BASE, 34, 0, TAU, 48, PowerUpIcons.COLORS.base_shield, 2, true)
+		draw_arc(sim.base_position, 34, 0, TAU, 48, PowerUpIcons.COLORS.base_shield, 2, true)
 	for bullet in sim.bullets:
 		draw_circle(bullet.pos, 6, Color(1, 0.6, 0.3, 0.18))
 		draw_circle(bullet.pos, 2.5, Color("ffedb6") if bullet.friendly else Color("ff8158"))
@@ -179,3 +181,14 @@ func draw_clean_body(actor: Dictionary, texture: Texture2D, rect: Rect2, tint: C
 func draw_weapon_regions(texture: Texture2D, origin: Vector2, regions: Array, texture_scale: float, tint: Color) -> void:
 	for region in regions:
 		draw_texture_rect_region(texture, Rect2(origin + region.position * texture_scale, region.size * texture_scale), region, tint)
+
+func draw_weapon_pickup(item: Dictionary) -> void:
+	var texture: Texture2D = pickup_art.texture_for(item.kind, sim.loadout.character_id, sim.catalog)
+	if texture == null:
+		return
+	var point: Vector2 = item.pos
+	var rect := pickup_art.rect_for(texture, point)
+	draw_circle(point, 20, Color(0.96, 0.70, 0.28, 0.08))
+	draw_arc(point, 19, 0, TAU, 40, Color(0.96, 0.70, 0.28, 0.55), 1, true)
+	draw_texture_rect(texture, Rect2(rect.position + Vector2(1, 3), rect.size), false, Color(0, 0, 0, 0.65))
+	draw_texture_rect(texture, rect, false)

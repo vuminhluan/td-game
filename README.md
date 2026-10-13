@@ -1,6 +1,6 @@
 # Robot Defense
 
-Game 2D top-down dùng Godot 4.7.2, GDScript và renderer Compatibility. Bảo vệ căn cứ qua 5 đợt tấn công; điều khiển bằng WASD/mũi tên và Space, pause bằng P/Escape. Màn hình hẹp có điều khiển cảm ứng.
+Game 2D top-down dùng Godot 4.7.2, GDScript và renderer Compatibility. Bảo vệ căn cứ qua 5 đợt tấn công; điều khiển bằng WASD/mũi tên và Space, pause bằng P/Escape. Map biên soạn bằng scene Godot; camera theo player, HUD và điều khiển cảm ứng nằm trên màn hình.
 
 ```sh
 godot --path .
@@ -12,6 +12,9 @@ Bắt đầu đọc tại [mục lục tài liệu](docs/README.md). Hướng d�
 - [Resource loadout](docs/features/player-loadout.md): nền tảng socket/geometry và bộ atlas tham chiếu.
 - [Chọn nhân vật](docs/features/character-selection.md): Robot/Xe tăng, Body sạch, 7 bộ vũ khí và config gameplay chung.
 - [Power-up](docs/features/power-ups.md): 5 vật phẩm, countdown, luật sinh và tuning.
+- [Object môi trường và weapon pickup](docs/features/map/environment-objects.md): artwork nhà máy cũ, collision độc lập và catalog dùng trên mọi map.
+- [Biên soạn map](docs/features/map/authoring.md): TileMapLayer, object, marker, validation và map công nghiệp mẫu.
+- [Phạm vi refactor map](docs/features/map/refactor-plan.md): kiến trúc và tiêu chí đã triển khai; giới hạn kiểm thử thiết bị được ghi riêng.
 - [Tính năng và kiến trúc](docs/README.md#tính-năng): gameplay, map và rendering robot.
 - [Quy trình nâng cấp](docs/README.md#quy-trình): tạo/thay sprite, tích hợp và kiểm tra.
 - [Asset đang dùng](docs/README.md#asset): runtime resources, nguồn và geometry.

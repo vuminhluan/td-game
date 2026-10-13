@@ -1,4 +1,5 @@
 extends SceneTree
+const Terrain = preload("res://godot_tests/terrain_fixture.gd")
 var checks = 0
 const Sim = preload("res://gd/simulation.gd")
 const R = preload("res://gd/rules.gd")
@@ -43,7 +44,7 @@ func run() -> void:
 			var sim = Sim.new(preload("res://assets/loadouts/standard.tres"))
 			for row in sim.map:
 				for tile in row:
-					tile.kind = "floor"
+					Terrain.apply(tile, "floor")
 			sim.start()
 			sim.spawn_timer = 999
 			sim.enemy_muzzle_distances[kind] = skin.muzzle_distances()
@@ -79,7 +80,7 @@ func run() -> void:
 				var close = Sim.new(preload("res://assets/loadouts/standard.tres"))
 				for row in close.map:
 					for tile in row:
-						tile.kind = "floor"
+						Terrain.apply(tile, "floor")
 				close.enemy_muzzle_distances[kind] = {direction: 48.0}
 				var shooter = close.make_actor(kind, Vector2(420,380))
 				shooter.dir = direction
@@ -89,7 +90,7 @@ func run() -> void:
 					close.player.pos = shooter.pos + R.VECTOR[direction] * 30
 				else:
 					var cell = Vector2i(shooter.pos / R.TILE) + Vector2i(R.VECTOR[direction])
-					close.map[cell.y][cell.x] = {"kind": wall_kind, "hp": 3}
+					close.map[cell.y][cell.x] = Terrain.tile(wall_kind, 3)
 				close.fire(shooter)
 				require(close.bullets.is_empty(), "enemy muzzle may not bypass " + wall_kind)
 				if wall_kind == "player":
@@ -100,7 +101,7 @@ func run() -> void:
 			var aiming = Sim.new(preload("res://assets/loadouts/standard.tres"))
 			for row in aiming.map:
 				for tile in row:
-					tile.kind = "floor"
+					Terrain.apply(tile, "floor")
 			aiming.start()
 			aiming.spawn_timer = 999
 			aiming.enemy_muzzle_distances[kind] = skin.muzzle_distances()

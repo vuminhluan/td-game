@@ -1,0 +1,11 @@
+{
+  "provider": "built-in imagegen",
+  "use_case": "stylized-concept",
+  "intent": "generate",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: production 2D top-down game environment sprite. Reference image 1 is STYLE REFERENCE ONLY: match aged realistic machinery steel/rust materials and overhead game camera; create a new DIFFERENT subject. Primary request: ONE low industrial water pipe assembly lying horizontally across a walkway: three parallel heavy steel pipes secured by two brackets, with one large red-brown valve wheel and bolted flanges. No platform, no machine, no floor. These low pipes obstruct walking but projectiles pass over them. Camera strict orthographic overhead top-down with slight upper surface depth, long straight horizontal silhouette, not isometric. Polished hand-painted detailed realistic game artwork, old abandoned factory, subdued slate steel, worn olive paint, rust brown, small faded yellow hazard marks. Composition one complete horizontal pipe section centered, sprite width around80%canvas, height around25%canvas, all ends visible. TRANSPARENT BACKGROUND with genuine alpha and fully empty transparent outer margin: no black backdrop, no shadow haze, no background gradient, no surrounding dirt patch or floor. Only extremely tight subtle contact shadow directly underneath metal is permitted. Lighting upper left. No labels, readable text, UI, watermarks, extra props. Readable at160x40 world units.",
+  "references": [
+    "assets/map_objects/industrial/machinery.png"
+  ],
+  "source": "source.png"
+}

@@ -1,0 +1,124 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://gd/map_definition.gd" id="1_palji"]
+[ext_resource type="TileSet" path="res://assets/maps/industrial/terrain.tres" id="3_w6b8v"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/floor.png" id="3_ww58n"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/machinery.tscn" id="5_783wv"]
+[ext_resource type="Script" path="res://gd/map_marker.gd" id="5_w6b8v"]
+[ext_resource type="Script" path="res://gd/map_object.gd" id="6_783wv"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/machinery.tres" id="7_i6g3g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/pipes.tscn" id="8_7r4j5"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/pipes.tres" id="9_u7qlb"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/robot_wreck.tscn" id="10_5ps47"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/robot_wreck.tres" id="11_ak4v6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/industrial/drink_can.tscn" id="12_4uavf"]
+[ext_resource type="Resource" path="res://assets/map_objects/industrial/drink_can.tres" id="13_adme7"]
+
+[node name="IndustrialYard" type="Node2D" unique_id=1158066742]
+script = ExtResource("1_palji")
+
+[node name="Floor" type="Sprite2D" parent="." unique_id=1592714511]
+modulate = Color(0.55, 0.6, 0.62, 1)
+texture_repeat = 2
+texture = ExtResource("3_ww58n")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 840, 760)
+
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=1522366761]
+tile_map_data = PackedByteArray("AAAEAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAAMAAEAAAAAAAAAAAANAAEAAAAAAAAAAAAOAAEAAAAAAAAAAAAPAAEAAAAAAAAAAAAQAAEAAAAAAAAAAAAEAAMAAAABAAAAAAAFAAMAAAABAAAAAAAEAAQAAAABAAAAAAAFAAQAAAABAAAAAAAEAAgAAAABAAAAAAAFAAgAAAABAAAAAAAEAAkAAAABAAAAAAAFAAkAAAABAAAAAAAEAAwAAAABAAAAAAAFAAwAAAABAAAAAAAEAA0AAAABAAAAAAAFAA0AAAABAAAAAAAEAAUAAAADAAAAAAAFAAUAAAADAAAAAAAEAAoAAAADAAAAAAAFAAoAAAADAAAAAAAEAA4AAAADAAAAAAAFAA4AAAADAAAAAAAPAAMAAAABAAAAAAAQAAMAAAABAAAAAAAPAAQAAAABAAAAAAAQAAQAAAABAAAAAAAPAAgAAAABAAAAAAAQAAgAAAABAAAAAAAPAAkAAAABAAAAAAAQAAkAAAABAAAAAAAPAAwAAAABAAAAAAAQAAwAAAABAAAAAAAPAA0AAAABAAAAAAAQAA0AAAABAAAAAAAPAAUAAAADAAAAAAAQAAUAAAADAAAAAAAPAAoAAAADAAAAAAAQAAoAAAADAAAAAAAPAA4AAAADAAAAAAAQAA4AAAADAAAAAAADAAQAAAACAAAAAAADAAUAAAACAAAAAAADAAkAAAACAAAAAAADAAoAAAACAAAAAAARAAQAAAACAAAAAAARAAUAAAACAAAAAAARAAkAAAACAAAAAAARAAoAAAACAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAA0AAAAAAAAAAAATAAQAAAAAAAAAAAATAAUAAAAAAAAAAAATAAgAAAAAAAAAAAATAAkAAAAAAAAAAAATAA0AAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAHAAUAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAUAAAAAAAAAAAAIAAkAAAADAAAAAAAIAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAMAAkAAAADAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAHAA4AAAAAAAAAAAANAAsAAAAAAAAAAAANAA4AAAAAAAAAAAAGABAAAAAAAAAAAAAGABEAAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAEABEAAAAAAAAAAAAFABEAAAAAAAAAAAAPABEAAAAAAAAAAAAQABEAAAAAAAAAAAA=")
+tile_set = ExtResource("3_w6b8v")
+
+[node name="Headquarters" type="Marker2D" parent="." unique_id=447855565]
+position = Vector2(420, 700)
+script = ExtResource("5_w6b8v")
+role = "base"
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1925891853]
+position = Vector2(420, 620)
+script = ExtResource("5_w6b8v")
+role = "player"
+
+[node name="EnemyWest" type="Marker2D" parent="." unique_id=556712465]
+position = Vector2(60, 20)
+script = ExtResource("5_w6b8v")
+
+[node name="EnemyCenter" type="Marker2D" parent="." unique_id=1341070552]
+position = Vector2(420, 20)
+script = ExtResource("5_w6b8v")
+
+[node name="EnemyEast" type="Marker2D" parent="." unique_id=1261423476]
+position = Vector2(780, 20)
+script = ExtResource("5_w6b8v")
+
+[node name="Environment" type="Node2D" parent="." unique_id=1515771618]
+
+[node name="WestCompressorNorth" type="Node2D" parent="Environment" unique_id=172508419 instance=ExtResource("5_783wv")]
+position = Vector2(0, 240)
+script = ExtResource("6_783wv")
+definition = ExtResource("7_i6g3g")
+
+[node name="WestCompressorSouth" type="Node2D" parent="Environment" unique_id=740282213 instance=ExtResource("5_783wv")]
+position = Vector2(0, 600)
+script = ExtResource("6_783wv")
+definition = ExtResource("7_i6g3g")
+
+[node name="WestPipes" type="Node2D" parent="Environment" unique_id=1637853749 instance=ExtResource("8_7r4j5")]
+position = Vector2(0, 480)
+script = ExtResource("6_783wv")
+definition = ExtResource("9_u7qlb")
+
+[node name="WestWreck" type="Node2D" parent="Environment" unique_id=2114508689 instance=ExtResource("10_5ps47")]
+position = Vector2(0, 400)
+script = ExtResource("6_783wv")
+definition = ExtResource("11_ak4v6")
+
+[node name="EastCompressorNorth" type="Node2D" parent="Environment" unique_id=532688587 instance=ExtResource("5_783wv")]
+position = Vector2(720, 240)
+script = ExtResource("6_783wv")
+definition = ExtResource("7_i6g3g")
+
+[node name="EastCompressorSouth" type="Node2D" parent="Environment" unique_id=391794679 instance=ExtResource("5_783wv")]
+position = Vector2(720, 600)
+script = ExtResource("6_783wv")
+definition = ExtResource("7_i6g3g")
+
+[node name="EastPipes" type="Node2D" parent="Environment" unique_id=1052783669 instance=ExtResource("8_7r4j5")]
+position = Vector2(680, 480)
+script = ExtResource("6_783wv")
+definition = ExtResource("9_u7qlb")
+
+[node name="EastWreck" type="Node2D" parent="Environment" unique_id=557254375 instance=ExtResource("10_5ps47")]
+position = Vector2(760, 400)
+script = ExtResource("6_783wv")
+definition = ExtResource("11_ak4v6")
+
+[node name="DiscardedCan8" type="Node2D" parent="Environment" unique_id=1010612310 instance=ExtResource("12_4uavf")]
+position = Vector2(285, 320)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
+
+[node name="DiscardedCan9" type="Node2D" parent="Environment" unique_id=1602572231 instance=ExtResource("12_4uavf")]
+position = Vector2(550, 455)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
+
+[node name="DiscardedCan10" type="Node2D" parent="Environment" unique_id=731376376 instance=ExtResource("12_4uavf")]
+position = Vector2(285, 610)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
+
+[node name="DiscardedCan11" type="Node2D" parent="Environment" unique_id=1959526781 instance=ExtResource("12_4uavf")]
+position = Vector2(565, 625)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
+
+[node name="DiscardedCan12" type="Node2D" parent="Environment" unique_id=369740960 instance=ExtResource("12_4uavf")]
+position = Vector2(115, 555)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
+
+[node name="DiscardedCan13" type="Node2D" parent="Environment" unique_id=1555653403 instance=ExtResource("12_4uavf")]
+position = Vector2(725, 555)
+script = ExtResource("6_783wv")
+definition = ExtResource("13_adme7")
