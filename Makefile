@@ -1,7 +1,7 @@
 GODOT ?= godot
 TEST_LOG_DIR ?= /tmp
 
-.PHONY: dev editor import test test-visual build
+.PHONY: dev editor import check test test-visual build
 
 dev:
 	$(GODOT) --path .
@@ -12,7 +12,10 @@ editor:
 import:
 	$(GODOT) --headless --path . --editor --import --quit
 
-test:
+check:
+	python3 scripts/check_repository.py
+
+test: check
 	$(GODOT) --headless --path . --script godot_tests/environment_objects.gd --log-file $(TEST_LOG_DIR)/robot-defense-environment-objects.log
 	$(GODOT) --headless --path . --script godot_tests/map_refactor.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-refactor.log
 	$(GODOT) --headless --path . --script godot_tests/map_camera.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-camera.log

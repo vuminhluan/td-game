@@ -1,87 +1,59 @@
 # Phát triển Robot Defense
 
-Game 2D top-down dùng **Godot 4.7.2 + GDScript**. Renderer **Compatibility** và preset **Web PWA**, single-thread, đã được cấu hình cho mục tiêu xuất bản Web trong tương lai.
+Dự án dùng Godot 4.7.2, GDScript và renderer Compatibility. `project.godot` mở `scenes/main.tscn`; cấu hình mặc định 1280×720, handheld landscape. Các lệnh bên dưới chạy từ repository root.
 
-## Chạy bằng Godot
-
-Mở `project.godot` trong Godot và nhấn **F6/F5**, hoặc chạy từ thư mục dự án:
+## Chạy và kiểm thử
 
 ```sh
 godot --version
-godot --path . --editor
-godot --path .
+make import
+make dev
+make editor
+make test
+make test-visual
 ```
 
-Phiên bản đã kiểm thử: `4.7.2.stable.official.ed1daf0bf`.
+`GODOT` trong Makefile có thể trỏ tới binary khác. `TEST_LOG_DIR` mặc định `/tmp`; truyền thư mục writable khác nếu cần. `make check` kiểm tra tên file, resource paths, link/heading Markdown và fingerprint nguồn bằng Python stdlib; target này cũng chạy trước `make test`. `make test` chạy headless: catalog/object, map authoring/validation, camera, chọn map/nhân vật, loadout, pickup/power-up, acceptance và asset player/enemy/map. Script trả mã khác 0 nếu có failure.
+
+`make test-visual` cần màn hình/native renderer và chạy toàn bộ visual runners; ảnh dùng trong tài liệu nằm ở `docs/images/`, preview map ở `assets/maps/previews/`, artifact tạm của từng ca nằm dưới `/private/tmp/`. Khi môi trường GUI không cho chạy qua Make, chạy từng lệnh Godot trong target này trực tiếp. Sau khi scene đổi, tạo preview trước và import lại để thumbnail preload đọc ảnh mới; xem [asset thành phố](assets/city-map.md#tái-tạo-và-kiểm-tra).
+
+Phiên bản đã kiểm tra: `4.7.2.stable.official.ed1daf0bf`, macOS Apple M4 Pro, OpenGL Compatibility. Native resize và input mô phỏng kiểm tra layout/touch logic; chúng không xác nhận thiết bị cảm ứng thật hoặc trình duyệt. Phạm vi/evidence ở [QA](README.md#qa).
 
 ## Cách chơi
 
-- WASD hoặc phím mũi tên: di chuyển 4 hướng, phím vừa nhấn có ưu tiên; không di chuyển chéo.
-- Giữ Space để bắn. P hoặc Escape: tạm dừng/tiếp tục.
-- Mất focus cửa sổ hoặc ứng dụng đi vào nền: tự tạm dừng, xóa các phím/cảm ứng đang giữ.
-- Màn hình hẹp: D-pad và nút BẮN hỗ trợ đồng thời nhiều ngón tay. Trượt ngón ra khỏi nút sẽ bỏ giữ nút đó.
-- 3 robot, mỗi robot 5 giáp. Hồi sinh có 3 giây miễn nhiễm sát thương.
-- Căn cứ có 20 HP. Căn cứ bị phá hoặc hết robot thì thua; hạ hết 5 đợt thì thắng.
-- Gạch cần 3 phát để phá, có trạng thái nứt. Thép chặn robot và đạn; nước chặn robot nhưng đạn đi qua; cây đi/bắn xuyên và che robot.
-- Đạn người chơi không gây sát thương căn cứ. Robot địch 2 HP/100 điểm; xe tăng 4 HP/250 điểm.
-- Âm thanh tổng hợp tùy chọn, mặc định tắt. Có power-up và weapon pickup; chưa có lưu tiến trình hoặc multiplayer.
+Mở game: chọn map → Robot/Xe tăng → Body → một vũ khí tương thích → vào trận. Game có hai map và bảy loadout; lựa chọn không lưu qua lần mở game. Stats và nhịp bắn đọc từ `config/player_characters.json`, xem [nhân vật](features/character-selection.md).
 
-## Kiểm thử Godot
+- WASD/mũi tên: bốn hướng, phím nhấn sau cùng ưu tiên; không đi chéo.
+- Giữ Space hoặc nút BẮN để khai hỏa; P/Escape để pause/resume.
+- Mất focus hoặc đi vào nền tự pause và xóa input đang giữ. Màn hình hẹp hỗ trợ giữ nhiều nút touch đồng thời.
+- Bảo vệ căn cứ 20 HP qua 5 đợt; mất căn cứ hoặc hết 3 lượt sinh thì thua. Robot 5 HP/tốc độ 150, tank 10 HP/tốc độ 100; hồi sinh có 3 giây miễn nhiễm.
+- Gạch/theo metadata có thể phá; thép chặn đạn thường, nước chặn di chuyển nhưng cho đạn xuyên. Xe/đèn đổ thành phố chặn di chuyển và cho đạn xuyên; lane/vạch sơn không collision.
+- Đạn player không làm hỏng căn cứ. Enemy robot 2 HP/100 điểm; tank 4 HP/250 điểm. Có power-up và weapon pickup; xem [pickup](features/power-ups.md).
+- Desktop chứa trọn map; mobile giữ zoom đủ lớn và cuộn theo player. Âm thanh tổng hợp tùy chọn, mặc định tắt; chưa lưu tiến trình/multiplayer.
+
+## Source và công cụ
+
+| Nhóm | Trách nhiệm |
+| --- | --- |
+| `gd/main.gd`, selection Controls | Map-first UI, HUD, camera, input, pause/replay và âm thanh |
+| `config/player_characters.json`, CharacterCatalog | Stats, compatibility, muzzle geometry và schedule bắn |
+| `MapDefinition`, `scenes/maps/`, TileSet | Layout, terrain/object/marker metadata và validation |
+| `BattleMap`, `Simulation` | Runtime flags, collision, navigation, wave/damage/pickup |
+| `BattleView`, MapTerrain/MapOverlay | Sprite layers, scene map, destruction sync và effect/base overlay |
+| `assets/` | Runtime resources và source/reference tách theo vai trò |
+| `godot_tests/` | Logic/resource regression và native renderer |
+
+[Biên soạn map](features/map/authoring.md), [rendering](features/robot-sprites/rendering.md), [asset index](README.md#asset) và [workflow sprite](workflows/sprites.md) mô tả hợp đồng riêng. Các installer/builders chỉ tái tạo nhóm asset được ghi rõ trong tài liệu; đọc tác động lên scene/geometry trước khi chạy.
+
+## Web PWA
+
+`export_presets.cfg` có preset Web PWA, single-thread, standalone landscape. Tests/docs/generated sources được loại khỏi export; config JSON và manifests runtime được bao gồm.
 
 ```sh
-godot --headless --path . --editor --import --quit
-godot --headless --path . --script godot_tests/acceptance.gd
-godot --headless --path . --fixed-fps 60 --script godot_tests/player_mech_asset.gd
-godot --path . --script godot_tests/visual_smoke.gd
-```
-
-- Acceptance kiểm tra luật chơi, địch tự tìm đường/phá căn cứ, đạn/sát thương/điểm, 5 đợt, hồi sinh, tạm dừng, chơi lại, bàn phím và đa điểm chạm. Script trả mã lỗi khác 0 nếu có thất bại.
-- Player mech kiểm tra 56 frame, animation và tích hợp scene chính: chọn 4 góc riêng không xoay hình, vừa đi vừa bắn, va chạm tường, địch sát nòng súng, giật súng, pause, sát thương, hồi sinh và chơi lại. `make test` chạy acceptance, player, enemy và map asset.
-- Visual smoke cần màn hình/GUI, chạy renderer Compatibility thật và lưu 5 ảnh ở `/private/tmp/robot-defense-*.png` (macOS). Kiểm tra desktop, pause, mobile và màn hình 320px.
-- Kết quả tại lần chuyển đổi: **234 checks, 0 failures**; render native thành công trên Apple M4 Pro, OpenGL Compatibility. Các bài kiểm tra cảm ứng dùng sự kiện mô phỏng; chưa xác nhận trên thiết bị cảm ứng thật hoặc trình duyệt.
-
-## Xuất Web PWA
-
-1. Trong Godot: **Editor → Manage Export Templates → Download and Install**. Templates phải khớp phiên bản editor **4.7.2.stable**.
-2. **Project → Export → Web PWA → Export Project** tới `build/web/index.html`, hoặc:
-
-```sh
-mkdir -p build/web
-godot --headless --path . --export-release "Web PWA" build/web/index.html
+make build
 python3 -m http.server 8080 --directory build/web
 ```
 
-Mở `http://localhost:8080`. Không mở trực tiếp HTML bằng `file://`. Khi phát hành, dùng HTTPS và giữ nguyên toàn bộ file xuất ra, gồm WebAssembly, `.pck`, manifest và service worker. Server cần phục vụ `.wasm` với MIME `application/wasm`.
+Export templates phải khớp phiên bản Godot. Sau khi export thành công, mở `http://localhost:8080`; không mở HTML qua `file://`. Phát hành cần HTTPS, đủ WASM/PCK/manifest/service worker và MIME `application/wasm`. Hướng dẫn ở [Godot Web export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html).
 
-Preset bật PWA, chế độ standalone, hướng ngang và icon; tắt `variant/thread_support` và hỗ trợ GDExtension. Single-thread không cần SharedArrayBuffer/COOP/COEP. Godot Web cần WebGL 2.0; Compatibility là renderer thích hợp. Xem [tài liệu xuất Web chính thức](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html).
-
-**Trạng thái:** đã thử export; máy hiện chưa cài `web_nothreads_debug.zip` và `web_nothreads_release.zip` cho 4.7.2. Chưa tạo được bản Web, nên chưa kiểm chứng cài PWA, service worker, offline, âm thanh hay thao tác cảm ứng trong trình duyệt. Sau khi cài template, cần kiểm tra Chrome/Safari, thêm vào màn hình chính, tải lần đầu online rồi thử offline. File build không được commit.
-
-## Cấu trúc
-
-Giải thích kỹ thuật theo tính năng được lưu trong `docs/features/`: [bắn và va chạm đạn](features/combat.md), [terrain và đường đi](features/map/navigation.md), [skin và animation robot](features/robot-sprites/rendering.md), [hình ảnh map](features/map/art.md). Quy ước comment và tài liệu nằm trong `AGENTS.md`.
-
-| Tệp | Trách nhiệm |
-| --- | --- |
-| `project.godot`, `scenes/main.tscn` | Dự án và scene chính |
-| `gd/rules.gd` | Thông số cân bằng |
-| `gd/map_definition.gd`, `scenes/maps/` | Scene map, metadata terrain/object/marker và validation |
-| `gd/battle_map.gd` | Va chạm theo flags và Dijkstra có chi phí phá vật cản |
-| `gd/pickup_settings.gd`, `assets/maps/default_pickups.tres` | Pool, trọng số, lifetime và luật sinh/rơi pickup |
-| `gd/simulation.gd` | Mô phỏng gameplay độc lập với scene và renderer |
-| `gd/battle_view.gd` | Vẽ robot, pickup và hiệu ứng bằng Godot 2D |
-| `gd/map_skin.gd`, `gd/map_terrain.gd`, `gd/map_overlay.gd` | Gắn scene map, sync phá hủy và vẽ overlay/base theo runtime |
-| `gd/player_skin.gd`, `assets/sprites/player_mech/` | Sprite player, hướng và lựa chọn frame theo trạng thái mô phỏng |
-| `gd/main.gd` | HUD responsive, bàn phím/cảm ứng, pause/replay, âm thanh |
-| `export_presets.cfg`, `assets/icon.svg` | Cấu hình Web/PWA và icon |
-| `godot_tests/` | Kiểm thử GDScript và render |
-
-Player và hai loại enemy dùng sprite sheet; terrain dùng bộ texture riêng qua `MapSkin`, hiệu ứng được vẽ bằng code. Simulation tạo runtime từ scene map, camera dùng SubViewport và giao diện dùng Godot Controls. GDScript dùng `RefCounted` và dữ liệu thuần để có thể kiểm thử không cần cửa sổ.
-
-Map đã áp dụng hình cho Nhà chính (cả trạng thái phá hủy), gạch, thép, nước, cây và nền công nghiệp. Hướng dẫn thay hình, provenance và kiểm tra: [docs/features/map/art.md](features/map/art.md). [Ảnh map mới](images/map-art-in-game.png). `make test` gồm kiểm tra asset map; `make test-visual` kiểm tra pixels khi phá gạch, phá Nhà chính và chơi lại.
-
-`Makefile` cung cấp lệnh tắt: `make dev` mở game, `make editor` mở editor, `make import` import asset, `make test` kiểm thử, `make test-visual` render kiểm tra và `make build` xuất Web PWA. Có thể dùng các lệnh Godot trực tiếp ở trên nếu không có Make. Export preset loại test và tài liệu khỏi bản phát hành.
-
-## Nâng cấp hình ảnh
-
-Xem [mục lục](README.md) để chọn tài liệu tính năng, workflow và asset cần thay. Player, enemy và map có resource riêng; đọc hợp đồng runtime trước khi đổi geometry hoặc animation.
+Lần export trước bị chặn vì thiếu templates Web non-threaded cho Godot 4.7.2. Chưa có evidence cho browser, cài PWA, service worker, offline, âm thanh hoặc touch của bản Web. Khi templates sẵn sàng cần chạy export và kiểm tra Chrome/Safari, cài lên màn hình chính, tải online lần đầu rồi thử offline. Không commit build output.

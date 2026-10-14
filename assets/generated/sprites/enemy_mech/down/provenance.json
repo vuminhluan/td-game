@@ -22,10 +22,10 @@
     "walk": {
       "raw": "raw/walk.png",
       "sha256": "bdb8e4db6a4f4770cf4bbf104c5e120bae07527c242f85ec5ee4990376a23a4c",
-      "prompt": "prompts/walk-built-in.txt",
+      "prompt": "prompts/walk-correction-built-in.txt",
       "reference_stack": [
-        "base-source.png",
-        "references/layout-guides/walk.png"
+        "references/walk-color-edit-target.png",
+        "base-source.png"
       ],
       "selected_prompt": "prompts/walk-correction-built-in.txt"
     },
@@ -43,5 +43,38 @@
   "correction_prompts": [
     "prompts/walk-correction-built-in.txt"
   ],
-  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing.",
+  "corrections": [],
+  "generation_records": [
+    {
+      "state": "attack",
+      "generation_ids": [
+        "exec-0ac4659f-59a8-41ea-afa5-b8e0cfadcb53"
+      ]
+    },
+    {
+      "state": "idle",
+      "generation_ids": [
+        "exec-6c05364a-648e-4d04-b845-e8415436af5e"
+      ]
+    },
+    {
+      "state": "walk-correction",
+      "generation_ids": [
+        "exec-4763271e-aec1-489e-85b7-3f691e94c120"
+      ]
+    },
+    {
+      "state": "walk",
+      "generation_ids": [
+        "exec-5bb48ce7-3f26-4662-9355-b578eaf71e60"
+      ]
+    }
+  ],
+  "reference_generations": {
+    "references/walk-color-edit-target.png": {
+      "prompt": "prompts/walk-built-in.txt",
+      "sha256": "0ab74dd7bd8dbfe8aa21c4338d43823691b8c5e8ce3ec65203a22cb3b9fd26e5"
+    }
+  }
 }

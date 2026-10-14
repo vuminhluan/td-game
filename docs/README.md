@@ -1,55 +1,47 @@
 # Tài liệu Robot Defense
 
-Nếu mới vào dự án, đọc [phát triển dự án](development.md) để chạy game và test, sau đó chọn tính năng cần sửa bên dưới. Mỗi tài liệu có một vai trò: tính năng giải thích hành vi, workflow hướng dẫn thao tác, asset mô tả bộ đang dùng, QA lưu bằng chứng và giới hạn.
+Bắt đầu với [phát triển dự án](development.md) để chạy game và test. Tài liệu tính năng mô tả hành vi/invariant; tài liệu asset giữ geometry và nguồn; workflow hướng dẫn thay thế; QA ghi phạm vi kiểm tra và bằng chứng.
 
 ## Tính năng
 
 | Tài liệu | Nội dung |
 | --- | --- |
-| [Bắn và va chạm đạn](features/combat.md) | Cooldown, nòng dài, chống xuyên vật cản |
-| [Power-up](features/power-ups.md) | 5 hiệu ứng đã triển khai, sinh/rơi vật phẩm, countdown, tuning và gameplay QA |
-| [Map: terrain và đường đi](features/map/navigation.md) | Grid, collision, Dijkstra, phá tường |
-| [Map: camera và input](features/map/camera.md) | Camera cuộn/clamp, HUD màn hình, landscape, safe area và screen/world conversion |
-| [Map: hình ảnh](features/map/art.md) | Skin, cache terrain, lớp vẽ, bờ nước, Nhà chính |
-| [Bố cục nhà máy cũ](features/map/industrial-layout.md) | Cụm cấp nước dọc biên, giảm mật độ cover/scenery, giữ grass cho map khác |
-| [Map thành phố bỏ hoang](features/map/abandoned-city.md) | Đại lộ sáu làn, ngã tư, atlas theo loại, camera và bước chọn map |
-| [Object môi trường và weapon pickup](features/map/environment-objects.md) | Bộ artwork nhà máy cũ, reusable Resource/scene, flags độc lập và catalog không giới hạn theme |
-| [Biên soạn map](features/map/authoring.md) | Scene map, TileSet custom data, object, marker và validation |
-| [Refactor map](features/map/refactor-plan.md) | Phạm vi triển khai và tiêu chí hoàn thành |
-| [Robot: skin và animation](features/robot-sprites/rendering.md) | Hướng, clock, moving fire, thay geometry |
-| [Tùy biến thân robot và súng](features/player-loadout.md) | Chọn súng trước trận, socket, ghép lớp thân/súng, đạn hai nòng và QA |
-| [Chọn và tùy biến nhân vật trước trận](features/character-selection.md) | Đã triển khai Robot/Xe tăng, Body sạch, 7 loadout, lịch bắn, khóa di chuyển và config chung |
+| [Chọn nhân vật](features/character-selection.md) | Luồng map trước nhân vật, stats, bảy loadout, lịch bắn và khóa di chuyển |
+| [Body/Weapon/Loadout](features/player-loadout.md) | Trách nhiệm resource, socket/muzzle, collider và fixture regression |
+| [Ghép hình/animation](features/robot-sprites/rendering.md) | Clock, pose hiện hành, thứ tự lớp, fixture và enemy |
+| [Combat](features/combat.md) | Quét nòng/đạn, collision và hướng tấn công enemy |
+| [Pickup/power-up](features/power-ups.md) | Pool, sinh/rơi, tương thích weapon, lifetime và hiệu ứng |
+| [Biên soạn map](features/map/authoring.md) | Scene layout, TileSet, object/marker, validation, renderer/skin |
+| [Navigation](features/map/navigation.md) | Terrain/footprint, Dijkstra, vật cản và phá hủy |
+| [Camera/input](features/map/camera.md) | Desktop fit, mobile follow, HUD, safe area và screen/world conversion |
+| [Object môi trường](features/map/environment-objects.md) | Catalog dùng chung, flags độc lập, connection và weapon pickup art |
+| [Nhà máy](features/map/industrial-layout.md) | Hai tuyến cấp nước sát biên, địa hình và không gian giao tranh |
+| [Thành phố bỏ hoang](features/map/abandoned-city.md) | Sáu lane, ngã tư, xe/đèn đổ, nhà và alpha crop |
 
 ## Quy trình
 
-- [Tạo hoặc thay sprite robot](workflows/sprites.md): generation, extraction, composition, tích hợp và kiểm tra player/enemy.
-- [Thay từng hướng enemy](workflows/enemy-sprites.md): dùng installer, giữ geometry đúng và cập nhật binding.
-- [Bảo trì tài liệu và dọn asset](maintenance.md): nơi đặt file, nguồn hiện hành, cách xác định bản cũ có thể xóa.
+- [Sprite](workflows/sprites.md): tạo/thay player layers, fixture hoặc từng hướng enemy; geometry, nguồn và QA.
+- [Bảo trì](maintenance.md): nơi đặt tài liệu, source/reference dependencies và dọn file.
+- [Phát triển](development.md): lệnh import/chạy/test/export và giới hạn môi trường.
 
-Khi thay artwork: đọc tài liệu tính năng → asset đang dùng → workflow tương ứng → QA. Khi sửa gameplay: đọc tính năng → code simulation → chạy `make test`. Các lệnh chạy từ thư mục gốc repository.
+Các lệnh chạy từ repository root. Khi sửa gameplay, đọc tính năng và chạy `make test`. Khi sửa artwork/geometry, đọc asset contract và workflow rồi chạy thêm native visual.
 
 ## Asset
 
-| Bộ | Hợp đồng runtime | Nguồn hiện hành |
+| Bộ | Hợp đồng | Nguồn |
 | --- | --- | --- |
-| Nhân vật và vũ khí tách lớp | [Characters](assets/characters.md) | `assets/generated/sprites/characters/body-weapons/` |
-| Player mech tham chiếu | [Player](assets/player-mech.md) | `assets/generated/sprites/player_mech/down/`, `player_mech/directions/` |
-| Enemy mech | [Mech](assets/enemy-mech.md) | `assets/generated/sprites/enemy_mech/` |
-| Enemy tank | [Tank](assets/enemy-tank.md) | `assets/generated/sprites/enemy_tank/` |
-| Map công nghiệp | [Map](assets/industrial-map.md) | `assets/generated/map/industrial/` |
-| Map thành phố | [Thành phố](assets/city-map.md) | `assets/generated/map/city/` |
+| Player hiện hành | [Body/vũ khí](assets/characters.md) | `assets/generated/sprites/characters/body-weapons/` |
+| Player fixture/reference | [Player mech](assets/player-mech.md) | `assets/generated/sprites/player_mech/{down,directions}/` |
+| Enemy robot/tank | [Enemy sprites](assets/enemy-sprites.md) | `assets/generated/sprites/enemy_{mech,tank}/<direction>/` |
+| Nhà máy | [Industrial](assets/industrial-map.md) | `assets/generated/map/industrial/` |
+| Thành phố | [City](assets/city-map.md) | `assets/generated/map/city/` |
 
-Runtime PNG/TRES nằm trong `assets/sprites/` và `assets/terrain/`. Manifest runtime ghi nguồn; `.gdignore` loại nguồn generation khỏi import/export. Nguồn chứa prompts, ảnh raw, frames, guides và reports phục vụ lần nâng cấp tiếp theo.
+`assets/generated/.gdignore` loại nguồn khỏi import/export. Raw được chọn, reference, prompts, manifests, frames và reports còn dùng được giữ để tái tạo/thay artwork. Tên file/thư mục thể hiện vai trò, không đánh số version.
 
 ## QA
 
-- [Bố cục nhà máy thoáng](qa/industrial-layout.md): tuyến ống/bơm, giữ grass cho map khác và kiểm tra mật độ/pathfinding.
-- [Object và artwork](qa/environment-objects.md): collision, sprite weapon chính xác và native rendering.
-- [Map thành phố bỏ hoang](qa/abandoned-city.md): luật object/terrain, preview và chọn map trước nhân vật.
-- [Refactor map](qa/map-refactor.md): kết quả gameplay, scene validation, camera và native rendering; giới hạn Web/handheld.
+- [Map](qa/maps.md): cả hai map, catalog, camera/input, damage, preview và native/handheld/Web limits.
+- [Enemy sprites](qa/enemy-sprites.md): nguồn, motion/alpha evidence, runtime geometry và regression.
+- [Player fixture](qa/player-mech.md): atlas DOWN/directions, reference chain và motion limits.
 
-- [Player DOWN](qa/player-mech/down.md) và [UP/LEFT/RIGHT](qa/player-mech/directions.md).
-- [Enemy mech](qa/enemy-mech.md) và [enemy tank](qa/enemy-tank.md).
-- Kết quả map nằm trong [QA hình ảnh map](features/map/art.md#qa-và-giới-hạn); ảnh preview tập trung ở `docs/images/`.
-
-QA lịch sử không thay thế việc chạy test sau một thay đổi. Các giới hạn motion/seam và Web PWA phải được đọc cùng bằng chứng kiểm tra native.
+QA generation không thay thế regression cho checkout đang sửa. Locomotion/seam, cảm ứng thật và Web PWA cần được đọc cùng giới hạn của từng báo cáo.

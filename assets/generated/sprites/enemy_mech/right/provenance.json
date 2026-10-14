@@ -41,5 +41,25 @@
     }
   },
   "correction_prompts": [],
-  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing.",
+  "generation_records": [
+    {
+      "state": "attack",
+      "generation_ids": [
+        "exec-5573a22d-e8f6-4126-b605-716a4d78ee30"
+      ]
+    },
+    {
+      "state": "idle",
+      "generation_ids": [
+        "exec-a4b6b5ad-0018-4081-8fd8-78e1b79d5ab0"
+      ]
+    },
+    {
+      "state": "walk",
+      "generation_ids": [
+        "exec-d49dd466-c493-4ae9-af95-2a4bb5153c09"
+      ]
+    }
+  ]
 }

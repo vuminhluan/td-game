@@ -28,10 +28,12 @@ Tạo bản thay thế trong `assets/generated/candidates/<asset-id>/` và dùng
 2. Xác nhận bản thay thế bằng hash hoặc vùng atlas, cùng frame count/geometry. Nguồn dùng làm base/reference phải có bản giữ lại trước khi xóa bản cũ.
 3. Xóa run đã bị thay thế, file loose trùng nguồn đã giữ và request thử nghiệm không dùng. Git lưu lịch sử thay vì giữ mọi phiên bản ngay trong checkout.
 4. Cập nhật đường dẫn metadata và link Markdown. Nếu di chuyển report chứa `source_fingerprints`, giữ hash và kiểm tra hash vẫn khớp file tại đường dẫn mới; không biến report cũ thành kết quả kiểm tra mới.
-5. Chạy `make test`, kiểm tra liên kết và `git diff --check`. Chạy render native khi đổi PNG, rect, geometry hoặc lớp vẽ.
+5. Chạy `make check` cho resource/link/heading/hash/naming, rồi `make test` và `git diff --check`. Chạy render native khi đổi PNG, rect, geometry hoặc lớp vẽ.
 
-## Lần dọn hiện tại
+## Dọn source ngày 14/10/2026
 
-Đã xóa player-mech-v1/v2 và các file base/request loose không còn cần; 54 file, khoảng 10.6 MiB. Hai atlas của player-mech-v3/v4 khớp byte với PNG runtime đang dùng, nên nguồn được giữ và chuyển thành `player_mech/down` và `player_mech/directions`. Nguồn enemy và map cũng được đổi sang tên asset hiện hành.
+Runtime terrain công nghiệp dùng đường dẫn `assets/terrain/industrial/`; code, scene, skin của hai map và atlas builder cùng tham chiếu đường dẫn này. Không đổi PNG, rect hoặc gameplay geometry. Hai ảnh đầu vào correction được giữ dưới tên reference theo vai trò; chỉ xóa rejected rows không thuộc reference chain. Log ImageGen đã được bỏ sau khi giữ generation IDs trong provenance. Screenshot trùng byte dùng một đường dẫn canonical.
 
-Runtime PNG/TRES, code GDScript và scenes giữ nguyên nội dung. Các chi tiết kỹ thuật của lần dọn nằm trong `cleanup-summary.json`.
+Tài liệu kế hoạch đã hoàn thành được gỡ; kiến trúc map nằm trong authoring, quy trình sprite dùng một workflow, QA map/enemy/player được gom theo phạm vi. Đã bỏ 43 file source/output trùng (khoảng 7,4 MiB) và gom 13 Markdown cũ thành các tài liệu hiện hành. Chi tiết số file và dependency audit ở [cleanup-summary.json](cleanup-summary.json). Giữ source/runtime copies và atlas fixture khi còn được generator, reference, catalog, preview hoặc regression dùng.
+
+Checker rebases đường dẫn tuyệt đối trong fingerprint reports về đường dẫn project theo vai trò để clone ở thư mục khác vẫn kiểm tra cùng nội dung nguồn. Generation/schema IDs trong metadata là provenance, không phải tên file có version.

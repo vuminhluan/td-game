@@ -17,7 +17,7 @@ Robot cũ tại `assets/generated/sprites/player_mech/` và PNG runtime cũ vẫ
 
 Geometry gameplay trong `config/player_characters.json` tính bằng world units từ tâm actor và được `CharacterCatalog` đổi sang offset socket. Collider radius cấu hình riêng, không đọc alpha. Khi đổi scale/anchor/socket/vùng nòng, phải cập nhật geometry trong config và chạy cả test/render native.
 
-QA hiện tại: `make test` đạt 914 kiểm tra character selection và toàn bộ regression. Native render đã kiểm tra desktop 1280×1000, mobile 390×844, màn hình nhỏ 320×568, trận tank/missile và Body/loadout ở bốn hướng × ba trạng thái × bốn frame chuyển tiếp. Chấm xanh trong atlas QA đánh dấu geometry, không mô phỏng flash. Animation procedural vẫn có thể được nâng cấp thành các pose locomotion riêng; bản Web PWA chưa được kiểm tra trong trình duyệt.
+Kiểm tra: `godot_tests/character_selection.gd` trong `make test` bao phủ character config/loadout; các fixture atlas cũ vẫn chạy regression riêng. Native render đã kiểm tra desktop 1280×1000, mobile 390×844, màn hình nhỏ 320×568, trận tank/missile và Body/loadout ở bốn hướng × ba trạng thái × bốn frame chuyển tiếp. Chấm xanh trong atlas QA đánh dấu geometry, không mô phỏng flash. Animation procedural vẫn có thể được nâng cấp thành các pose locomotion riêng; bản Web PWA chưa được kiểm tra trong trình duyệt.
 
 ![Body riêng và các loadout](../images/character-selection-layers.png)
 
@@ -25,4 +25,4 @@ QA hiện tại: `make test` đạt 914 kiểm tra character selection và toàn
 
 Body UP trước đây có torso phía sau nhưng bàn chân giống mặt trước của DOWN. Đã tạo gót ngắn và khớp cổ chân phía sau bằng built-in imagegen, rồi ghép riêng rectangle `(209,145,209,92)` qua `scripts/assemble_robot_heel_fix.gd`. Mọi pixel ngoài vùng sửa được giữ nguyên, gồm torso/socket và tất cả vũ khí. Nguồn reference, ảnh tool, prompt và revision được giữ trong `assets/generated/sprites/characters/body-weapons/up-heels/` và `request.json`; fingerprint runtime/source đã cập nhật.
 
-QA sau sửa: `make test` đạt, character selection 914 kiểm tra; đã xem render native Body UP/DOWN ở đủ loadout/trạng thái. So sánh pixel xác nhận vùng thay đổi chỉ nằm trong rectangle chân UP; fingerprint runtime/source/reference đều khớp.
+Evidence QA sau sửa được lưu từ lần tích hợp: `make test` đạt; đã xem render native Body UP/DOWN ở đủ loadout/trạng thái. So sánh pixel xác nhận vùng thay đổi chỉ nằm trong rectangle chân UP; fingerprint runtime/source/reference đều khớp.

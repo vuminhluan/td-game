@@ -57,10 +57,10 @@ func build_skin() -> MapSkin:
 	skin.floor_texture = load("res://assets/terrain/abandoned_city/floor.png")
 	for entry in [["brick_texture", 1], ["steel_texture", 2], ["water_texture", 3], ["foliage_texture", 4]]:
 		skin.set(entry[0], atlas_region("res://assets/maps/city/terrain_atlas.png", Rect2(entry[1] * 40, 0, 40, 40)))
-	skin.brick_damage = load("res://assets/terrain/industrial_v1/brick_damage.svg")
-	skin.brick_critical = load("res://assets/terrain/industrial_v1/brick_critical.svg")
-	skin.headquarters_texture = load("res://assets/terrain/industrial_v1/headquarters.png")
-	skin.headquarters_wreck = load("res://assets/terrain/industrial_v1/headquarters_wreck.png")
+	skin.brick_damage = load("res://assets/terrain/industrial/brick_damage.svg")
+	skin.brick_critical = load("res://assets/terrain/industrial/brick_critical.svg")
+	skin.headquarters_texture = load("res://assets/terrain/industrial/headquarters.png")
+	skin.headquarters_wreck = load("res://assets/terrain/industrial/headquarters_wreck.png")
 	return skin
 
 func object_specs() -> Array:

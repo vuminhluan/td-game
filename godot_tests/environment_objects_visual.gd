@@ -28,7 +28,7 @@ func capture_layout() -> void:
 	overview.sim = preload("res://gd/simulation.gd").new()
 	root.add_child(overview)
 	var image: Image = await frame_image()
-	check(image.save_png("res://docs/images/industrial-layout-overview.png") == OK, "save whole layout at gameplay scale")
+	check(image.save_png("res://assets/maps/previews/industrial.png") == OK, "save whole layout at gameplay scale")
 	overview.queue_free()
 	await process_frame
 	root.size = Vector2i(720, 360)

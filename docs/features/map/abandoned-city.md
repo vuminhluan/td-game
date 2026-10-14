@@ -4,7 +4,7 @@
 
 Map `abandoned_city_day` giữ phong cách minh họa của game và luật phòng thủ hiện tại. Ảnh tham khảo định hướng đại lộ thành phố bỏ hoang ban ngày: đường nứt, vạch sơn cũ, xe gỉ sét và các dãy nhà hư hại. Robot ở ảnh tham khảo là nhân vật điều khiển; scene không đặt robot bỏ hoang làm scenery.
 
-Lưới chơi có kích thước 21 × 19 ô, tương ứng 840 × 760 world pixel. Đại lộ dọc rộng 480 pixel có sáu lane, ba lane mỗi chiều. Một đường ngang rộng 160 pixel tại y = 300 tạo ngã tư bốn hướng gần giữa map. Vỉa hè rộng 60 pixel và tám nhà có footprint 3 × 3 ô nằm ở hai mép; nhà còn nguyên, nhà cũ bám rêu và nhà vỡ một phần dùng cùng hợp đồng object. Khoảng trống giữa các cụm nhà giữ đường ngang mở. Không đặt bụi cỏ, robot bỏ hoang hay terrain gạch phá hủy trong map này.
+Lưới chơi có kích thước 21 × 19 ô, tương ứng 840 × 760 world pixel. Đại lộ dọc rộng 480 pixel có sáu lane, ba lane mỗi chiều. Một đường ngang rộng 160 pixel tại y = 300 tạo ngã tư bốn hướng gần giữa map. Phần vỉa hè lộ ra cạnh dãy nhà rộng 60 pixel; tám nhà có footprint 3 × 3 ô nằm ở hai mép; nhà còn nguyên, nhà cũ bám rêu và nhà vỡ một phần dùng cùng hợp đồng object. Khoảng trống giữa các cụm nhà giữ đường ngang mở. Không đặt bụi cỏ, robot bỏ hoang hay terrain gạch phá hủy trong map này.
 
 Người chơi được đi tự do qua lane, vạch phân đường, vạch qua đường và nắp cống. Hai kiểu xe có bản dọc và bản ngang, đặt thưa để không khóa lối đi. Một đến hai đèn giao thông đổ tạo vật cản. Mỗi spawn địch phải có đường tới vị trí tiếp cận căn cứ.
 
@@ -27,13 +27,9 @@ Bản ngang của xe dùng texture đã xoay và footprint tương ứng, không
 
 ## Artwork và khả năng thay thế
 
-Xe và bụi cỏ có spritesheet riêng. Mỗi crop có vùng alpha trống quanh đủ bốn phía, giữ cả đầu và đuôi xe; không cắt xe cùng vùng atlas của bụi cỏ. Hai kiểu xe được lưu trong atlas xe với bản dọc/ngang riêng. Nguồn theo vai trò ở `assets/generated/map/city/` giúp thay artwork mà giữ nguyên placement, ID và metadata collision.
+Xe, street props, nhà và vegetation dùng atlas riêng theo vai trò. Bản ngang của xe có crop/footprint tương ứng để giữ đủ đầu và đuôi; thay artwork giữ ID/placement và collision metadata khi không đổi thiết kế gameplay. Nguồn đang dùng nằm trong `assets/generated/map/city/`.
 
-Normalizer lấy bounds từ alpha lớn hơn 0.04 và giữ thêm fringe nguồn 4 pixel trước khi resize vào cell có gutter. Alpha rất nhỏ ngoài thân xe không làm xe bị thu bé vào giữa frame. QA yêu cầu thân xe có alpha từ 0.1 trở lên phủ ít nhất 75% một chiều frame; kiểm tra này bảo vệ độ rõ của xe mà không thay luật gameplay hoặc footprint.
-
-Bụi cỏ vẫn có resource dùng chung và atlas `assets/map_objects/vegetation/bushes.png` để dùng trong map khác. Asset cũ chỉ được xóa sau khi kiểm tra tham chiếu runtime, nguồn tạo asset, manifest, tài liệu và QA. Các nguồn vẫn cần tái tạo artwork phải được giữ lại hoặc chuyển sang đường dẫn vai trò có tên rõ ràng.
-
-Xem [artwork thành phố](../../assets/city-map.md) để biết nguồn, manifest và lệnh tái tạo. Preview toàn map nằm ở `assets/maps/previews/abandoned-city.png` và được chụp bằng renderer native.
+Bụi cỏ và robot bỏ hoang còn Resource trong catalog để dùng trên map khác; không đặt chúng trong scene thành phố. [Artwork thành phố](../../assets/city-map.md) giữ alpha/crop contract, extraction metadata, manifest, nguồn reference và lệnh tái tạo. Preview toàn map nằm ở `assets/maps/previews/abandoned-city.png`, được chụp bằng renderer native.
 
 ## Luồng chọn map
 
@@ -45,4 +41,4 @@ Khi thêm map, tạo root `MapDefinition` có tên, mô tả, preview, dimension
 
 `godot_tests/map_selection.gd` kiểm tra đường đi của từng spawn, bố cục đường, đủ hai mẫu xe với cả hai hướng, collision toàn footprint, đạn thực sự xuyên vật cản, độ bền, nắp cống đi qua được, crop alpha và hash source/runtime. Test cũng kiểm tra bụi cỏ vẫn dùng atlas riêng và luồng chọn map trước chọn nhân vật.
 
-`godot_tests/map_selection_visual.gd` chụp preview, màn chọn map/nhân vật, battle desktop và battle điện thoại ngang; xác nhận desktop chứa trọn lưới và camera mobile theo robot. Kết quả và giới hạn nằm ở [QA thành phố](../../qa/abandoned-city.md).
+`godot_tests/map_selection_visual.gd` chụp preview, màn chọn map/nhân vật, battle desktop và battle điện thoại ngang; xác nhận desktop chứa trọn lưới và camera mobile theo robot. Kết quả và giới hạn nằm ở [QA thành phố](../../qa/maps.md#abandoned-city).

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/brick_critical.svg" id="1_d3rtm"]
-[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/brick_damage.svg" id="2_kvsat"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial/brick_critical.svg" id="1_d3rtm"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial/brick_damage.svg" id="2_kvsat"]
 [ext_resource type="Texture2D" path="res://assets/maps/city/terrain_atlas.png" id="3_hp2u5"]
 [ext_resource type="Texture2D" path="res://assets/terrain/abandoned_city/floor.png" id="4_e5yam"]
-[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/headquarters.png" id="5_1nhl2"]
-[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/headquarters_wreck.png" id="6_l71ve"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial/headquarters.png" id="5_1nhl2"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial/headquarters_wreck.png" id="6_l71ve"]
 [ext_resource type="Script" path="res://gd/map_skin.gd" id="7_w2n2m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3vqox"]

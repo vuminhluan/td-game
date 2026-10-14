@@ -5,7 +5,7 @@ var pickup_art = PickupArt.new()
 const R = preload("res://gd/rules.gd")
 const MapSkin = preload("res://gd/map_skin.gd")
 const Terrain = preload("res://gd/map_terrain.gd")
-@export var map_skin: MapSkin = preload("res://assets/terrain/industrial_v1/map_skin.tres")
+@export var map_skin: MapSkin = preload("res://assets/terrain/industrial/map_skin.tres")
 var terrain: Node2D
 var sim: RefCounted:
 	set(value):

@@ -17,7 +17,7 @@ func run() -> void:
 	await process_frame
 	game.set_process(false)
 	game.map_preparation.confirm_selection()
-	await capture("res://docs/images/player-loadout-desktop.png")
+	await capture("/private/tmp/player-loadout-desktop.png")
 	game.weapon_selector.select(1)
 	game.select_loadout(1)
 	game.activate()

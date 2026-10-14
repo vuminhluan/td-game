@@ -5,3 +5,5 @@ build/
 *.sg-rwlock
 *.log
 __pycache__/
+
+.DS_Store

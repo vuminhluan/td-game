@@ -1,12 +1,274 @@
 {
-  "deleted_files": 54,
-  "deleted_bytes": 11093455,
+  "date": "2026-10-14",
+  "deleted_source_and_duplicate_files": 43,
+  "deleted_source_and_duplicate_bytes": 7730674,
+  "retained_runtime_images_verified": 38,
   "source_moves": {
-    "assets/generated/sprites/player-mech-v3": "assets/generated/sprites/player_mech/down",
-    "assets/generated/sprites/player-mech-v4": "assets/generated/sprites/player_mech/directions",
-    "assets/generated/sprites/enemy-mech-v1": "assets/generated/sprites/enemy_mech",
-    "assets/generated/sprites/enemy-tank-v1": "assets/generated/sprites/enemy_tank",
-    "assets/generated/map/industrial-v1": "assets/generated/map/industrial"
+    "assets/terrain/industrial_v1": "assets/terrain/industrial",
+    "assets/generated/sprites/enemy_mech/down/raw/walk-rejected-color.png": "assets/generated/sprites/enemy_mech/down/references/walk-color-edit-target.png",
+    "assets/generated/sprites/enemy_tank/up/raw/idle-rejected-alpha.png": "assets/generated/sprites/enemy_tank/up/references/idle-alpha-edit-target.png"
   },
-  "runtime_files_unchanged": 54
+  "deleted_markdown": [
+    "docs/assets/enemy-mech.md",
+    "docs/assets/enemy-tank.md",
+    "docs/features/map/art.md",
+    "docs/features/map/refactor-plan.md",
+    "docs/qa/abandoned-city.md",
+    "docs/qa/enemy-mech.md",
+    "docs/qa/enemy-tank.md",
+    "docs/qa/environment-objects.md",
+    "docs/qa/industrial-layout.md",
+    "docs/qa/map-refactor.md",
+    "docs/qa/player-mech/directions.md",
+    "docs/qa/player-mech/down.md",
+    "docs/workflows/enemy-sprites.md"
+  ],
+  "consolidated_documents": [
+    "docs/features/map/authoring.md",
+    "docs/assets/industrial-map.md",
+    "docs/workflows/sprites.md",
+    "docs/assets/enemy-sprites.md",
+    "docs/qa/maps.md",
+    "docs/qa/enemy-sprites.md",
+    "docs/qa/player-mech.md"
+  ],
+  "motion_reports_recomputed": 27,
+  "validation": {
+    "headless": "make test passed",
+    "native": "all ten test-visual scripts passed as individual native commands",
+    "repository_check": {
+      "resources": 460,
+      "markdown_links_and_headings": 143,
+      "fingerprints": 129,
+      "versioned_paths": 0
+    },
+    "visual_review": "city desktop, character selection and enemy direction battle viewed after capture",
+    "fresh_checkout": "imported without .godot cache; make test passed in isolated copied checkout",
+    "repository_checker_negative_cases": "valid fixture and six missing-resource/link/heading/version/hash cases passed"
+  },
+  "removed_files": [
+    {
+      "path": "assets/generated/sprites/player_mech/directions/raw/up_walk-rejected.png",
+      "bytes": 1460682,
+      "sha256": "154d9c0a389b29f82107fc3c62b0016e69952ae7b2bc2b6a677a84b3123893c7",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/raw/walk-rejected-v1.png",
+      "bytes": 1139286,
+      "sha256": "64891f32932ed9667828edcfe7e2e38462f33b2a82428e7c96fd9623c5388121",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/walk-rejected-v1.png",
+      "bytes": 1043634,
+      "sha256": "7c790ca8483cea726449f767b5c35455a0db0688790f29c6c0eeb7ec4a56164a",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/attack-rejected-v1.png",
+      "bytes": 1115907,
+      "sha256": "b90acfb56d9c757593f2a3b7948fe4f73b9bc12a0b41543d07cba4874601cf00",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/raw/walk-rejected-v1.png",
+      "bytes": 832739,
+      "sha256": "cfecb4d88fec0d2ab353f3880caa6a85fe00ea002cff450b67fb299a9fdc5d38",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/raw/walk-rejected-v1.png",
+      "bytes": 687605,
+      "sha256": "efc32fb0dd530d67d2d8fc8ee3ea14164311cdca7e95a3170d7da299064f6b11",
+      "reason": "superseded regenerated row; selected prompts use accepted own-direction anchors"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/down/raw/walk-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/down/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/down/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/down/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/up/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/up/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/up/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/left/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/left/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/left/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/right/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/right/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_mech/right/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/raw/walk-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/attack-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/walk-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/raw/walk-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/raw/walk-correction-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/raw/idle-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/raw/attack-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/raw/walk-generation.txt",
+      "bytes": 533,
+      "reason": "tool output boilerplate; generation IDs preserved in provenance"
+    },
+    {
+      "path": "docs/images/player-loadout-desktop.png",
+      "bytes": 869813,
+      "sha256": "9a234489138d0bae20ec32e091f15e2876540bbea1d7820cda1e66694bd7e2bf",
+      "reason": "identical screenshot; canonical path docs/images/character-selection-desktop.png"
+    },
+    {
+      "path": "docs/images/industrial-layout-overview.png",
+      "bytes": 557477,
+      "sha256": "f9754bfc551290d5760a0d867d310e1ec3dcc8cafdf0e7fdeea2f29079d29b8e",
+      "reason": "identical screenshot; canonical path assets/maps/previews/industrial.png"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/down/prompts/walk-built-in.txt",
+      "bytes": 1457,
+      "reason": "selected regenerated correction prompt supersedes original"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/left/prompts/walk-built-in.txt",
+      "bytes": 1521,
+      "reason": "selected regenerated correction prompt supersedes original"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/right/prompts/walk-built-in.txt",
+      "bytes": 1525,
+      "reason": "selected regenerated correction prompt supersedes original"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/prompts/walk-built-in.txt",
+      "bytes": 1538,
+      "reason": "selected regenerated correction prompt supersedes original"
+    },
+    {
+      "path": "assets/generated/sprites/enemy_tank/up/prompts/attack-built-in.txt",
+      "bytes": 1500,
+      "reason": "selected regenerated correction prompt supersedes original"
+    }
+  ]
 }

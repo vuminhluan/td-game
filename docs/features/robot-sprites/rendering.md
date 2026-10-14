@@ -1,35 +1,27 @@
-# Skin và animation robot
+# Ghép hình và animation nhân vật
 
-Bộ player hiện hành dùng thân sạch/vũ khí riêng: [Artwork nhân vật](../../assets/characters.md) và [Chọn nhân vật](../character-selection.md). Atlas player-mech mô tả bên dưới được giữ làm reference và QA lịch sử.
+Simulation sở hữu hướng, `move_clock`, `shot_clock`, `hurt_clock` và thời lượng attack. Renderer chọn hình từ các clock này. Pause đóng băng clock; hồi sinh và chơi lại tạo trạng thái actor mới. Gameplay và resource loadout ở [Chọn nhân vật](../character-selection.md) và [Body/Weapon/Loadout](../player-loadout.md).
 
-Skin chứa artwork, frame, điểm neo, scale và khoảng cách nòng. Simulation sở hữu hướng bắn và các clock animation; renderer chọn frame từ dữ liệu mô phỏng. Pause dừng clock, còn chơi lại hoặc hồi sinh khởi tạo trạng thái animation tương ứng.
+## Player hiện hành
 
-## Player
+`CharacterCatalog` dựng `CharacterArt` từ `assets/sprites/characters/manifest.json`. Hai Body và bảy bộ vũ khí dùng bốn pose riêng theo hướng, không xoay/mirror ảnh. Mỗi pose được lặp bốn frame trong SpriteFrames cho từng trạng thái; idle giữ hình tĩnh, walk được renderer tạo bằng chuyển động nhỏ ở phần chân/xích, torso và socket giữ cố định.
 
-Player ghép thân và súng theo [loadout](../player-loadout.md); socket thân và anchor súng có geometry riêng. Các lớp dùng chung frame index, hướng, clock và tint; hai nòng được vẽ ở offset ngang riêng.
+`BattleView` lấy Body từ `sim.loadout.body`, ghép `weapon.layered_art` tại socket và áp dụng cùng tint. Góc nhìn ngang của tên lửa vẽ vùng sau thân trước Body, rồi phần vũ khí còn lại phía trước. Recoil dùng `shot_clock` và `recoil_distance`; flash/phóng dùng event projectile của simulation tại từng nòng.
 
-`gd/player_skin.gd` dùng `frames` cho DOWN và `directional_frames` cho các hướng còn lại. Với bộ directional hiện tại, `rotation_for()` trả 0: mỗi hướng có hình vẽ riêng. Skin không có `directional_frames` vẫn hỗ trợ cơ chế xoay từ hướng `forward`.
+Player di chuyển thật mới tăng move clock. Walk được ưu tiên khi đang di chuyển, kể cả lúc bắn; đứng tì vào tường trở về idle. Đứng yên chọn attack khi shot clock còn thời gian. `PlayerWeapon.shot_duration` mặc định 0,23 giây và không bị kéo dài bởi cooldown hoặc Rapid Fire. Loạt Gatling/tên lửa và Double Shot khóa di chuyển đến event cuối theo schedule, độc lập animation.
 
-Khi actor đang di chuyển, animation `walk` được ưu tiên ngay cả lúc bắn. Chớp/giật tại nòng dùng effect của simulation trong `BattleView`; không chuyển toàn bộ robot sang attack và làm dừng chu kỳ chân. Đứng yên mới chọn `attack` nếu `shot_clock` còn thời gian, nếu không thì `idle`. Frame attack dùng `actor.shot_duration` (player mặc định 0,23 giây), độc lập với cooldown và hệ số Rapid Fire.
+Atlas player-mech còn là fixture/reference. `PlayerSkin` dùng `frames` cho DOWN và `directional_frames` cho các hướng khác. Bộ fixture có bốn góc vẽ riêng nên `rotation_for()` trả 0. Resource khác không có directional frames vẫn có fallback xoay theo `forward`. Nhánh renderer fixture ghép vùng thân/nòng và giáp socket như [hợp đồng loadout](../player-loadout.md).
 
-Clock đi chỉ tăng khi vị trí thay đổi. Đứng tì vào tường phải trở về idle thay vì tiếp tục animation đi. `godot_tests/player_mech_asset.gd` kiểm tra điều này bằng tình huống player gặp tường thép.
+## Enemy
 
-Enemy giữ hướng và đứng yên trong shot clock tấn công; chỉ tiếp tục walk khi attack kết thúc. Xem [hướng bắn enemy](../combat.md).
+`EnemySkin` map bốn hướng sang `EnemyDirection`, mỗi resource có SpriteFrames, anchor, scale và muzzle distance riêng. Không tự xoay/mirror để bù hướng còn thiếu. Thiếu resource/frame thì BattleView dùng hình fallback theo loại actor.
 
-## Enemy và thay riêng một hướng
+Enemy giữ hướng và vị trí trong shot clock 1/3 giây; sau đó mới tiếp tục đi, dù cooldown bắn còn 1,3 giây với tank hoặc 1,7 giây với robot. Clock walk chỉ tăng khi vị trí đổi. Frame attack là one-shot độc lập cooldown. Xem [Combat](../combat.md).
 
-`gd/enemy_skin.gd` ánh xạ từng hướng tới resource `gd/enemy_direction.gd`, không tự xoay hoặc mirror để thay góc còn thiếu. Mỗi direction chứa `SpriteFrames`, anchor, scale và muzzle distance riêng; frame có thể tham chiếu nhiều PNG.
+BattleView bind geometry nòng enemy theo skin khi gán simulation; geometry player đã có trong loadout. Thay một hướng enemy chỉ cần thay đúng direction resource. [Quy trình sprite](../../workflows/sprites.md) mô tả installer và cách giữ geometry đã hiệu chỉnh.
 
-Thay entry LEFT chỉ thay hình học và frame LEFT, giữ các hướng khác. `godot_tests/enemy_sprite_asset.gd` kiểm tra thay hướng độc lập này, gồm geometry riêng. Khi thiếu frame/resource, `frame_for()` trả null và BattleView có thể dùng nhánh vẽ fallback theo loại actor.
+## Thứ tự vẽ và kiểm chứng
 
-`scripts/install_enemy_direction.py` cài một hướng từ composed manifest, lấy chính xác vùng atlas và metadata animation, không viết lại các direction resource khác. Script chỉ dùng Python standard library.
+`MapTerrain` gắn map scene phía sau BattleView. Terrain, base, vật thể và foliage dùng layer/z-index của map; foliage có thể che actor, projectile hoặc thanh HP khi vùng ảnh trùng nhau. BattleView vẽ actor, pickups, đạn/effects, sau cùng là HP enemy. Collider và đường đạn độc lập alpha của artwork. Xem [Kiến trúc map và hình ảnh](../map/authoring.md) và [Combat](../combat.md).
 
-## Thứ tự lớp vẽ
-
-Terrain và Nhà chính nằm sau robot. BattleView vẽ actors, sau đó foliage, rồi đạn/effects và thanh HP enemy. Cây che robot nhưng đạn và hiệu ứng vẫn nhìn thấy. Chi tiết cache terrain và visual rect Nhà chính nằm trong [tính năng hình ảnh map](../map/art.md).
-
-Khoảng cách nòng cần được kiểm tra cùng [va chạm đạn](../combat.md) khi thay artwork.
-
-## Tạo, thay asset và kiểm tra
-
-Quy trình asset được giữ ở [Quy trình sprite](../../workflows/sprites.md) và [Quy trình enemy sprite](../../workflows/enemy-sprites.md). Chạy `make test` để kiểm tra resource và integration; `make test-visual` để kiểm tra bằng renderer native.
+`make test` kiểm tra resource, clock, pause, hướng, geometry và va chạm; `make test-visual` chụp renderer native. Các board preview không chứng nhận motion/seam hoặc bản Web. Nguồn và giới hạn QA ở [Artwork nhân vật](../../assets/characters.md), [Player fixture](../../assets/player-mech.md) và [Enemy sprites](../../assets/enemy-sprites.md).

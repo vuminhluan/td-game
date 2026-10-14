@@ -10,10 +10,10 @@ Mobile giữ zoom theo chiều cao vùng chơi, giới hạn 0,55–1,25, để 
 
 Layout dùng viewport hiện tại và safe area của DisplayServer trên Android/iOS. Desktop lớn có sidebar/radar; landscape nhỏ giữ stats/HUD và đặt D-pad/fire ở cạnh dưới. Portrait được hỗ trợ như fallback khi resize cửa sổ native. Project đặt viewport mặc định 1280×720, hướng handheld `0` (`DisplayServer.SCREEN_LANDSCAPE`); giá trị cũ `1` là portrait. PWA dùng enum riêng: `progressive_web_app/orientation=1` là Landscape theo [khai báo export của Godot](https://github.com/godotengine/godot/blob/master/platform/web/export/export_plugin.cpp).
 
-Map muốn chạy được chọn ở `map_scene` trên root scene chính trong Inspector. Chọn character/weapon hoặc chơi lại vẫn dùng scene đã chọn; simulation mới reset toàn bộ runtime map/pickup/loadout.
+Màn chọn map lấy scenes từ `Main.available_maps`; `map_scene` trên root scene chính là lựa chọn ban đầu. Sau khi xác nhận map, game mở màn chọn character/weapon. Chọn character/weapon hoặc chơi lại vẫn dùng scene đã chọn; simulation mới reset toàn bộ runtime map/pickup/loadout.
 
 ## Kiểm tra
 
 `godot_tests/map_camera.gd` kiểm tra nhiều viewport từ 568×320 đến 1920×1080 và portrait fallback, map lớn/nhỏ, desktop fit toàn map, landscape cuộn dọc, camera clamp/căn giữa, transform input, touch độc lập và cấu hình landscape. `godot_tests/map_camera_visual.gd` lưu screenshot native desktop/landscape/portrait dưới `/private/tmp/map-camera-*.png`.
 
-Resize và sự kiện touch mô phỏng không xác nhận khóa landscape, notch/safe area hoặc touch thực trên thiết bị handheld. Lần refactor này đã kiểm tra native Compatibility trên macOS; Web export chưa chạy được vì thiếu template 4.7.2. Cần kiểm tra bản export trên thiết bị thực trước khi coi các tiêu chí thiết bị đã được xác nhận.
+Resize và sự kiện touch mô phỏng không xác nhận khóa landscape, notch/safe area hoặc touch thực trên thiết bị handheld. Các lần kiểm tra đã ghi nhận native Compatibility trên macOS; Web export trước đó bị chặn vì thiếu template 4.7.2, chưa có kết quả browser/PWA trong [QA map](../../qa/maps.md#limitations). Cần kiểm tra bản export trên thiết bị thực trước khi coi các tiêu chí thiết bị đã được xác nhận.

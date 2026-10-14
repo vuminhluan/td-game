@@ -1,6 +1,12 @@
 # Tạo map bằng Godot
 
-Layout chạy trong game lấy từ `scenes/maps/industrial_yard.tscn`. Scene mẫu dùng map ID `industrial_yard`, chế độ `defense`, kích thước 21 × 19 ô. Một ô gameplay luôn bằng 40 world units. Scene và TileSet là nguồn thiết kế; không còn layout procedural trong script.
+Layout chạy trong game lấy từ scene map đã chọn. Hai map hiện hành là `scenes/maps/industrial_yard.tscn` và `scenes/maps/abandoned_city.tscn`, cùng chế độ `defense` và kích thước 21 × 19 ô. Một ô gameplay luôn bằng 40 world units. Scene và TileSet là nguồn thiết kế; renderer và simulation không giữ bản layout riêng.
+
+## Kiến trúc runtime và hình ảnh
+
+`MapDefinition.build_runtime()` đọc metadata TileSet, marker và object trong scene. `Simulation` giữ HP, trạng thái phá hủy, pickup và revision của từng trận; `BattleMap` dùng cùng flags cho collision và đường đi. `MapTerrain` gắn scene vào BattleView, xóa cell bị phá và ẩn object theo runtime state. `MapOverlay` vẽ nứt gạch, bờ nước, căn cứ và thanh HP; `MapSkin` giữ texture của overlay. Texture terrain nằm trong TileSet; node Floor của scene giữ ảnh nền. Foliage có thể che actor, projectile hoặc thanh HP khi vùng ảnh trùng nhau.
+
+Artwork không quyết định luật gameplay. Thay texture/visual rect không được tự đổi footprint hay HP. Skin thành phố dùng lại artwork căn cứ và decal damage của bộ công nghiệp; mỗi scene chọn TileSet và skin riêng. Xem [asset công nghiệp](../../assets/industrial-map.md) và [asset thành phố](../../assets/city-map.md) để thay hoặc tái tạo hình.
 
 ## Vẽ và chỉnh kích thước
 
@@ -19,7 +25,7 @@ Ví dụ tile thép mẫu có HP 5, chặn di chuyển/đạn, phá được và
 
 ## Marker và object
 
-Thêm `Marker2D`, gán `gd/map_marker.gd`, chọn `role`: `base`, `enemy` hoặc `player`. Icon B/E/P chỉ hiện trong editor. Map thủ thành cần đúng một base và ít nhất một enemy spawn. Player marker tùy chọn; thiếu marker thì chọn tâm ô đi được gần base, cách base ít nhất 60 units. Mỗi enemy spawn phải có đường tới ô tiếp cận căn cứ; đường có thể đi qua vật cản phá được và enemy sẽ phá trước khi đi qua.
+Thêm `Marker2D`, gán `gd/map_marker.gd`, chọn `role`: `base`, `enemy` hoặc `player`. Icon B/E/P chỉ hiện trong editor. Map thủ thành cần đúng một base và ít nhất một enemy spawn. Player marker tùy chọn; thiếu marker thì chọn tâm ô đi được gần base, cách base ít nhất 60 units. Mỗi enemy spawn phải có đường tới ô tiếp cận căn cứ; đường có thể đi qua vật cản phá được và enemy sẽ phá trước khi đi qua. Mỗi đợt phân phối địch luân phiên qua danh sách spawn theo thứ tự node trong scene.
 
 Ưu tiên kéo scene từ `scenes/objects/` vào map. Instance tham chiếu `MapObjectDefinition` dùng chung; Make Unique để tạo biến thể riêng. Catalog ở `assets/map_objects/catalog.tres` không giới hạn object theo theme. Xem [object môi trường](environment-objects.md).
 
@@ -43,4 +49,6 @@ Root có `pickup_settings`, mặc định là `assets/maps/default_pickups.tres`
 
 `build_runtime(catalog)` trả về grid, dimensions, vị trí base/player, enemy spawns, base goal, objects, settings và errors. Validation báo kích thước, thiếu marker, marker bị chặn/ngoài map hoặc chồng căn cứ, spawn không có đường tiếp cận, sai metadata tile, transform sai, footprint ngoài map/chồng vật cản, ID pickup sai hoặc trùng vị trí, cấu hình pool/trọng số/lifetime và quá nhiều power-up đặt sẵn. Root scene cung cấp configuration warnings trong editor; simulation không bắt đầu map sai cấu hình.
 
-Chạy `make test` để kiểm tra map nguồn scene, kích thước khác nhau, metadata, object nhiều ô, phá hủy, pickup và camera. Chạy `make test-visual` để kiểm tra ảnh runtime. Chi tiết [đường đi](navigation.md), [artwork](art.md), [power-up và weapon pickup](../power-ups.md).
+Chạy `make test` để kiểm tra map nguồn scene, kích thước khác nhau, metadata, object nhiều ô, phá hủy, pickup và camera. Chạy `make test-visual` để kiểm tra ảnh runtime. Chi tiết [đường đi](navigation.md), [camera](camera.md), [power-up và weapon pickup](../power-ups.md) và [QA map](../../qa/maps.md).
+
+Chế độ tấn công và streaming/chunk chưa được triển khai. Giới hạn kích thước hiện tại là hợp đồng validation cho grid thủ thành; thêm vùng đất lớn cần thiết kế runtime riêng thay vì bỏ giới hạn cấp phát.

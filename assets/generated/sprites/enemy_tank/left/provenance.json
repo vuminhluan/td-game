@@ -22,7 +22,7 @@
     "walk": {
       "raw": "raw/walk.png",
       "sha256": "c84c2719a25561dca72222d656414c6753892a3aa82c9930fb1a3c2b2fbb74e9",
-      "prompt": "prompts/walk-built-in.txt",
+      "prompt": "prompts/walk-correction-built-in.txt",
       "reference_stack": [
         "base-source.png",
         "references/layout-guides/walk.png"
@@ -43,5 +43,31 @@
   "correction_prompts": [
     "prompts/walk-correction-built-in.txt"
   ],
-  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing.",
+  "generation_records": [
+    {
+      "state": "attack",
+      "generation_ids": [
+        "exec-679f6d30-3dcf-49e6-a7c8-f1bcf741112d"
+      ]
+    },
+    {
+      "state": "idle",
+      "generation_ids": [
+        "exec-bc6de78a-b9f6-487d-9906-25066b30d5f6"
+      ]
+    },
+    {
+      "state": "walk-correction",
+      "generation_ids": [
+        "exec-09f28a04-fafb-4830-8335-ff2578f1e5e6"
+      ]
+    },
+    {
+      "state": "walk",
+      "generation_ids": [
+        "exec-01a89662-ef27-49a9-a8e0-2afe035af4ee"
+      ]
+    }
+  ]
 }

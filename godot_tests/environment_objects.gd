@@ -99,7 +99,7 @@ func test_sample_edges() -> void:
 		check(pump.definition.move_blocked and pump.definition.bullet_blocked and pump.definition.category == "fixed", "water motor remains a permanent solid obstacle")
 	var grass := preload("res://godot_tests/terrain_fixture.gd").tile("grass")
 	check(grass.kind == "grass" and not Map.move_blocked(grass), "unused grass tile remains available for other maps")
-	check(load("res://assets/terrain/industrial_v1/grass.png") != null, "foliage artwork is retained")
+	check(load("res://assets/terrain/industrial/grass.png") != null, "foliage artwork is retained")
 	for spawn in sim.enemy_spawns:
 		check(not Map.find_path(sim.map, Vector2i(spawn / 40), sim.base_goal).is_empty(), "all sample spawn lanes still reach the base")
 	check(Map.can_occupy(sim.map, sim.player_spawn, sim.loadout.collider_radius), "player spawn stays free")

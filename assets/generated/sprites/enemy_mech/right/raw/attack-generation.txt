@@ -1,3 +1,0 @@
-Generated images are saved to /Users/vuminhluan/.codex/generated_images/01a12404-0734-7383-881d-aaa0111e334b as /Users/vuminhluan/.codex/generated_images/01a12404-0734-7383-881d-aaa0111e334b/exec-5573a22d-e8f6-4126-b605-716a4d78ee30.png by default.
-If you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.
-The generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.

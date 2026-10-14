@@ -24,7 +24,11 @@ Xe có alpha gutter ở bốn phía crop để không mất đuôi và không d�
 
 Các thư mục `cars`, `street_props`, `houses` và `objects` có `extraction.json` với `source_size` và các vùng `regions` theo tên sprite. Khi thay ảnh nguồn khác kích thước, cập nhật dữ liệu này; builder từ chối dimension hoặc crop ngoài ảnh. Manifest cũng fingerprint file extraction để việc thay crop là một thay đổi đầu vào có thể kiểm tra.
 
-Hợp đồng crop alpha, gutter và độ rõ của thân xe nằm trong [thiết kế map](../features/map/abandoned-city.md#artwork-và-khả-năng-thay-thế).
+## Hợp đồng crop
+
+Normalizer lấy bounds alpha >0,04, giữ fringe nguồn 4 pixel rồi fit vào cell có tổng gutter 16 pixel mỗi trục. Alpha nhiễu rất mờ ngoài silhouette không làm xe bị thu nhỏ. Crop phải giữ alpha trống ở cả bốn phía; test yêu cầu thân xe alpha ≥0,1 phủ ít nhất 75% một chiều frame để bảo vệ độ rõ ở tỉ lệ chơi. Gutter và tỷ lệ không chứng minh silhouette nguyên vẹn: vẫn cần xem ảnh native để kiểm tra đầu/đuôi xe.
+
+Xe dọc có cell 128×192 trong atlas 256×192, bản ngang xoay PNG 90° vào cell 192×128 trong atlas 384×128. Footprint tương ứng 2×3 hoặc 3×2; node gameplay không xoay. Nhà có ba cell 160×160, atlas 480×160; visual rect nằm riêng với footprint 3×3. Street props dùng atlas 512×128; signal có cell 256×128, biển báo/nắp cống có cell 128×128.
 
 ## Prompt tạo artwork
 
@@ -46,9 +50,9 @@ godot --headless --path . --script scripts/install_city_map.gd
 godot --headless --path . --editor --import --quit
 ```
 
-Builder chuẩn hóa ảnh nguồn và atlas theo vai trò. Installer cập nhật scene, resource, TileSet, manifest và entry trong catalog. Khi đổi số mẫu hoặc crop, cập nhật extraction metadata, bảng dữ liệu installer và resource variant thay vì thêm điều kiện vào simulation.
+Builder chuẩn hóa ảnh nguồn và atlas theo vai trò. Installer tạo lại scene thành phố, Resource/scene object, TileSet, skin, manifest và entry thành phố trong catalog. Lệnh này ghi đè placement/geometry đã chỉnh thủ công của thành phố theo dữ liệu trong installer; để tái tạo đúng thiết kế mới, cập nhật bảng dữ liệu installer trước. Catalog vẫn giữ entry của bộ khác. Khi đổi số mẫu hoặc crop, cập nhật extraction metadata, bảng dữ liệu installer và resource variant thay vì thêm điều kiện vào simulation.
 
-Chạy `make test` rồi `make test-visual` khi đổi art, crop, footprint hoặc placement; test native cập nhật preview và ảnh QA. Kiểm tra ảnh xe, nắp cống và nhà trong overview cùng battle desktop/mobile. Theo [bảo trì asset](../maintenance.md), kiểm tra cả tham chiếu source/reference trước khi bỏ một atlas hoặc run cũ. Xem [thiết kế map](../features/map/abandoned-city.md) và [QA](../qa/abandoned-city.md).
+Chạy `make test` rồi `make test-visual` khi đổi art, crop, footprint hoặc placement; test native cập nhật preview và ảnh QA. Kiểm tra ảnh xe, nắp cống và nhà trong overview cùng battle desktop/mobile. Theo [bảo trì asset](../maintenance.md), kiểm tra cả tham chiếu source/reference trước khi bỏ một atlas hoặc run cũ. Xem [thiết kế map](../features/map/abandoned-city.md) và [QA](../qa/maps.md#abandoned-city).
 
 Sau khi sửa scene, chụp preview trước và import lại để màn chọn map đọc texture mới. Texture đã preload trong cùng process không tự đổi khi PNG được ghi lại:
 

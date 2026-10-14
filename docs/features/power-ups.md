@@ -1,6 +1,6 @@
 # Pickup và power-up
 
-Pickup được đặt trong scene map, sinh định kỳ hoặc rơi khi phá terrain/object. `gd/pickup_settings.gd` định nghĩa Resource dùng chung tại `assets/maps/default_pickups.tres`; scene có thể dùng Resource riêng, object phá được có thể gán `drop_settings` riêng. Xem [biên soạn map](map/authoring.md) và [kế hoạch/phạm vi](map/refactor-plan.md).
+Pickup được đặt trong scene map, sinh định kỳ hoặc rơi khi phá terrain/object. `gd/pickup_settings.gd` định nghĩa Resource dùng chung tại `assets/maps/default_pickups.tres`; scene có thể dùng Resource riêng, object phá được có thể gán `drop_settings` riêng. Xem [biên soạn map](map/authoring.md).
 
 ## Mặc định và cấu hình
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://gd/map_definition.gd" id="1_palji"]
 [ext_resource type="TileSet" path="res://assets/maps/industrial/terrain.tres" id="3_w6b8v"]
-[ext_resource type="Texture2D" path="res://assets/terrain/industrial_v1/floor.png" id="3_ww58n"]
+[ext_resource type="Texture2D" path="res://assets/terrain/industrial/floor.png" id="3_ww58n"]
 [ext_resource type="PackedScene" path="res://scenes/objects/industrial/water_line_west.tscn" id="5_palji"]
 [ext_resource type="Script" path="res://gd/map_marker.gd" id="5_w6b8v"]
 [ext_resource type="PackedScene" path="res://scenes/objects/industrial/water_line_east.tscn" id="6_15gun"]

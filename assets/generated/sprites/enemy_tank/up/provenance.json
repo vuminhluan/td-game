@@ -12,17 +12,16 @@
     "idle": {
       "raw": "raw/idle.png",
       "sha256": "31cc9df7d2c99d984fbc7da90de02d35675d277fc769e250c224c142f77550e3",
-      "prompt": "prompts/idle-built-in.txt",
+      "prompt": "prompts/idle-correction-built-in.txt",
       "reference_stack": [
-        "DOWN identity (see prompt)",
-        "layout guide (except initial tank DOWN)"
+        "references/idle-alpha-edit-target.png"
       ],
       "selected_prompt": "prompts/idle-correction-built-in.txt"
     },
     "walk": {
       "raw": "raw/walk.png",
       "sha256": "b58da6cff36528dd1a0c31724a1de4b9829e6aa82074c859069de31ca3038e50",
-      "prompt": "prompts/walk-built-in.txt",
+      "prompt": "prompts/walk-correction-built-in.txt",
       "reference_stack": [
         "base-source.png",
         "references/layout-guides/walk.png"
@@ -32,7 +31,7 @@
     "attack": {
       "raw": "raw/attack.png",
       "sha256": "dc3fcb6b588b4c11dbe2d64f517e8ef329fb9e909ec711f921e3412bacc879f3",
-      "prompt": "prompts/attack-built-in.txt",
+      "prompt": "prompts/attack-correction-built-in.txt",
       "reference_stack": [
         "base-source.png",
         "references/layout-guides/attack.png"
@@ -41,7 +40,7 @@
     }
   },
   "corrections": [
-    "UP idle regenerated to remove stray white background fragment; rejected source retained in raw/idle-rejected-alpha.png",
+    "UP idle regenerated to remove stray white background fragment; edit target retained in references/idle-alpha-edit-target.png",
     "UP attack regenerated to preserve rust red palette if correction prompt exists"
   ],
   "correction_prompts": [
@@ -49,5 +48,43 @@
     "prompts/walk-correction-built-in.txt",
     "prompts/attack-correction-built-in.txt"
   ],
-  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing."
+  "alpha_processing": "Native generated RGBA preserved; canonical component extractor: key_threshold=0, fringe_key_threshold=0, fringe_delta=0, fringe_unmix_reach=0, spill_max_fraction=0. Original magenta cleanup incorrectly despilled some red armor into yellow. No manual image processing.",
+  "generation_records": [
+    {
+      "state": "attack-correction",
+      "generation_ids": [
+        "exec-504d6e08-3cdf-4a5f-9c61-e4ffa335e5f8"
+      ]
+    },
+    {
+      "state": "attack",
+      "generation_ids": [
+        "exec-7c844503-c520-4cfd-9e6f-f1fb74081c74"
+      ]
+    },
+    {
+      "state": "idle",
+      "generation_ids": [
+        "exec-73f72d6a-fac9-4e58-a14d-147491d0d851"
+      ]
+    },
+    {
+      "state": "walk-correction",
+      "generation_ids": [
+        "exec-522b8570-bae9-4da2-8d36-8c70338b1072"
+      ]
+    },
+    {
+      "state": "walk",
+      "generation_ids": [
+        "exec-50061cb1-8ae1-4a96-990b-765478b089f1"
+      ]
+    }
+  ],
+  "reference_generations": {
+    "references/idle-alpha-edit-target.png": {
+      "prompt": "prompts/idle-built-in.txt",
+      "sha256": "84bab9a522e6ac2332094db90e18ce64ee5080d5d530e81b3032a55e5ada9bb9"
+    }
+  }
 }
