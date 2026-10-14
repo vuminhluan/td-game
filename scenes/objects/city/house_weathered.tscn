@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_mjwoe"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_weathered.tres" id="2_gc8eq"]
+
+[node name="house_weathered" type="Node2D" unique_id=1801674087]
+script = ExtResource("1_mjwoe")
+definition = ExtResource("2_gc8eq")

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_3g61e"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/city/street_props.png" id="2_x0a86"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g61e"]
+atlas = ExtResource("2_x0a86")
+region = Rect2(256, 0, 128, 128)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_3g61e")
+object_id = "city_street_sign"
+display_name = "Biển báo cũ"
+tags = Array[String](["city", "street_sign"])
+texture = SubResource("AtlasTexture_3g61e")
+visual_rect = Rect2(3, 3, 34, 34)
+initial_hp = 0

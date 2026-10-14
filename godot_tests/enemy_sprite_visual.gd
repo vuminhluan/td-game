@@ -16,6 +16,7 @@ func run() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	game.activate()
 	game.sim.spawn_timer = 999
 	game.sim.enemies.clear()

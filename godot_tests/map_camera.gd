@@ -22,6 +22,7 @@ func run() -> void:
 		quit(1)
 		return
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	game.sim.status = "playing"
 	game.refresh_hud()
 	for viewport_size in [Vector2i(1280, 720), Vector2i(1920, 1080), Vector2i(1024, 768), Vector2i(844, 390), Vector2i(932, 430), Vector2i(568, 320), Vector2i(375, 667)]:
@@ -35,11 +36,13 @@ func run() -> void:
 		for dimensions in [Vector2i(80, 60), Vector2i(5, 4)]:
 			game.sim.dimensions = dimensions
 			var world = Vector2(dimensions) * 40
-			var view: Vector2 = Vector2(game.battle_viewport.size) / game.camera.zoom
 			for point in [Vector2.ZERO, world / 2, world, Vector2(-100, world.y + 100)]:
 				game.sim.player.pos = point
 				game.update_camera()
+				var view: Vector2 = Vector2(game.battle_viewport.size) / game.camera.zoom
 				var center: Vector2 = game.camera.position
+				if not game.mobile:
+					check(view.x + 0.001 >= world.x and view.y + 0.001 >= world.y, "desktop fits complete authored map: %s / %s" % [dimensions, viewport_size])
 				check(is_equal_approx(center.x, world.x / 2) if world.x <= view.x else center.x >= view.x / 2 - 0.001 and center.x <= world.x - view.x / 2 + 0.001, "horizontal camera bounds: %s / %s" % [dimensions, viewport_size])
 				check(is_equal_approx(center.y, world.y / 2) if world.y <= view.y else center.y >= view.y / 2 - 0.001 and center.y <= world.y - view.y / 2 + 0.001, "vertical camera bounds: %s / %s" % [dimensions, viewport_size])
 				var screen: Vector2 = game.world_to_screen(point)
@@ -49,6 +52,18 @@ func run() -> void:
 		game.sim.dimensions = original_dimensions
 		game.sim.player.pos = original_position
 		game.update_camera()
+		if game.mobile and viewport_size.x > viewport_size.y:
+			var world_height: float = original_dimensions.y * 40
+			var view_height: float = game.battle_viewport.size.y / game.camera.zoom.y
+			if world_height > view_height:
+				game.sim.player.pos.y = view_height / 2
+				game.update_camera()
+				var northern_center: float = game.camera.position.y
+				game.sim.player.pos.y = world_height - view_height / 2
+				game.update_camera()
+				check(game.camera.position.y > northern_center + 1, "landscape follows player along street: %s" % viewport_size)
+				game.sim.player.pos = original_position
+				game.update_camera()
 		for action in game.touch_rects:
 			var rect: Rect2 = game.touch_rects[action]
 			check(game.safe_rect.encloses(rect), "touch control within safe region: " + action)
@@ -95,6 +110,7 @@ func custom_map_checks() -> void:
 		quit(1)
 		return
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	check(game.sim.map_scene.map_id == "camera_custom_map" and game.sim.dimensions == Vector2i(29, 25), "main creates explicitly selected map")
 	game.apply_selection("robot", "robot_body", "gatling")
 	check(game.sim.map_scene.map_id == "camera_custom_map" and game.sim.dimensions == Vector2i(29, 25), "loadout change retains selected map")

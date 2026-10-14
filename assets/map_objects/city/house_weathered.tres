@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_xntci"]
+[ext_resource type="Texture2D" path="res://assets/maps/city/outer_houses.png" id="2_7p47c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xntci"]
+atlas = ExtResource("2_7p47c")
+region = Rect2(160, 0, 160, 160)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_xntci")
+object_id = "city_house_weathered"
+display_name = "Nhà bám rêu"
+tags = Array[String](["city", "house_weathered"])
+texture = SubResource("AtlasTexture_xntci")
+visual_rect = Rect2(2, 2, 116, 116)
+category = "fixed"
+footprint = Vector2i(3, 3)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

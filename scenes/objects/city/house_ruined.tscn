@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_yv04a"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_ruined.tres" id="2_jw681"]
+
+[node name="house_ruined" type="Node2D" unique_id=34588297]
+script = ExtResource("1_yv04a")
+definition = ExtResource("2_jw681")

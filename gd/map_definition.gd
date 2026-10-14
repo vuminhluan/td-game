@@ -7,8 +7,14 @@ const MapMarker = preload("res://gd/map_marker.gd")
 const MapObject = preload("res://gd/map_object.gd")
 const Settings = preload("res://gd/pickup_settings.gd")
 const Catalog = preload("res://gd/character_catalog.gd")
+const MapSkin = preload("res://gd/map_skin.gd")
 const DEFAULT_SETTINGS = preload("res://assets/maps/default_pickups.tres")
+const DEFAULT_MAP_SKIN = preload("res://assets/terrain/industrial_v1/map_skin.tres")
 @export var map_id := "industrial_yard"
+@export var display_name := "Xưởng công nghiệp"
+@export_multiline var display_description := ""
+@export var preview_texture: Texture2D
+@export var map_skin: MapSkin = DEFAULT_MAP_SKIN
 @export var supported_modes: Array[String] = ["defense"]
 @export var dimensions := Vector2i(21, 19):
 	set(value):

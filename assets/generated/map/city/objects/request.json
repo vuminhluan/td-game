@@ -1,0 +1,8 @@
+{
+  "provider": "built-in imagegen",
+  "tool": "image_gen.imagegen",
+  "prompt": "Asset type: production transparent game sprite atlas for a top-down 2D abandoned city-defense game, bright daytime. Exactly four separate isolated assets centered in the four equal quadrants of a square canvas, in reading order: (1) upper-left: one rusted abandoned compact sedan seen directly overhead, car nose points toward top edge, dusty blue-gray roof, missing windows, subtle moss; (2) upper-right: one inactive weathered old combat robot wreck, overhead view, compact tracked body, olive gray rust, no glowing lights, no weapon firing; (3) lower-left: one thick low clump of leafy weeds and tall grass as viewed directly overhead, green muted leaves with small yellow dry tips, clear bush silhouette; (4) lower-right: one single round iron street manhole cover embedded as a loose game object, top-down circular dark iron lid with clear spoke pattern and edge rim, weathered. Each quadrant has transparent background and ample clear space between items and quadrant boundaries. Unified realistic hand-painted game asset style, soft clear daytime light from upper left, muted but distinguishable materials, professional polish and legible at small game size. The subjects must not cross quadrant boundaries or touch. True orthographic overhead view. No environment, no floor/background, no drop shadow beyond tight contact shading, no extra objects, no text, no frame, no labels, no watermark.\n",
+  "transparent_background": true,
+  "source": "assets/generated/map/city/objects/source.png",
+  "output": "source.png"
+}

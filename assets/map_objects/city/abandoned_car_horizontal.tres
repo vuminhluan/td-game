@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_7pkca"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/city/cars_horizontal.png" id="2_75i6r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pkca"]
+atlas = ExtResource("2_75i6r")
+region = Rect2(0, 0, 192, 128)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_7pkca")
+object_id = "city_abandoned_car_horizontal"
+display_name = "Xe sedan nằm ngang"
+tags = Array[String](["city", "abandoned_car_horizontal"])
+texture = SubResource("AtlasTexture_7pkca")
+visual_rect = Rect2(2, 2, 116, 76)
+category = "fixed"
+footprint = Vector2i(3, 2)
+move_blocked = true
+initial_hp = 0

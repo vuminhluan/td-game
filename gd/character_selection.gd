@@ -3,6 +3,7 @@ const Sim = preload("res://gd/simulation.gd")
 const View = preload("res://gd/battle_view.gd")
 signal selection_changed(character_id: String, body_id: String, weapon_id: String)
 signal deployed
+signal map_requested
 var catalog: RefCounted
 var character_id = "robot"
 var body_id = "robot_body"
@@ -50,6 +51,10 @@ func _ready() -> void:
 	title.text = "CHUẨN BỊ VÀO TRẬN"
 	title.add_theme_font_size_override("font_size", 20)
 	column.add_child(title)
+	var map_button := Button.new()
+	map_button.text = "← CHỌN BẢN ĐỒ"
+	map_button.pressed.connect(func(): map_requested.emit())
+	column.add_child(map_button)
 	var row = HBoxContainer.new()
 	column.add_child(row)
 	for id in catalog.data.characters:

@@ -153,6 +153,7 @@ func ui_checks() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	check(game.weapon_selector.visible, "ready screen offers weapon selection")
 	game.weapon_selector.select(2)
 	game.weapon_selector.item_selected.emit(2)

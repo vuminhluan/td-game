@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_53xs6"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/vegetation/bushes.png" id="2_53xs6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53xs6"]
+atlas = ExtResource("2_53xs6")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_53xs6")
+object_id = "city_bush"
+display_name = "Bụi cỏ"
+tags = Array[String](["vegetation", "city_bush"])
+texture = SubResource("AtlasTexture_53xs6")
+visual_rect = Rect2(-9, -9, 58, 58)
+initial_hp = 0

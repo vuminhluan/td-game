@@ -12,6 +12,7 @@ Nếu mới vào dự án, đọc [phát triển dự án](development.md) để
 | [Map: camera và input](features/map/camera.md) | Camera cuộn/clamp, HUD màn hình, landscape, safe area và screen/world conversion |
 | [Map: hình ảnh](features/map/art.md) | Skin, cache terrain, lớp vẽ, bờ nước, Nhà chính |
 | [Bố cục nhà máy cũ](features/map/industrial-layout.md) | Cụm cấp nước dọc biên, giảm mật độ cover/scenery, giữ grass cho map khác |
+| [Map thành phố bỏ hoang](features/map/abandoned-city.md) | Đại lộ sáu làn, ngã tư, atlas theo loại, camera và bước chọn map |
 | [Object môi trường và weapon pickup](features/map/environment-objects.md) | Bộ artwork nhà máy cũ, reusable Resource/scene, flags độc lập và catalog không giới hạn theme |
 | [Biên soạn map](features/map/authoring.md) | Scene map, TileSet custom data, object, marker và validation |
 | [Refactor map](features/map/refactor-plan.md) | Phạm vi triển khai và tiêu chí hoàn thành |
@@ -36,6 +37,7 @@ Khi thay artwork: đọc tài liệu tính năng → asset đang dùng → workf
 | Enemy mech | [Mech](assets/enemy-mech.md) | `assets/generated/sprites/enemy_mech/` |
 | Enemy tank | [Tank](assets/enemy-tank.md) | `assets/generated/sprites/enemy_tank/` |
 | Map công nghiệp | [Map](assets/industrial-map.md) | `assets/generated/map/industrial/` |
+| Map thành phố | [Thành phố](assets/city-map.md) | `assets/generated/map/city/` |
 
 Runtime PNG/TRES nằm trong `assets/sprites/` và `assets/terrain/`. Manifest runtime ghi nguồn; `.gdignore` loại nguồn generation khỏi import/export. Nguồn chứa prompts, ảnh raw, frames, guides và reports phục vụ lần nâng cấp tiếp theo.
 
@@ -43,6 +45,7 @@ Runtime PNG/TRES nằm trong `assets/sprites/` và `assets/terrain/`. Manifest r
 
 - [Bố cục nhà máy thoáng](qa/industrial-layout.md): tuyến ống/bơm, giữ grass cho map khác và kiểm tra mật độ/pathfinding.
 - [Object và artwork](qa/environment-objects.md): collision, sprite weapon chính xác và native rendering.
+- [Map thành phố bỏ hoang](qa/abandoned-city.md): luật object/terrain, preview và chọn map trước nhân vật.
 - [Refactor map](qa/map-refactor.md): kết quả gameplay, scene validation, camera và native rendering; giới hạn Web/handheld.
 
 - [Player DOWN](qa/player-mech/down.md) và [UP/LEFT/RIGHT](qa/player-mech/directions.md).

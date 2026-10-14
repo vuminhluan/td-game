@@ -148,6 +148,7 @@ func ui_checks() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	game.start_button.pressed.emit()
 	check(game.sim.status == "playing" and not game.overlay.visible, "start button deploys robot")
 	key(game, KEY_W, true)

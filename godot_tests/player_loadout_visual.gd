@@ -16,6 +16,7 @@ func run() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	await capture("res://docs/images/player-loadout-desktop.png")
 	game.weapon_selector.select(1)
 	game.select_loadout(1)

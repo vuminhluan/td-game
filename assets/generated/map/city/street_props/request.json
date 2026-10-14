@@ -1,0 +1,7 @@
+{
+  "provider": "built-in imagegen",
+  "tool": "image_gen.imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent top-down game sprite sheet. Three isolated sprites in three equal horizontal cells of a wide canvas: left cell ONE fallen traffic signal mast lying horizontally, slender black-gray pole with THREE traffic signal heads still attached, rusty broken base at one end, viewed directly overhead, fully contained; middle cell ONE intact old street sign on short pole seen slightly from above with blank faded blue arrow placard; right cell ONE round iron manhole lid, overhead circular silhouette. Detailed hand-painted realistic illustration for bright daytime abandoned-city robot-defense game. Muted weathered materials, clear readable silhouettes at small game size, true transparent background. Wide blank alpha padding around each subject, no subject crosses its cell. No floor, no grass, no extra pieces, text, labels or watermark.",
+  "transparent_background": true,
+  "source": "assets/generated/map/city/street_props/source.png"
+}

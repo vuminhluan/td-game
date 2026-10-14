@@ -13,6 +13,7 @@ Bắt đầu đọc tại [mục lục tài liệu](docs/README.md). Hướng d�
 - [Chọn nhân vật](docs/features/character-selection.md): Robot/Xe tăng, Body sạch, 7 bộ vũ khí và config gameplay chung.
 - [Power-up](docs/features/power-ups.md): 5 vật phẩm, countdown, luật sinh và tuning.
 - [Bố cục nhà máy cũ](docs/features/map/industrial-layout.md): hai tuyến ống dọc nối bơm, chiến trường thoáng và không đặt cỏ.
+- [Map thành phố bỏ hoang](docs/features/map/abandoned-city.md): thiết kế thành phố ban ngày và chọn map trước nhân vật.
 - [Object môi trường và weapon pickup](docs/features/map/environment-objects.md): artwork nhà máy cũ, collision độc lập và catalog dùng trên mọi map.
 - [Biên soạn map](docs/features/map/authoring.md): TileMapLayer, object, marker, validation và map công nghiệp mẫu.
 - [Phạm vi refactor map](docs/features/map/refactor-plan.md): kiến trúc và tiêu chí đã triển khai; giới hạn kiểm thử thiết bị được ghi riêng.

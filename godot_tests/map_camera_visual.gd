@@ -46,6 +46,7 @@ func run() -> void:
 		game.queue_free()
 		quit(1)
 		return
+	game.map_preparation.confirm_selection()
 	game.activate()
 	game.set_process(false)
 	game.sim.spawn_timer = 999

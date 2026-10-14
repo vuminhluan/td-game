@@ -2,7 +2,9 @@
 
 `gd/main.gd` tạo `SubViewportContainer` cho chiến trường và một `Camera2D` trong `SubViewport`. `BattleView` và scene map nằm trong world space. HUD, màn hình chuẩn bị, pause và nút cảm ứng nằm ở Control của màn hình chính.
 
-Camera theo player, không smoothing. Mỗi trục được clamp trong biên `dimensions × 40`; khi map nhỏ hơn vùng nhìn, trục đó được căn giữa. Zoom dựa trên chiều cao vùng chơi, giới hạn 0,55–1,25; map lớn cuộn theo player thay vì thu toàn map vào màn hình. Di chuyển player vẫn liên tục, không snap vào grid.
+Desktop thu toàn bộ map vào vùng chiến trường bằng tỷ lệ nhỏ hơn giữa chiều rộng và chiều cao viewport so với `dimensions × 40`, giới hạn phóng lớn 1,25. Zoom được tính lại trong `update_camera()` từ dimensions hiện tại, nên chọn map, đổi loadout, replay và resize luôn dùng đúng kích thước map mà không cần điều kiện theo map ID.
+
+Mobile giữ zoom theo chiều cao vùng chơi, giới hạn 0,55–1,25, để nhân vật vẫn đủ lớn trên landscape. Camera theo player, không smoothing; mỗi trục được clamp trong biên world và căn giữa khi map nhỏ hơn vùng nhìn. Map đường phố cao hơn viewport cuộn dọc theo vị trí player. Di chuyển player vẫn liên tục, không snap vào grid.
 
 `world_to_screen()` và `screen_to_world()` dùng offset vùng chơi, tâm camera, kích thước pixel SubViewport và zoom. Test đối chiếu kết quả với `SubViewport.canvas_transform`, không chỉ kiểm tra hai hàm nghịch đảo. Các nút touch dùng screen space; nhiều ngón giữ di chuyển và bắn độc lập. Bàn phím dùng hướng vừa nhấn sau cùng. Pause, focus loss và thoát app về nền xóa input đang giữ.
 
@@ -12,6 +14,6 @@ Map muốn chạy được chọn ở `map_scene` trên root scene chính trong 
 
 ## Kiểm tra
 
-`godot_tests/map_camera.gd` kiểm tra nhiều viewport từ 568×320 đến 1920×1080 và portrait fallback, map lớn/nhỏ, camera clamp/căn giữa, transform input, touch độc lập và cấu hình landscape. `godot_tests/map_camera_visual.gd` lưu screenshot native desktop/landscape/portrait dưới `/private/tmp/map-camera-*.png`.
+`godot_tests/map_camera.gd` kiểm tra nhiều viewport từ 568×320 đến 1920×1080 và portrait fallback, map lớn/nhỏ, desktop fit toàn map, landscape cuộn dọc, camera clamp/căn giữa, transform input, touch độc lập và cấu hình landscape. `godot_tests/map_camera_visual.gd` lưu screenshot native desktop/landscape/portrait dưới `/private/tmp/map-camera-*.png`.
 
 Resize và sự kiện touch mô phỏng không xác nhận khóa landscape, notch/safe area hoặc touch thực trên thiết bị handheld. Lần refactor này đã kiểm tra native Compatibility trên macOS; Web export chưa chạy được vì thiếu template 4.7.2. Cần kiểm tra bản export trên thiết bị thực trước khi coi các tiêu chí thiết bị đã được xác nhận.

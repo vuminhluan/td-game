@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_oyr6e"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_car_horizontal.tres" id="2_puis3"]
+
+[node name="abandoned_car_horizontal" type="Node2D" unique_id=1474449538]
+script = ExtResource("1_oyr6e")
+definition = ExtResource("2_puis3")

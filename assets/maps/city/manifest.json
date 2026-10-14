@@ -1,0 +1,71 @@
+{
+	"artwork": {
+		"bushes": {
+			"extraction": "res://assets/generated/map/city/objects/extraction.json",
+			"extraction_sha256": "fa5006b2f04be0871fc76ca11de31e94d0241733726dd2f408db0e1643d83d57",
+			"runtime": "res://assets/map_objects/vegetation/bushes.png",
+			"runtime_sha256": "bf2500b2c6a8949df8ee6c6e315928865bc226a2da5db0770d8bd82f93b9ab60",
+			"source": "res://assets/generated/map/city/objects/source.png",
+			"source_sha256": "df393b85f8eb2c423dac937c3e7f33d68c4d207a7184e9a8549384f2a6973f93"
+		},
+		"cars": {
+			"extraction": "res://assets/generated/map/city/cars/extraction.json",
+			"extraction_sha256": "d1f38e32e348336dfe552243710c01e6e253bbb927193f4d7bb0384f1c2609b0",
+			"runtime": "res://assets/map_objects/city/cars.png",
+			"runtime_sha256": "78b5c6dd110b5b257b46f479b3cffe074a54482f96ad40aa890a848060bbe5bf",
+			"source": "res://assets/generated/map/city/cars/source.png",
+			"source_sha256": "15760a193f8f12c7544c4171603091067fcb4685c0d6f32e1ad460de8d793d0e"
+		},
+		"cars_horizontal": {
+			"extraction": "res://assets/generated/map/city/cars/extraction.json",
+			"extraction_sha256": "d1f38e32e348336dfe552243710c01e6e253bbb927193f4d7bb0384f1c2609b0",
+			"runtime": "res://assets/map_objects/city/cars_horizontal.png",
+			"runtime_sha256": "e8fc06655411b71e9999860acb23bebf49449d9592d76dc00be3994bb9bcaa82",
+			"source": "res://assets/generated/map/city/cars/source.png",
+			"source_sha256": "15760a193f8f12c7544c4171603091067fcb4685c0d6f32e1ad460de8d793d0e"
+		},
+		"houses": {
+			"extraction": "res://assets/generated/map/city/houses/extraction.json",
+			"extraction_sha256": "e31ae89e84ae1b58163edb94d038bb3218fee19594e71a6945abe7bf160e20af",
+			"runtime": "res://assets/maps/city/outer_houses.png",
+			"runtime_sha256": "6b3860ecf5f94329d11a8db998a99aa9d78b9838528dca9ac9c041c4cdbc257b",
+			"source": "res://assets/generated/map/city/houses/source.png",
+			"source_sha256": "9d616fe51e47a4867bc6905b0591ea2efc8f2af50125aa28d8fd6d696c75310f"
+		},
+		"legacy_robot": {
+			"extraction": "res://assets/generated/map/city/objects/extraction.json",
+			"extraction_sha256": "fa5006b2f04be0871fc76ca11de31e94d0241733726dd2f408db0e1643d83d57",
+			"runtime": "res://assets/map_objects/city/abandoned_robot.png",
+			"runtime_sha256": "16ea12a1f9cb793d4c9ffb4a98a57fd1ac9132ecb309c7f7bbc982e42eb31c1b",
+			"source": "res://assets/generated/map/city/objects/source.png",
+			"source_sha256": "df393b85f8eb2c423dac937c3e7f33d68c4d207a7184e9a8549384f2a6973f93"
+		},
+		"road_surface": {
+			"runtime": "res://assets/terrain/abandoned_city/floor.png",
+			"runtime_sha256": "0844a499d320a8891941e13886e083b3d0998be19009896db67ac17a0917aa5a",
+			"source": "res://assets/generated/map/city/road_surface/source.png",
+			"source_sha256": "4b59109ac2fe76b9aab25d87f1146fd3c88c16937a344894431807732a824120"
+		},
+		"sidewalk": {
+			"runtime": "res://assets/maps/city/sidewalk.png",
+			"runtime_sha256": "4cca5128a9f50b679a9486b13ac3df044edf769d8c6cc58e55369cd3b520bb7d",
+			"source": "res://assets/generated/map/city/terrain/source.png",
+			"source_sha256": "709d226ce390347171ccc1555678995b407797a16e46d503a6bbf678d8dbbbbe"
+		},
+		"street_props": {
+			"extraction": "res://assets/generated/map/city/street_props/extraction.json",
+			"extraction_sha256": "917f42cb388d5c63f4d1ae39ee75a846191bb87f40e167847adf7db4b2f1033f",
+			"runtime": "res://assets/map_objects/city/street_props.png",
+			"runtime_sha256": "7aab73ea4d1585bff13a9852a7e9c9f117c0939dec5d9eaa45667284fd6074f6",
+			"source": "res://assets/generated/map/city/street_props/source.png",
+			"source_sha256": "7da1c2016c5676757a9ec981b436962b281cb644a3dbb02b526971833fb0d912"
+		},
+		"terrain": {
+			"runtime": "res://assets/maps/city/terrain_atlas.png",
+			"runtime_sha256": "b0ecdbe646e173855088d68e1dd4957621c1ab997748895b0e503359d9e894c1",
+			"source": "res://assets/generated/map/city/terrain/source.png",
+			"source_sha256": "709d226ce390347171ccc1555678995b407797a16e46d503a6bbf678d8dbbbbe"
+		}
+	},
+	"normalizer": "scripts/build_city_map_art.gd"
+}

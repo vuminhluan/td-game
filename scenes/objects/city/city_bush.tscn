@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_ofg00"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/city_bush.tres" id="2_8kxuj"]
+
+[node name="city_bush" type="Node2D" unique_id=976417507]
+z_index = 1
+script = ExtResource("1_ofg00")
+definition = ExtResource("2_8kxuj")

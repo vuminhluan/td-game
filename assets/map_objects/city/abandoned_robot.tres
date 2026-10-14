@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_bi80a"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/city/abandoned_robot.png" id="2_bi80a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi80a"]
+atlas = ExtResource("2_bi80a")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_bi80a")
+object_id = "city_abandoned_robot"
+display_name = "Robot bỏ hoang"
+tags = Array[String](["city", "abandoned_robot"])
+texture = SubResource("AtlasTexture_bi80a")
+visual_rect = Rect2(2, 2, 76, 76)
+category = "fixed"
+footprint = Vector2i(2, 2)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

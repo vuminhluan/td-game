@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_dxbfr"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/street_sign.tres" id="2_8sowm"]
+
+[node name="street_sign" type="Node2D" unique_id=813239750]
+script = ExtResource("1_dxbfr")
+definition = ExtResource("2_8sowm")

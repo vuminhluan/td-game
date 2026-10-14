@@ -7,9 +7,13 @@ const Map = preload("res://gd/battle_map.gd")
 const KEY_DIRECTIONS = {KEY_W: "up", KEY_UP: "up", KEY_D: "right", KEY_RIGHT: "right", KEY_S: "down", KEY_DOWN: "down", KEY_A: "left", KEY_LEFT: "left"}
 const Catalog = preload("res://gd/character_catalog.gd")
 const Selection = preload("res://gd/character_selection.gd")
+const MapSelection = preload("res://gd/map_selection.gd")
 @export var map_scene: PackedScene = preload("res://scenes/maps/industrial_yard.tscn")
+@export var available_maps: Array[PackedScene] = [preload("res://scenes/maps/industrial_yard.tscn"), preload("res://scenes/maps/abandoned_city.tscn")]
 var catalog = Catalog.new()
 var preparation: PanelContainer
+var map_preparation: PanelContainer
+var preparation_step := "map"
 var character_id = "robot"
 var body_id = "robot_body"
 var weapon_id = "standard"
@@ -80,6 +84,7 @@ func _ready() -> void:
 	battle_container.add_child(battle_viewport)
 	battle = View.new()
 	battle.sim = sim
+	battle.map_skin = sim.map_scene.map_skin
 	battle_viewport.add_child(battle)
 	camera = Camera2D.new()
 	camera.position_smoothing_enabled = false
@@ -101,7 +106,7 @@ func _ready() -> void:
 	labels.brand.text = "ROBOT / DEFENSE"
 	labels.brand.add_theme_font_size_override("font_size", 23)
 	labels.brand.add_theme_color_override("font_color", Color("e98450"))
-	labels.sector.text = "KHU VỰC 07 / KHU CÔNG NGHIỆP"
+	labels.sector.text = "BẢN ĐỒ / " + sim.map_scene.display_name.to_upper()
 	labels.heading.text = "Giữ vững phòng tuyến."
 	labels.heading.add_theme_font_size_override("font_size", 30)
 	labels.help.text = "WASD / ↑↓←→: di chuyển    SPACE: bắn    P / ESC: tạm dừng\nGạch: 3 HP · Thép: chặn mọi đạn · Nước: chặn đường · Cây: đi xuyên"
@@ -133,8 +138,17 @@ func _ready() -> void:
 	preparation.character_id = character_id
 	preparation.deployed.connect(activate)
 	add_child(preparation)
+	preparation.visible = false
+	preparation.map_requested.connect(show_map_selection)
 	weapon_selector = preparation.weapon_selector
 	preparation.selection_changed.connect(apply_selection)
+	map_preparation = MapSelection.new()
+	var scenes: Array[PackedScene] = available_maps.duplicate()
+	if map_scene not in scenes:
+		scenes.push_front(map_scene)
+	map_preparation.set_maps(scenes, map_scene)
+	map_preparation.confirmed.connect(choose_map)
+	add_child(map_preparation)
 	resized.connect(layout)
 	get_window().focus_exited.connect(focus_lost)
 	layout()
@@ -197,14 +211,15 @@ func layout() -> void:
 	board_rect = Rect2(Vector2(bounds.position.x, top), Vector2(maxf(1, bounds.size.x - sidebar), maxf(1, bounds.end.y - top - bottom)))
 	put(battle_container, board_rect)
 	battle_viewport.size = Vector2i(board_rect.size)
-	camera.zoom = Vector2.ONE * clampf(board_rect.size.y / 600.0, 0.55, 1.25)
 	power_up_hud.position = board_rect.position + Vector2(8, 8)
 	power_up_hud.scale = Vector2.ONE * minf(1.0, board_rect.size.x / 220.0)
 	put(labels.field, Rect2(board_rect.position.x, top - 26, 230, 24))
 	put(labels.clock, Rect2(board_rect.end.x - 52, top - 26, 52, 24))
 	put(labels.message, Rect2(board_rect.position.x, board_rect.end.y + 4, board_rect.size.x, 24))
 	labels.message.visible = not mobile
-	labels.stats.visible = mobile
+	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
+	touch_surface.visible = sim.status == "playing"
+	power_up_hud.visible = sim.status in ["playing", "paused"]
 	put(labels.stats, Rect2(bounds.position.x, bounds.position.y + (76 if portrait else 36), bounds.size.x, 36))
 	labels.stats.add_theme_font_size_override("font_size", 12)
 	for id in ["campaign", "enemies", "score", "robot", "base", "radar"]:
@@ -243,7 +258,9 @@ func layout() -> void:
 	touch_surface.rects = touch_rects
 	touch_surface.queue_redraw()
 	var preparation_size = Vector2(minf(500, bounds.size.x), minf(640, bounds.size.y - 44))
+	map_preparation.set_compact(mobile)
 	put(preparation, Rect2(bounds.get_center() - preparation_size / 2, preparation_size))
+	put(map_preparation, Rect2(bounds.get_center() - preparation_size / 2, preparation_size))
 	var overlay_size = Vector2(minf(430, board_rect.size.x - 12), minf(278, board_rect.size.y - 12))
 	put(overlay, Rect2(board_rect.get_center() - overlay_size / 2, overlay_size))
 	put(overlay_title, Rect2(8, 12, overlay_size.x - 16, 42))
@@ -258,6 +275,9 @@ func update_camera() -> void:
 	if camera == null or sim == null:
 		return
 	var world = Vector2(sim.dimensions) * R.TILE
+	var viewport_size = Vector2(battle_viewport.size)
+	var zoom = clampf(viewport_size.y / 600.0, 0.55, 1.25) if mobile else minf(1.25, minf(viewport_size.x / maxf(world.x, 1), viewport_size.y / maxf(world.y, 1)))
+	camera.zoom = Vector2.ONE * zoom
 	var visible_world = Vector2(battle_viewport.size) / camera.zoom
 	var half = visible_world / 2
 	var target: Vector2 = sim.player.pos
@@ -280,6 +300,7 @@ func apply_selection(character: String, body: String, weapon: String) -> void:
 	if sim.status == "ready":
 		sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 		battle.sim = sim
+		battle.map_skin = sim.map_scene.map_skin
 		power_up_hud.sim = sim
 	update_camera()
 	refresh_hud()
@@ -301,11 +322,32 @@ func activate() -> void:
 	else:
 		sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 		battle.sim = sim
+		battle.map_skin = sim.map_scene.map_skin
 		power_up_hud.sim = sim
 		sim.start()
 		last_shots = 0
 	update_camera()
 	refresh_hud()
+
+func choose_map(scene: PackedScene) -> void:
+	map_scene = scene
+	sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
+	battle.sim = sim
+	battle.map_skin = sim.map_scene.map_skin
+	labels.sector.text = "BẢN ĐỒ / " + sim.map_scene.display_name.to_upper()
+	power_up_hud.sim = sim
+	preparation_step = "character"
+	map_preparation.visible = false
+	preparation.visible = true
+	update_camera()
+	refresh_hud()
+	battle.queue_redraw()
+
+func show_map_selection() -> void:
+	preparation_step = "map"
+	map_preparation.select_map(map_scene)
+	map_preparation.visible = true
+	preparation.visible = false
 
 func toggle_pause() -> void:
 	sim.pause()
@@ -413,10 +455,16 @@ func refresh_hud() -> void:
 	labels.base.text = "TRẠNG THÁI CĂN CỨ\n%d%%  /  %s" % [base_percent, "AN TOÀN" if base_percent > 50 else "NGUY CẤP"]
 	labels.stats.text = "Đợt %d/5   •   Địch %d   •   Điểm %d\nRobot ×%d   •   Giáp %d%%   •   Căn cứ %d%%" % [maxi(1, sim.wave), sim.to_spawn + sim.enemies.size(), sim.score, sim.lives, roundi(100.0 * maxi(0, sim.player.hp) / sim.player.max_hp), base_percent]
 	pause_button.disabled = sim.status not in ["playing", "paused"]
+	pause_button.visible = sim.status in ["playing", "paused"]
 	pause_button.text = "TIẾP TỤC [P]" if sim.status == "paused" else "TẠM DỪNG [P]"
+	touch_surface.visible = sim.status == "playing"
+	power_up_hud.visible = sim.status in ["playing", "paused"]
+	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
 	weapon_selector.visible = sim.status in ["ready", "won", "lost"]
 	weapon_selector.disabled = not weapon_selector.visible
 	preparation.visible = sim.status in ["ready", "won", "lost"]
+	preparation.visible = preparation.visible and preparation_step == "character"
+	map_preparation.visible = sim.status in ["ready", "won", "lost"] and preparation_step == "map"
 	preparation.heading.text = "THẮNG TRẬN · CHỌN LẠI" if sim.status == "won" else "THUA TRẬN · CHỌN LẠI" if sim.status == "lost" else "CHUẨN BỊ VÀO TRẬN"
 	overlay.visible = sim.status == "paused"
 	if sim.status != last_status:

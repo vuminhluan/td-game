@@ -58,6 +58,7 @@ func integration_checks() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	game.activate()
 	var sim = game.sim
 	sim.spawn_timer = 999

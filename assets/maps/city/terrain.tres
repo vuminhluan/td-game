@@ -1,0 +1,44 @@
+[gd_resource type="TileSet" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/maps/city/terrain_atlas.png" id="1_ayuk3"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7thll"]
+texture = ExtResource("1_ayuk3")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+0:0/0/custom_data_0 = "floor"
+1:0/0 = 0
+1:0/0/custom_data_0 = "brick"
+1:0/0/custom_data_1 = true
+1:0/0/custom_data_2 = true
+1:0/0/custom_data_3 = true
+1:0/0/custom_data_4 = 3
+2:0/0 = 0
+2:0/0/custom_data_0 = "steel"
+2:0/0/custom_data_1 = true
+2:0/0/custom_data_2 = true
+2:0/0/custom_data_3 = true
+2:0/0/custom_data_4 = 5
+2:0/0/custom_data_5 = true
+3:0/0 = 0
+3:0/0/custom_data_0 = "water"
+3:0/0/custom_data_1 = true
+4:0/0 = 0
+4:0/0/z_index = 1
+4:0/0/custom_data_0 = "grass"
+
+[resource]
+tile_size = Vector2i(40, 40)
+custom_data_layer_0/name = "kind"
+custom_data_layer_0/type = 4
+custom_data_layer_1/name = "move_blocked"
+custom_data_layer_1/type = 1
+custom_data_layer_2/name = "bullet_blocked"
+custom_data_layer_2/type = 1
+custom_data_layer_3/name = "destructible"
+custom_data_layer_3/type = 1
+custom_data_layer_4/name = "hp"
+custom_data_layer_4/type = 2
+custom_data_layer_5/name = "steel"
+custom_data_layer_5/type = 1
+sources/0 = SubResource("TileSetAtlasSource_7thll")

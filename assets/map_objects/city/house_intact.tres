@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_4xr0s"]
+[ext_resource type="Texture2D" path="res://assets/maps/city/outer_houses.png" id="2_extub"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xr0s"]
+atlas = ExtResource("2_extub")
+region = Rect2(0, 0, 160, 160)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_4xr0s")
+object_id = "city_house_intact"
+display_name = "Nhà cũ nguyên vẹn"
+tags = Array[String](["city", "house_intact"])
+texture = SubResource("AtlasTexture_4xr0s")
+visual_rect = Rect2(2, 2, 116, 116)
+category = "fixed"
+footprint = Vector2i(3, 3)
+move_blocked = true
+bullet_blocked = true
+initial_hp = 0

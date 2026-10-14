@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_h4kbu"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/city/street_props.png" id="2_g6ak0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4kbu"]
+atlas = ExtResource("2_g6ak0")
+region = Rect2(0, 0, 256, 128)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_h4kbu")
+object_id = "city_fallen_signal"
+display_name = "Đèn giao thông đổ"
+tags = Array[String](["city", "fallen_signal"])
+texture = SubResource("AtlasTexture_h4kbu")
+visual_rect = Rect2(2, 2, 156, 76)
+category = "fixed"
+footprint = Vector2i(4, 2)
+move_blocked = true
+initial_hp = 0

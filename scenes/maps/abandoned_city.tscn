@@ -1,0 +1,174 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_definition.gd" id="1_ok6nr"]
+[ext_resource type="Texture2D" path="res://assets/maps/previews/abandoned-city.png" id="2_layv7"]
+[ext_resource type="Resource" path="res://assets/terrain/abandoned_city/map_skin.tres" id="3_sk67g"]
+[ext_resource type="Texture2D" path="res://assets/terrain/abandoned_city/floor.png" id="4_qo3nr"]
+[ext_resource type="Script" path="res://gd/road_layout.gd" id="5_iw6ks"]
+[ext_resource type="Texture2D" path="res://assets/maps/city/sidewalk.png" id="6_p056x"]
+[ext_resource type="TileSet" path="res://assets/maps/city/terrain.tres" id="7_x5f7g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/abandoned_car.tscn" id="8_g3jac"]
+[ext_resource type="Script" path="res://gd/map_object.gd" id="9_xk0gv"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_car.tres" id="10_5kfmn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/abandoned_wagon.tscn" id="11_xknnr"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_wagon.tres" id="12_j0oil"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/abandoned_car_horizontal.tscn" id="13_5uusa"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_car_horizontal.tres" id="14_uppmv"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/abandoned_wagon_horizontal.tscn" id="15_7tsk0"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_wagon_horizontal.tres" id="16_43ubl"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/fallen_signal.tscn" id="17_tlo3j"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/fallen_signal.tres" id="18_bonpp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/manhole.tscn" id="19_csu45"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/manhole.tres" id="20_46xrc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/street_sign.tscn" id="21_ltqrc"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/street_sign.tres" id="22_fmr8y"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/house_intact.tscn" id="23_7n8wq"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_intact.tres" id="24_5vw51"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/house_weathered.tscn" id="25_p28xi"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_weathered.tres" id="26_cbfge"]
+[ext_resource type="PackedScene" path="res://scenes/objects/city/house_ruined.tscn" id="27_sqif7"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_ruined.tres" id="28_sxkkl"]
+[ext_resource type="Script" path="res://gd/map_marker.gd" id="29_51u1q"]
+
+[node name="AbandonedCityDay" type="Node2D" unique_id=1034708181]
+script = ExtResource("1_ok6nr")
+map_id = "abandoned_city_day"
+display_name = "Thành phố bỏ hoang"
+display_description = "Ban ngày · đại lộ sáu làn, ngã tư vắng, xe gỉ sét và nhà đổ nát."
+preview_texture = ExtResource("2_layv7")
+map_skin = ExtResource("3_sk67g")
+
+[node name="Floor" type="Sprite2D" parent="." unique_id=384231845]
+texture_repeat = 3
+texture = ExtResource("4_qo3nr")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 840, 760)
+
+[node name="RoadLayout" type="Node2D" parent="." unique_id=224846327]
+script = ExtResource("5_iw6ks")
+sidewalk_texture = ExtResource("6_p056x")
+
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=1464182454]
+tile_set = ExtResource("7_x5f7g")
+
+[node name="abandoned_car_03" type="Node2D" parent="." unique_id=1976362473 instance=ExtResource("8_g3jac")]
+position = Vector2(240, 80)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("10_5kfmn")
+
+[node name="abandoned_wagon_04" type="Node2D" parent="." unique_id=703019024 instance=ExtResource("11_xknnr")]
+position = Vector2(560, 120)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("12_j0oil")
+
+[node name="abandoned_car_horizontal_05" type="Node2D" parent="." unique_id=1474449538 instance=ExtResource("13_5uusa")]
+position = Vector2(200, 520)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("14_uppmv")
+
+[node name="abandoned_wagon_horizontal_06" type="Node2D" parent="." unique_id=82629644 instance=ExtResource("15_7tsk0")]
+position = Vector2(560, 640)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("16_43ubl")
+
+[node name="fallen_signal_07" type="Node2D" parent="." unique_id=135148822 instance=ExtResource("17_tlo3j")]
+position = Vector2(200, 240)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("18_bonpp")
+
+[node name="fallen_signal_08" type="Node2D" parent="." unique_id=1612509166 instance=ExtResource("17_tlo3j")]
+position = Vector2(480, 480)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("18_bonpp")
+
+[node name="manhole_09" type="Node2D" parent="." unique_id=1444514866 instance=ExtResource("19_csu45")]
+position = Vector2(320, 160)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("20_46xrc")
+
+[node name="manhole_10" type="Node2D" parent="." unique_id=1552390889 instance=ExtResource("19_csu45")]
+position = Vector2(480, 320)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("20_46xrc")
+
+[node name="manhole_11" type="Node2D" parent="." unique_id=2130411170 instance=ExtResource("19_csu45")]
+position = Vector2(360, 440)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("20_46xrc")
+
+[node name="manhole_12" type="Node2D" parent="." unique_id=1113707997 instance=ExtResource("19_csu45")]
+position = Vector2(440, 600)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("20_46xrc")
+
+[node name="street_sign_13" type="Node2D" parent="." unique_id=813239750 instance=ExtResource("21_ltqrc")]
+position = Vector2(120, 240)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("22_fmr8y")
+
+[node name="street_sign_14" type="Node2D" parent="." unique_id=1890523583 instance=ExtResource("21_ltqrc")]
+position = Vector2(680, 480)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("22_fmr8y")
+
+[node name="house_intact_15" type="Node2D" parent="." unique_id=750495725 instance=ExtResource("23_7n8wq")]
+script = ExtResource("9_xk0gv")
+definition = ExtResource("24_5vw51")
+
+[node name="house_intact_16" type="Node2D" parent="." unique_id=14688172 instance=ExtResource("23_7n8wq")]
+position = Vector2(720, 480)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("24_5vw51")
+
+[node name="house_intact_17" type="Node2D" parent="." unique_id=654311001 instance=ExtResource("23_7n8wq")]
+position = Vector2(0, 640)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("24_5vw51")
+
+[node name="house_weathered_18" type="Node2D" parent="." unique_id=1801674087 instance=ExtResource("25_p28xi")]
+position = Vector2(720, 0)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("26_cbfge")
+
+[node name="house_weathered_19" type="Node2D" parent="." unique_id=836165387 instance=ExtResource("25_p28xi")]
+position = Vector2(0, 480)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("26_cbfge")
+
+[node name="house_weathered_20" type="Node2D" parent="." unique_id=39971940 instance=ExtResource("25_p28xi")]
+position = Vector2(720, 640)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("26_cbfge")
+
+[node name="house_ruined_21" type="Node2D" parent="." unique_id=34588297 instance=ExtResource("27_sqif7")]
+position = Vector2(0, 160)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("28_sxkkl")
+
+[node name="house_ruined_22" type="Node2D" parent="." unique_id=197764678 instance=ExtResource("27_sqif7")]
+position = Vector2(720, 160)
+script = ExtResource("9_xk0gv")
+definition = ExtResource("28_sxkkl")
+
+[node name="Headquarters" type="Marker2D" parent="." unique_id=1642369032]
+position = Vector2(420, 700)
+script = ExtResource("29_51u1q")
+role = "base"
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=770773741]
+position = Vector2(420, 620)
+script = ExtResource("29_51u1q")
+role = "player"
+
+[node name="EnemySpawn0" type="Marker2D" parent="." unique_id=2038277934]
+position = Vector2(260, 20)
+script = ExtResource("29_51u1q")
+
+[node name="EnemySpawn1" type="Marker2D" parent="." unique_id=1696068447]
+position = Vector2(420, 20)
+script = ExtResource("29_51u1q")
+
+[node name="EnemySpawn2" type="Marker2D" parent="." unique_id=874479609]
+position = Vector2(580, 20)
+script = ExtResource("29_51u1q")

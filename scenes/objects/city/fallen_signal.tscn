@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gd/map_object.gd" id="1_1w2ld"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/fallen_signal.tres" id="2_d4rhd"]
+
+[node name="fallen_signal" type="Node2D" unique_id=135148822]
+script = ExtResource("1_1w2ld")
+definition = ExtResource("2_d4rhd")

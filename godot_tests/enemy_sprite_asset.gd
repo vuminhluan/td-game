@@ -19,6 +19,7 @@ func run() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	game.activate()
 	for kind in ["tank", "robot"]:
 		var skin: Resource = game.battle.enemy_skins[kind]

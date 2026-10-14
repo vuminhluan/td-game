@@ -197,7 +197,9 @@ func ui_checks() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
-	check(game.preparation.visible and game.character_id == "robot", "fresh launch opens preparation with default robot")
+	check(game.map_preparation.visible and not game.preparation.visible and game.character_id == "robot", "fresh launch requests a map before character preparation")
+	game.map_preparation.confirm_selection()
+	check(not game.map_preparation.visible and game.preparation.visible, "map confirmation opens character preparation")
 	game.preparation.choose_character("tank")
 	check(game.weapon_selector.item_count == 3 and game.sim.player.max_hp == 10, "tank card filters compatible weapons")
 	game.preparation.choose_weapon(2)
@@ -211,6 +213,9 @@ func ui_checks() -> void:
 	game.sim.status = "lost"
 	game.refresh_hud()
 	check(game.preparation.visible, "end screen offers selection")
+	game.show_map_selection()
+	check(game.map_preparation.visible and not game.preparation.visible, "character screen can return to map selection")
+	game.map_preparation.confirm_selection()
 	game.preparation.choose_character("robot")
 	game.preparation.choose_weapon(1)
 	game.activate()

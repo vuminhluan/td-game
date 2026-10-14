@@ -9,9 +9,13 @@
 [ext_resource type="Script" path="res://gd/map_object.gd" id="6_783wv"]
 [ext_resource type="PackedScene" path="res://scenes/objects/industrial/drink_can.tscn" id="12_4uavf"]
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/drink_can.tres" id="13_adme7"]
+[ext_resource type="Texture2D" path="res://assets/maps/previews/industrial.png" id="8_preview"]
 
 [node name="IndustrialYard" type="Node2D" unique_id=1158066742]
 script = ExtResource("1_palji")
+display_name = "Xưởng công nghiệp"
+display_description = "Bảo vệ căn cứ trong khu công nghiệp cũ, với các tuyến ống và máy bơm dọc hai biên."
+preview_texture = ExtResource("8_preview")
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=1592714511]
 modulate = Color(0.55, 0.6, 0.62, 1)

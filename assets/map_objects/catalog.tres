@@ -9,7 +9,19 @@
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/single_pipe.tres" id="6_tij8b"]
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/water_pump.tres" id="7_pg2fq"]
 [ext_resource type="Resource" path="res://assets/map_objects/industrial/water_pump_right.tres" id="8_lxbcc"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_car.tres" id="9_vv5oc"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_robot.tres" id="10_cisie"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/city_bush.tres" id="11_su2n1"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/manhole.tres" id="12_130yi"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_wagon.tres" id="13_ccchd"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_car_horizontal.tres" id="14_utdgq"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/abandoned_wagon_horizontal.tres" id="15_u62c6"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/fallen_signal.tres" id="16_3vi2p"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/street_sign.tres" id="17_asu48"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_intact.tres" id="18_am8vg"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_weathered.tres" id="19_akpgr"]
+[ext_resource type="Resource" path="res://assets/map_objects/city/house_ruined.tres" id="20_w7clt"]
 
 [resource]
 script = ExtResource("6_lxbcc")
-objects = Array[ExtResource("1_4ttgd")]([ExtResource("2_6oy08"), ExtResource("3_avyx2"), ExtResource("4_tij8b"), ExtResource("5_pg2fq"), ExtResource("6_tij8b"), ExtResource("7_pg2fq"), ExtResource("8_lxbcc")])
+objects = Array[ExtResource("1_4ttgd")]([ExtResource("2_6oy08"), ExtResource("3_avyx2"), ExtResource("4_tij8b"), ExtResource("5_pg2fq"), ExtResource("6_tij8b"), ExtResource("7_pg2fq"), ExtResource("8_lxbcc"), ExtResource("9_vv5oc"), ExtResource("10_cisie"), ExtResource("11_su2n1"), ExtResource("12_130yi"), ExtResource("13_ccchd"), ExtResource("14_utdgq"), ExtResource("15_u62c6"), ExtResource("16_3vi2p"), ExtResource("17_asu48"), ExtResource("18_am8vg"), ExtResource("19_akpgr"), ExtResource("20_w7clt")])

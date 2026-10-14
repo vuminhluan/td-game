@@ -1,0 +1,79 @@
+{
+	"display_name": "Thành phố bỏ hoang",
+	"objects": {
+		"abandoned_car": {
+			"artwork": "res://assets/map_objects/city/cars.png",
+			"definition": "res://assets/map_objects/city/abandoned_car.tres",
+			"scene": "res://scenes/objects/city/abandoned_car.tscn",
+			"sha256": "78b5c6dd110b5b257b46f479b3cffe074a54482f96ad40aa890a848060bbe5bf"
+		},
+		"abandoned_car_horizontal": {
+			"artwork": "res://assets/map_objects/city/cars_horizontal.png",
+			"definition": "res://assets/map_objects/city/abandoned_car_horizontal.tres",
+			"scene": "res://scenes/objects/city/abandoned_car_horizontal.tscn",
+			"sha256": "e8fc06655411b71e9999860acb23bebf49449d9592d76dc00be3994bb9bcaa82"
+		},
+		"abandoned_robot": {
+			"artwork": "res://assets/map_objects/city/abandoned_robot.png",
+			"definition": "res://assets/map_objects/city/abandoned_robot.tres",
+			"scene": "res://scenes/objects/city/abandoned_robot.tscn",
+			"sha256": "16ea12a1f9cb793d4c9ffb4a98a57fd1ac9132ecb309c7f7bbc982e42eb31c1b"
+		},
+		"abandoned_wagon": {
+			"artwork": "res://assets/map_objects/city/cars.png",
+			"definition": "res://assets/map_objects/city/abandoned_wagon.tres",
+			"scene": "res://scenes/objects/city/abandoned_wagon.tscn",
+			"sha256": "78b5c6dd110b5b257b46f479b3cffe074a54482f96ad40aa890a848060bbe5bf"
+		},
+		"abandoned_wagon_horizontal": {
+			"artwork": "res://assets/map_objects/city/cars_horizontal.png",
+			"definition": "res://assets/map_objects/city/abandoned_wagon_horizontal.tres",
+			"scene": "res://scenes/objects/city/abandoned_wagon_horizontal.tscn",
+			"sha256": "e8fc06655411b71e9999860acb23bebf49449d9592d76dc00be3994bb9bcaa82"
+		},
+		"city_bush": {
+			"artwork": "res://assets/map_objects/vegetation/bushes.png",
+			"definition": "res://assets/map_objects/city/city_bush.tres",
+			"scene": "res://scenes/objects/city/city_bush.tscn",
+			"sha256": "bf2500b2c6a8949df8ee6c6e315928865bc226a2da5db0770d8bd82f93b9ab60"
+		},
+		"fallen_signal": {
+			"artwork": "res://assets/map_objects/city/street_props.png",
+			"definition": "res://assets/map_objects/city/fallen_signal.tres",
+			"scene": "res://scenes/objects/city/fallen_signal.tscn",
+			"sha256": "7aab73ea4d1585bff13a9852a7e9c9f117c0939dec5d9eaa45667284fd6074f6"
+		},
+		"house_intact": {
+			"artwork": "res://assets/maps/city/outer_houses.png",
+			"definition": "res://assets/map_objects/city/house_intact.tres",
+			"scene": "res://scenes/objects/city/house_intact.tscn",
+			"sha256": "6b3860ecf5f94329d11a8db998a99aa9d78b9838528dca9ac9c041c4cdbc257b"
+		},
+		"house_ruined": {
+			"artwork": "res://assets/maps/city/outer_houses.png",
+			"definition": "res://assets/map_objects/city/house_ruined.tres",
+			"scene": "res://scenes/objects/city/house_ruined.tscn",
+			"sha256": "6b3860ecf5f94329d11a8db998a99aa9d78b9838528dca9ac9c041c4cdbc257b"
+		},
+		"house_weathered": {
+			"artwork": "res://assets/maps/city/outer_houses.png",
+			"definition": "res://assets/map_objects/city/house_weathered.tres",
+			"scene": "res://scenes/objects/city/house_weathered.tscn",
+			"sha256": "6b3860ecf5f94329d11a8db998a99aa9d78b9838528dca9ac9c041c4cdbc257b"
+		},
+		"manhole": {
+			"artwork": "res://assets/map_objects/city/street_props.png",
+			"definition": "res://assets/map_objects/city/manhole.tres",
+			"scene": "res://scenes/objects/city/manhole.tscn",
+			"sha256": "7aab73ea4d1585bff13a9852a7e9c9f117c0939dec5d9eaa45667284fd6074f6"
+		},
+		"street_sign": {
+			"artwork": "res://assets/map_objects/city/street_props.png",
+			"definition": "res://assets/map_objects/city/street_sign.tres",
+			"scene": "res://scenes/objects/city/street_sign.tscn",
+			"sha256": "7aab73ea4d1585bff13a9852a7e9c9f117c0939dec5d9eaa45667284fd6074f6"
+		}
+	},
+	"source_directory": "assets/generated/map/city/",
+	"style": "bright_day_abandoned_city"
+}

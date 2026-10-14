@@ -16,6 +16,7 @@ func run() -> void:
 	root.size = Vector2i(1280, 1000)
 	root.add_child(game)
 	await capture("/private/tmp/robot-defense-ready.png")
+	game.map_preparation.confirm_selection()
 	game.activate()
 	for i in 180:
 		game.sim.update(1.0 / 60, "up", true)

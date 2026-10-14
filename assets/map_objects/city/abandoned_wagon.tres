@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MapObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://gd/map_object_definition.gd" id="1_g87um"]
+[ext_resource type="Texture2D" path="res://assets/map_objects/city/cars.png" id="2_bu33y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g87um"]
+atlas = ExtResource("2_bu33y")
+region = Rect2(128, 0, 128, 192)
+filter_clip = true
+
+[resource]
+script = ExtResource("1_g87um")
+object_id = "city_abandoned_wagon"
+display_name = "Xe wagon bỏ hoang"
+tags = Array[String](["city", "abandoned_wagon"])
+texture = SubResource("AtlasTexture_g87um")
+visual_rect = Rect2(2, 2, 76, 116)
+category = "fixed"
+footprint = Vector2i(2, 3)
+move_blocked = true
+initial_hp = 0

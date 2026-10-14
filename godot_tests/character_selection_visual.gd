@@ -41,6 +41,7 @@ func run() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.map_preparation.confirm_selection()
 	await capture("res://docs/images/character-selection-desktop.png")
 	game.preparation.choose_character("tank")
 	game.preparation.choose_weapon(2)

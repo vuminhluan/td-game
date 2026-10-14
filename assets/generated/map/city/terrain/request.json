@@ -1,0 +1,8 @@
+{
+  "provider": "built-in imagegen",
+  "tool": "image_gen.imagegen",
+  "prompt": "Asset type: top-down 2D game terrain atlas source for an abandoned city map in bright daytime. Create one opaque square image divided into four equal clean quadrants with no gutters, borders or labels. Each quadrant is one independently seamless repeating ground material, viewed perfectly straight overhead: upper left cracked pale gray city asphalt with small embedded pebbles; upper right a low rectangular patch of old reddish city brick paving, clear neat brick pattern and mortar, usable as a destructible 40-unit barricade tile; lower left dusty concrete sidewalk slab with tiny weeds at cracks; lower right rain-worn asphalt with a shallow muted blue-gray puddle. Keep all quadrants the same softly sunlit dry daytime palette, slight rust and age, restrained texture with readable broad forms, realistic hand-painted professional game asset. Seamless within each quadrant. Entire image fills canvas, no empty margin, no text, no outlines separating tiles. Not isometric, no cast shadow, no buildings, no vehicles or characters.\n",
+  "transparent_background": false,
+  "source": "assets/generated/map/city/terrain/source.png",
+  "output": "source.png"
+}

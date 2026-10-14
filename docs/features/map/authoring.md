@@ -7,7 +7,7 @@ Layout chạy trong game lấy từ `scenes/maps/industrial_yard.tscn`. Scene m�
 1. Mở scene map trong Godot, chọn node `Terrain` (`TileMapLayer`), mở bảng TileMap và vẽ/xóa tile.
 2. Chọn root để đổi `dimensions`. Terrain hợp lệ phải nằm trong hình chữ nhật từ `(0, 0)` đến `dimensions - 1`. Node `Floor` tự đổi vùng lặp ảnh theo kích thước map; các ô terrain không được vẽ mặc định là sàn đi được.
 3. Giữ root và Terrain ở origin, scale 1, không xoay. Terrain trong một group vẫn phải có transform tổng hợp khớp lưới map.
-4. Lưu scene rồi chạy game. Chọn node `Main` trong scene chính và gán scene mới vào export `map_scene`; `Simulation` nhận `PackedScene` đó khi bắt đầu trận.
+4. Lưu scene, gán tên/mô tả/preview/map skin trên root, rồi thêm scene vào `Main.available_maps`. `Main.map_scene` là map khởi đầu mặc định; màn hình đầu game liệt kê các map khả dụng và tạo simulation từ scene người chơi chọn.
 
 Tạo map khác bằng cách duplicate scene mẫu rồi đổi `map_id` và `dimensions`. TileSet dùng chung ở `assets/maps/industrial/terrain.tres`; nếu cần luật hoặc ảnh khác riêng cho map mới, tạo resource riêng bằng Make Unique hoặc Save As trước khi sửa. Giới hạn validation là 1024 ô mỗi trục và 262144 ô tổng, nhằm từ chối cấu hình cấp phát quá lớn trước khi tạo runtime grid. Vùng liên tục lớn hơn có thể chia theo chunk trong một thay đổi riêng về sau.
 
