@@ -1,6 +1,29 @@
 # QA Web PWA
 
-## Kiểm tra ngày 15/10/2026
+## Bổ sung mobile và cập nhật ngày 15/10/2026
+
+Môi trường: Godot headless, Python unittest, Node.js VM và Chrome DevTools mô phỏng Pixel 9; localhost cổng 8083. Không có điện thoại thật kết nối trong phiên này.
+
+| Phạm vi | Kết quả |
+| --- | --- |
+| Layout mobile | 17 kiểm tra thành công: CSS logic trên viewport DPR cao, vị trí đủ 5 nút, giữ hướng và bắn đồng thời, portrait pause/xóa input, resume và desktop |
+| Đóng gói | 2 Python test thành công: đường dẫn subpath, manifest, hash/version, chạy lại, dọn output cũ và phát hiện file bị sửa |
+| Worker | Node VM kiểm tra offline, điều hướng lấy HTML mới, tài nguyên riêng từng bản, cập nhật không điều hướng client mới, giữ cache trước, rollback khi tải thiếu và chuyển shell cũ |
+| Export | `make build` thành công; 16 tài nguyên precache, khoảng 51.4 MiB |
+| Portrait | Pixel 9 mô phỏng hiện hướng dẫn xoay ngang và nút fullscreen; xoay landscape thì overlay biến mất |
+| Cập nhật browser | Mở bản A, build B cùng origin; worker B kích hoạt, trang A hiện Cập nhật; xác nhận trên Chrome nạp lại game và ẩn nút |
+| Offline browser | Sau cập nhật, bật Offline trong Chrome DevTools và reload; bản B vẫn mở tới màn chọn map, console chỉ có 3 dòng khởi tạo engine |
+| Regression | `make test` thành công toàn bộ suite |
+
+![Hướng dẫn xoay ngang trên Pixel 9 mô phỏng](../images/web-pwa-portrait.png)
+
+![Thông báo bản mới trên trang đang mở](../images/web-pwa-update.jpg)
+
+![Bản mới mở lại offline trên Pixel 9 mô phỏng](../images/web-pwa-offline-mobile.png)
+
+Đây là kiểm tra local, chưa chứng nhận cập nhật qua GitHub Pages hoặc thao tác khóa hướng trên điện thoại thật. Phiên này chỉ push source; chủ repo tự chạy workflow build/deploy.
+
+## Kiểm tra ban đầu ngày 15/10/2026
 
 Môi trường: macOS, Godot `4.7.2.stable.official.ed1daf0bf`, Chrome desktop và trình duyệt nhúng Codex, localhost cổng 8080. Đây là browser smoke trên máy tính; không chứng nhận thiết bị cảm ứng thật.
 
@@ -30,6 +53,6 @@ Godot headless trong sandbox từng báo lỗi đọc CA certificates và không
 
 ## Phần cần kiểm tra tiếp
 
-Chưa xác nhận Chrome Android/Safari iOS, multi-touch đồng thời, notch/safe area, khóa hướng màn hình, âm thanh nghe thực tế, hiệu năng/FPS hoặc mất WebGL context. Chưa chứng nhận cập nhật giữa hai bản phát hành qua hosting HTTPS, tải trên mạng chậm, quota/eviction của điện thoại hay offline sau khi restart thiết bị. Chưa phát hành lên hosting.
+Chưa xác nhận Chrome Android/Safari iOS, multi-touch đồng thời, notch/safe area, khóa hướng màn hình, âm thanh nghe thực tế, hiệu năng/FPS hoặc mất WebGL context. Chưa chứng nhận cập nhật giữa hai bản phát hành qua hosting HTTPS, tải trên mạng chậm, quota/eviction của điện thoại hay offline sau khi restart thiết bị. Chưa chứng nhận lại các thay đổi mobile trên hosting trong phiên này.
 
 Build hiện khoảng 51 MiB trước HTTP compression. Có thể bổ sung screenshots/icon maskable và tối ưu kích thước trước phát hành rộng rãi. Quy trình ở [Web PWA](../features/web-pwa.md).

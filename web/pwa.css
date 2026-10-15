@@ -1,0 +1,22 @@
+:root { color-scheme: dark; --toolbar-height: 44px; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #101719; color: #e2d4af; touch-action: none; }
+button { font: inherit; color: #f2e8d5; background: #303d3d; border: 1px solid #657365; border-radius: 6px; min-height: 36px; padding: 6px 12px; cursor: pointer; }
+button:focus-visible { outline: 2px solid #e98450; outline-offset: 2px; }
+[hidden] { display: none !important; }
+#web-toolbar { position: absolute; z-index: 30; top: 0; left: 0; right: 0; height: calc(var(--toolbar-height) + env(safe-area-inset-top)); padding: calc(4px + env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); display: flex; gap: 8px; align-items: center; background: #172124; }
+#web-toolbar button { flex-shrink: 0; font-size: 13px; }
+#web-message { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
+#update { border-color: #e98450; }
+#game-area { position: absolute; top: calc(var(--toolbar-height) + env(safe-area-inset-top)); bottom: env(safe-area-inset-bottom); left: env(safe-area-inset-left); right: env(safe-area-inset-right); overflow: hidden; }
+#canvas { position: absolute; inset: 0; display: block; border: 0; outline: none; touch-action: none; }
+#loading, #rotate { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; text-align: center; background: #101719; }
+#loading { z-index: 10; }
+#loading progress { width: min(80%, 360px); margin: 20px; }
+#rotate { z-index: 20; background: #101719f5; }
+#rotate > div { max-width: 440px; }
+#rotate h1 { font-size: clamp(20px, 5vw, 28px); }
+#rotate p { font-size: 15px; line-height: 1.5; }
+.rotate-symbol { font-size: 52px; color: #e98450; }
+#rotate-help { color: #acb9b5; }
+@media (max-width: 480px) { #web-message { font-size: 11px; } #web-toolbar { gap: 4px; } #web-toolbar button { padding: 5px 8px; } }

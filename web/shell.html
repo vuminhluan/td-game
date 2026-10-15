@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172124">
+  <title>$GODOT_PROJECT_NAME</title>
+  $GODOT_HEAD_INCLUDE
+  <link rel="stylesheet" href="index.pwa.css">
+</head>
+<body>
+  <header id="web-toolbar">
+    <button id="fullscreen" type="button">Toàn màn hình</button>
+    <span id="web-message" role="status" aria-live="polite"></span>
+    <button id="update" type="button" hidden>Cập nhật</button>
+  </header>
+  <main id="game-area">
+    <canvas id="canvas" tabindex="0" aria-label="Robot Defense"></canvas>
+    <section id="loading" role="status">
+      <strong>Đang tải Robot Defense…</strong>
+      <progress id="progress" aria-label="Tiến độ tải game"></progress>
+      <p id="loading-message">Lần đầu cần kết nối mạng để tải game.</p>
+    </section>
+    <section id="rotate" hidden aria-labelledby="rotate-title">
+      <div>
+        <div class="rotate-symbol" aria-hidden="true">↻</div>
+        <h1 id="rotate-title">Hãy xoay ngang điện thoại</h1>
+        <p>Để nhìn rõ bản đồ và sử dụng nút di chuyển, bắn.</p>
+        <button id="rotate-fullscreen" type="button">Toàn màn hình và chơi ngang</button>
+        <p id="rotate-help">Nếu màn hình chưa xoay, hãy bật tự động xoay trên điện thoại và xoay máy bằng tay.</p>
+      </div>
+    </section>
+  </main>
+  <noscript>Bạn cần bật JavaScript để chơi game.</noscript>
+  <script>const GODOT_CONFIG = $GODOT_CONFIG; const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;</script>
+  <script src="$GODOT_URL"></script>
+  <script src="index.pwa.js"></script>
+</body>
+</html>

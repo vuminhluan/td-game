@@ -1,7 +1,7 @@
 GODOT ?= godot
 TEST_LOG_DIR ?= /tmp
 
-.PHONY: dev editor import check test test-visual build serve
+.PHONY: dev editor import check test test-web test-visual build serve
 
 dev:
 	$(GODOT) --path .
@@ -27,6 +27,11 @@ test: check
 	$(GODOT) --headless --path . --fixed-fps 60 --script godot_tests/player_mech_asset.gd --log-file $(TEST_LOG_DIR)/robot-defense-player-mech-asset.log
 	$(GODOT) --headless --path . --fixed-fps 60 --script godot_tests/enemy_sprite_asset.gd --log-file $(TEST_LOG_DIR)/robot-defense-enemy-sprite-asset.log
 	$(GODOT) --headless --path . --fixed-fps 60 --script godot_tests/map_art_asset.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-art-asset.log
+
+test-web:
+	$(GODOT) --headless --path . --script godot_tests/web_mobile.gd --log-file $(TEST_LOG_DIR)/robot-defense-web-mobile.log
+	python3 scripts/test_prepare_web_pwa.py
+	node scripts/test_web_pwa.mjs
 
 test-visual:
 	$(GODOT) --path . --script godot_tests/environment_objects_visual.gd --log-file $(TEST_LOG_DIR)/robot-defense-environment-objects-visual.log

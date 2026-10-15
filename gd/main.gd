@@ -35,6 +35,10 @@ var keyboard_fire = false
 var board_rect = Rect2()
 var touch_rects: Dictionary = {}
 var mobile = false
+var web_touch = false
+var web_blocked = false
+var web_callback: JavaScriptObject
+var web_interface: JavaScriptObject
 var audio: AudioStreamPlayer
 var sound_enabled = false
 var last_shots = 0
@@ -70,6 +74,11 @@ func _ready() -> void:
 	body_id = catalog.data.characters[character_id].default_body
 	weapon_id = catalog.data.characters[character_id].default_weapon
 	sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
+	if OS.has_feature("web"):
+		web_interface = JavaScriptBridge.get_interface("RobotDefenseWeb")
+		if web_interface != null:
+			web_callback = JavaScriptBridge.create_callback(web_viewport_changed)
+			web_interface.subscribe(web_callback)
 	var theme_resource = Theme.new()
 	var ui_font: Font = ThemeDB.fallback_font.duplicate()
 	ui_font.fallbacks = [preload("res://assets/fonts/NotoSansSymbols.ttf"), preload("res://assets/fonts/NotoSansSymbols2-Regular.ttf")]
@@ -190,12 +199,32 @@ func display_safe_rect() -> Rect2:
 	var relative = Vector2(native.position - DisplayServer.window_get_position())
 	return full.intersection(Rect2(relative * ratio, Vector2(native.size) * ratio))
 
+func web_viewport_changed(arguments: Array) -> void:
+	if arguments.is_empty():
+		return
+	var metrics = JSON.parse_string(str(arguments[0]))
+	if not metrics is Dictionary:
+		return
+	web_touch = metrics.get("touch", false)
+	web_blocked = metrics.get("blocked", false)
+	var logical_size = Vector2i(maxi(1, roundi(metrics.get("width", 1280))), maxi(1, roundi(metrics.get("height", 720))))
+	var window = get_window()
+	window.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	window.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
+	if window.content_scale_size != logical_size:
+		window.content_scale_size = logical_size
+	if web_blocked:
+		focus_lost()
+	if battle != null:
+		layout()
+		refresh_hud()
+
 func layout() -> void:
 	if battle == null:
 		return
 	safe_rect = display_safe_rect()
 	var bounds = safe_rect.grow(-12)
-	mobile = OS.has_feature("mobile") or bounds.size.x < 1000 or bounds.size.y < 560
+	mobile = web_touch or OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios") or bounds.size.x < 1000 or bounds.size.y < 560
 	var portrait = bounds.size.y > bounds.size.x
 	var button_width = minf(140, (bounds.size.x - 12) / 2)
 	put(labels.brand, Rect2(bounds.position, Vector2(260, 32)))
@@ -221,7 +250,7 @@ func layout() -> void:
 	put(labels.message, Rect2(board_rect.position.x, board_rect.end.y + 4, board_rect.size.x, 24))
 	labels.message.visible = not mobile
 	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
-	touch_surface.visible = sim.status == "playing"
+	touch_surface.visible = mobile and sim.status == "playing" and not web_blocked
 	power_up_hud.visible = sim.status in ["playing", "paused"]
 	put(labels.stats, Rect2(bounds.position.x, bounds.position.y + (76 if portrait else 36), bounds.size.x, 36))
 	labels.stats.add_theme_font_size_override("font_size", 12)
@@ -387,6 +416,9 @@ func pointer_action(point: Vector2) -> String:
 func _input(event: InputEvent) -> void:
 	if sim == null:
 		return
+	if web_blocked:
+		clear_inputs()
+		return
 	if event is InputEventKey:
 		if event.echo:
 			return
@@ -460,7 +492,7 @@ func refresh_hud() -> void:
 	pause_button.disabled = sim.status not in ["playing", "paused"]
 	pause_button.visible = sim.status in ["playing", "paused"]
 	pause_button.text = "TIẾP TỤC [P]" if sim.status == "paused" else "TẠM DỪNG [P]"
-	touch_surface.visible = sim.status == "playing"
+	touch_surface.visible = mobile and sim.status == "playing" and not web_blocked
 	power_up_hud.visible = sim.status in ["playing", "paused"]
 	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
 	weapon_selector.visible = sim.status in ["ready", "won", "lost"]

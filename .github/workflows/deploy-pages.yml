@@ -52,6 +52,7 @@ jobs:
           godot --version
           make import
           make test
+          make test-web
       - name: Build Web PWA
         run: make build
       - name: Configure Pages

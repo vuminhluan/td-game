@@ -10,10 +10,13 @@ make import
 make dev
 make editor
 make test
+make test-web
 make test-visual
 ```
 
 `GODOT` trong Makefile có thể trỏ tới binary khác. `TEST_LOG_DIR` mặc định `/tmp`; truyền thư mục writable khác nếu cần. `make check` kiểm tra tên file, resource paths, link/heading Markdown và fingerprint nguồn bằng Python stdlib; target này cũng chạy trước `make test`. `make test` chạy headless: catalog/object, map authoring/validation, camera, chọn map/nhân vật, loadout, pickup/power-up, acceptance và asset player/enemy/map. Script trả mã khác 0 nếu có failure.
+
+`make test-web` cần thêm Node.js và chạy kiểm tra layout touch ở mật độ điểm ảnh cao, đóng gói bundle, cập nhật và fallback offline của service worker.
 
 `make test-visual` cần màn hình/native renderer và chạy toàn bộ visual runners; ảnh dùng trong tài liệu nằm ở `docs/images/`, preview map ở `assets/maps/previews/`, artifact tạm của từng ca nằm dưới `/private/tmp/`. Khi môi trường GUI không cho chạy qua Make, chạy từng lệnh Godot trong target này trực tiếp. Sau khi scene đổi, tạo preview trước và import lại để thumbnail preload đọc ảnh mới; xem [asset thành phố](assets/city-map.md#tái-tạo-và-kiểm-tra).
 
