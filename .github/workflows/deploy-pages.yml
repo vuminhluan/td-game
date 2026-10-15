@@ -1,0 +1,77 @@
+name: Deploy Web PWA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pages: read
+    env:
+      GODOT_VERSION: 4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore Godot and Web template
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ runner.temp }}/godot
+            ~/.local/share/godot/export_templates/4.7.2.stable
+          key: godot-linux-4.7.2-web-nothreads-release
+      - name: Install official Godot and Web release template
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/godot"
+          template_dir="$HOME/.local/share/godot/export_templates/$GODOT_VERSION.stable"
+          mkdir -p "$template_dir"
+          curl --fail --location --retry 3 "https://downloads.godotengine.org/?version=$GODOT_VERSION&flavor=stable&slug=linux.x86_64.zip&platform=linux.64" -o "$RUNNER_TEMP/godot.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v$GODOT_VERSION-stable_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+          chmod +x "$RUNNER_TEMP/godot/godot"
+          curl --fail --location --retry 3 "https://downloads.godotengine.org/?version=$GODOT_VERSION&flavor=stable&slug=export_templates.tpz&platform=templates" -o "$RUNNER_TEMP/godot-templates.tpz"
+          unzip -tqq "$RUNNER_TEMP/godot-templates.tpz" templates/web_nothreads_release.zip
+          unzip -p "$RUNNER_TEMP/godot-templates.tpz" templates/web_nothreads_release.zip > "$template_dir/web_nothreads_release.zip"
+          test -s "$template_dir/web_nothreads_release.zip"
+      - name: Add Godot to PATH
+        run: echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+      - name: Import and check game
+        run: |
+          godot --version
+          make import
+          make test
+      - name: Build Web PWA
+        run: make build
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Web build
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

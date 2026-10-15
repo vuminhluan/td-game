@@ -25,6 +25,10 @@ Theme UI giữ font mặc định cho tiếng Việt và thêm Noto Sans Symbols
 
 ## Hosting và thiết bị
 
+Workflow `.github/workflows/deploy-pages.yml` hỗ trợ GitHub Pages. Workflow chỉ chạy khi chọn `Actions → Deploy Web PWA → Run workflow`; push source không tự phát hành. Trên repo, chọn `Settings → Pages → Build and deployment → Source: GitHub Actions` một lần trước khi chạy. Workflow tải Godot 4.7.2 Linux và template release từ mirror chính thức, cache công cụ, chạy import/test/build rồi upload riêng `build/web` và deploy. Lần đầu tải cả archive templates để trích riêng Web release; các lần sau dùng cache. Quyền ghi Pages và OIDC chỉ cấp cho job deploy.
+
+Khi run hoàn tất, mở URL trong environment `github-pages`. Với repo `vuminhluan/td-game`, URL Pages mặc định là `https://vuminhluan.github.io/td-game/`; chỉ có thể chơi sau khi deploy thành công. Mở bằng Chrome Android/Safari iPhone, chơi online, cài từ menu trình duyệt/Share → Add to Home Screen, chờ cache cài xong rồi thử đóng app và mở lại trong chế độ máy bay.
+
 Phát hành cần HTTPS; localhost là môi trường phát triển. Phục vụ `.wasm` với `application/wasm`, JS với MIME JavaScript và manifest với MIME JSON/manifest. Với tên file cố định hiện tại, cho phép revalidate HTML/service worker và tài nguyên build, không đặt cache immutable dài hạn. Có thể bật gzip/Brotli tại host. Bản single-thread này không yêu cầu bật COOP/COEP.
 
 Chrome desktop đã kiểm tra cài và mở thành cửa sổ ứng dụng; Android/iOS cần xác nhận trên thiết bị thật. Khóa landscape trong manifest là yêu cầu với trình duyệt, không phải bảo đảm cho mọi nền tảng. Cảm ứng đa điểm, safe area, âm thanh và offline sau khi cài trên điện thoại cần kiểm tra riêng. Kết quả và giới hạn ở [QA Web](../qa/web-pwa.md).
