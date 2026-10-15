@@ -50,7 +50,7 @@ class TouchSurface extends Control:
 	var rects: Dictionary = {}
 	var pressed: Array = []
 	func _draw() -> void:
-		var font = ThemeDB.fallback_font
+		var font = get_theme_default_font()
 		for action in rects:
 			var rect: Rect2 = rects[action]
 			draw_rect(rect, Color("5d4935") if action in pressed else Color("303d3d"))
@@ -71,6 +71,9 @@ func _ready() -> void:
 	weapon_id = catalog.data.characters[character_id].default_weapon
 	sim = Sim.new(catalog.create(character_id, body_id, weapon_id), map_scene)
 	var theme_resource = Theme.new()
+	var ui_font: Font = ThemeDB.fallback_font.duplicate()
+	ui_font.fallbacks = [preload("res://assets/fonts/NotoSansSymbols.ttf"), preload("res://assets/fonts/NotoSansSymbols2-Regular.ttf")]
+	theme_resource.default_font = ui_font
 	theme_resource.default_font_size = 14
 	theme = theme_resource
 	battle_container = SubViewportContainer.new()
@@ -481,7 +484,7 @@ func refresh_hud() -> void:
 			"won", "lost":
 				overlay_title.text = "Căn cứ đứng vững." if sim.status == "won" else "Phòng tuyến đã vỡ."
 				overlay_copy.text = "%s.\nTiêu diệt %d kẻ địch · %d điểm." % [sim.message, sim.kills, sim.score]
-				start_button.text = "CHƠI LẠI ↻"
+				start_button.text = "CHƠI LẠI"
 
 func _draw() -> void:
 	if sim == null:

@@ -1,7 +1,7 @@
 GODOT ?= godot
 TEST_LOG_DIR ?= /tmp
 
-.PHONY: dev editor import check test test-visual build
+.PHONY: dev editor import check test test-visual build serve
 
 dev:
 	$(GODOT) --path .
@@ -43,3 +43,7 @@ test-visual:
 build:
 	mkdir -p build/web
 	$(GODOT) --headless --path . --export-release "Web PWA" build/web/index.html
+	python3 scripts/prepare_web_pwa.py build/web/index.html
+
+serve:
+	python3 -m http.server 8080 --directory build/web

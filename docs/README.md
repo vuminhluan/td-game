@@ -10,6 +10,7 @@ Bắt đầu với [phát triển dự án](development.md) để chạy game v�
 | [Body/Weapon/Loadout](features/player-loadout.md) | Trách nhiệm resource, socket/muzzle, collider và fixture regression |
 | [Ghép hình/animation](features/robot-sprites/rendering.md) | Clock, pose hiện hành, thứ tự lớp, fixture và enemy |
 | [Combat](features/combat.md) | Quét nòng/đạn, collision và hướng tấn công enemy |
+| [Web PWA](features/web-pwa.md) | Export templates, build, cache/offline, font và hosting |
 | [Pickup/power-up](features/power-ups.md) | Pool, sinh/rơi, tương thích weapon, lifetime và hiệu ứng |
 | [Biên soạn map](features/map/authoring.md) | Scene layout, TileSet, object/marker, validation, renderer/skin |
 | [Navigation](features/map/navigation.md) | Terrain/footprint, Dijkstra, vật cản và phá hủy |
@@ -41,6 +42,7 @@ Các lệnh chạy từ repository root. Khi sửa gameplay, đọc tính năng 
 ## QA
 
 - [Map](qa/maps.md): cả hai map, catalog, camera/input, damage, preview và native/handheld/Web limits.
+- [Web PWA](qa/web-pwa.md): export, browser smoke, cài trên macOS và offline.
 - [Enemy sprites](qa/enemy-sprites.md): nguồn, motion/alpha evidence, runtime geometry và regression.
 - [Player fixture](qa/player-mech.md): atlas DOWN/directions, reference chain và motion limits.
 

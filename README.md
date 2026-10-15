@@ -12,6 +12,7 @@ WASD/mũi tên để di chuyển, Space để bắn, P/Escape để tạm dừng
 
 - [Chọn nhân vật](docs/features/character-selection.md): Robot/Xe tăng, bảy loadout, stats và lịch bắn.
 - [Power-up và pickup](docs/features/power-ups.md): hiệu ứng, sinh/rơi, lifetime và đổi weapon.
+- [Web PWA](docs/features/web-pwa.md): build, offline cache, font, cập nhật và hosting.
 - [Biên soạn map](docs/features/map/authoring.md): scene, TileSet, object, marker, validation và renderer.
 - [Nhà máy](docs/features/map/industrial-layout.md) và [thành phố bỏ hoang](docs/features/map/abandoned-city.md): bố cục và luật vật cản.
 - [Asset và nguồn](docs/README.md#asset): bộ runtime, reference, geometry và quy trình thay hình.

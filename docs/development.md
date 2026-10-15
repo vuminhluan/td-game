@@ -56,4 +56,4 @@ python3 -m http.server 8080 --directory build/web
 
 Export templates phải khớp phiên bản Godot. Sau khi export thành công, mở `http://localhost:8080`; không mở HTML qua `file://`. Phát hành cần HTTPS, đủ WASM/PCK/manifest/service worker và MIME `application/wasm`. Hướng dẫn ở [Godot Web export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html).
 
-Lần export trước bị chặn vì thiếu templates Web non-threaded cho Godot 4.7.2. Chưa có evidence cho browser, cài PWA, service worker, offline, âm thanh hoặc touch của bản Web. Khi templates sẵn sàng cần chạy export và kiểm tra Chrome/Safari, cài lên màn hình chính, tải online lần đầu rồi thử offline. Không commit build output.
+Ngày 15/10/2026 đã cài đủ templates Web non-threaded Godot 4.7.2 và export release thành công. `make build` chạy bước chuẩn hóa cache/manifest; `make serve` khởi chạy localhost. Đã kiểm tra gameplay cơ bản trong browser, cài PWA trên Chrome macOS và reload offline. Hợp đồng build/cache ở [Web PWA](features/web-pwa.md), kết quả và phần còn cần thiết bị thật ở [QA Web](qa/web-pwa.md). Không commit build output.
