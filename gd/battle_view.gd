@@ -43,9 +43,15 @@ func plate(rect: Rect2, color: Color) -> void:
 	draw_line(rect.end - Vector2(rect.size.x, 1), rect.end - Vector2(0, 1), Color("182124"), 2)
 
 func _draw() -> void:
-	if sim == null:
+	if sim == null or sim.status == "invalid":
 		return
-	for actor in [sim.player] + sim.enemies:
+	var player_states: Array = sim.get("players") if sim.get("players") is Array else []
+	if player_states.is_empty():
+		draw_player(sim.player)
+	else:
+		for state in player_states:
+			draw_player(state.actor, state)
+	for actor in sim.enemies:
 		draw_actor(actor)
 	draw_set_transform(Vector2.ZERO)
 	for item in sim.power_ups:
@@ -114,39 +120,42 @@ func draw_actor(actor: Dictionary) -> void:
 		plate(Rect2(9, -23, 5, 28), Color("222f33"))
 		draw_rect(Rect2(10, -22, 2, 23), Color("788582"))
 
-func draw_player(actor: Dictionary) -> void:
+func draw_player(actor: Dictionary, state: Dictionary = {}) -> void:
 	if actor.hp <= 0:
 		return
+	if state.is_empty():
+		state = player_state_for(actor)
+	var loadout: Resource = state.loadout
+	var skin: Resource = loadout.body
 	var tint = Color.WHITE
-	if sim.invulnerable > 0 and sin(sim.elapsed * 20) > 0:
+	if state.invulnerable > 0 and sin(sim.elapsed * 20) > 0:
 		tint.a = 0.4
 	if actor.hurt_clock > 0:
 		tint = Color(1.8, 1.4, 1.4, tint.a)
-	draw_set_transform(actor.pos, player_skin.rotation_for(actor.dir))
-	var texture: Texture2D = player_skin.frame_for(actor, sim.elapsed)
-	var rect = Rect2(-player_skin.anchor_for(actor.dir) * player_skin.texture_scale, texture.get_size() * player_skin.texture_scale)
-	var weapon: Resource = sim.loadout.weapon
+	draw_set_transform(actor.pos, skin.rotation_for(actor.dir))
+	var texture: Texture2D = skin.frame_for(actor, sim.elapsed)
+	var rect = Rect2(-skin.anchor_for(actor.dir) * skin.texture_scale, texture.get_size() * skin.texture_scale)
+	var weapon: Resource = loadout.weapon
 	if weapon.layered_art != null:
 		var art: Resource = weapon.layered_art
 		var gun_texture: Texture2D = art.texture_for(actor.dir)
-		var socket_point: Vector2 = player_skin.socket_for(sim.loadout.socket, actor.dir)
+		var socket_point: Vector2 = skin.socket_for(loadout.socket, actor.dir)
 		var progress: float = 1.0 - actor.shot_clock / actor.shot_duration
 		var recoil: Vector2 = -R.VECTOR[actor.dir] * art.recoil_distance * sin(progress * PI) if actor.shot_clock > 0 else Vector2.ZERO
 		var origin: Vector2 = socket_point + recoil - art.anchor_for(actor.dir) * art.texture_scale
 		var rear: Array = [art.rear_regions[actor.dir]] if art.rear_regions.has(actor.dir) else []
 		draw_weapon_regions(gun_texture, origin, rear, art.texture_scale, tint)
-		draw_clean_body(actor, texture, rect, tint)
+		draw_clean_body(actor, texture, rect, tint, skin)
 		var front: Array = preload("res://gd/sprite_regions.gd").subtract([Rect2(Vector2.ZERO, gun_texture.get_size())], rear)
 		draw_weapon_regions(gun_texture, origin, front, art.texture_scale, tint)
 		draw_set_transform(Vector2.ZERO)
-		if sim.invulnerable > 0 or sim.power_up_active("shield"):
-			draw_arc(actor.pos, 21, 0, TAU, 24, Color(0.55, 0.86, 0.8, 0.4), 1)
+		draw_player_status(actor, state, skin)
 		return
-	var animation: String = player_skin.animation_name_for(actor)
-	var index: int = player_skin.frame_index_for(actor, sim.elapsed)
-	draw_body(texture, rect.position, player_skin.cutouts_for(actor.dir, animation, index), tint)
-	var socket: Vector2 = player_skin.socket_for(sim.loadout.socket, actor.dir)
-	var mount: Rect2 = player_skin.mount_rects[actor.dir]
+	var animation: String = skin.animation_name_for(actor)
+	var index: int = skin.frame_index_for(actor, sim.elapsed)
+	draw_body(texture, rect.position, skin.cutouts_for(actor.dir, animation, index), tint, skin)
+	var socket: Vector2 = skin.socket_for(loadout.socket, actor.dir)
+	var mount: Rect2 = skin.mount_rects[actor.dir]
 	draw_rect(Rect2(socket + mount.position, mount.size), Color("77745a") * tint)
 	var gun: Texture2D = weapon.frame_for(actor.dir, animation, index)
 	var direction: Vector2 = R.VECTOR[actor.dir]
@@ -156,27 +165,54 @@ func draw_player(actor: Dictionary) -> void:
 		for region in weapon.regions_for(actor.dir, animation, index):
 			draw_texture_rect_region(gun, Rect2(origin + region.position * weapon.texture_scale, region.size * weapon.texture_scale), region, tint)
 	draw_set_transform(Vector2.ZERO)
-	if sim.invulnerable > 0 or sim.power_up_active("shield"):
-		draw_arc(actor.pos, 21, 0, TAU, 24, Color(0.55, 0.86, 0.8, 0.4), 1)
+	draw_player_status(actor, state, skin)
 
-func draw_body(texture: Texture2D, origin: Vector2, cutouts: Array, tint: Color) -> void:
+func draw_body(texture: Texture2D, origin: Vector2, cutouts: Array, tint: Color, skin: Resource = null) -> void:
+	if skin == null:
+		skin = player_skin
 	var pieces = preload("res://gd/sprite_regions.gd").subtract([Rect2(Vector2.ZERO, texture.get_size())], cutouts)
 	for piece in pieces:
-		draw_texture_rect_region(texture, Rect2(origin + piece.position * player_skin.texture_scale, piece.size * player_skin.texture_scale), piece, tint)
+		draw_texture_rect_region(texture, Rect2(origin + piece.position * skin.texture_scale, piece.size * skin.texture_scale), piece, tint)
 
-func draw_clean_body(actor: Dictionary, texture: Texture2D, rect: Rect2, tint: Color) -> void:
-	if not actor.moving or player_skin.walk_stride == 0:
+func draw_clean_body(actor: Dictionary, texture: Texture2D, rect: Rect2, tint: Color, skin: Resource = null) -> void:
+	if skin == null:
+		skin = player_skin
+	if not actor.moving or skin.walk_stride == 0:
 		draw_texture_rect(texture, rect, false, tint)
 		return
-	var split: float = player_skin.anchor_for(actor.dir).y + player_skin.walk_split_offset
+	var split: float = skin.anchor_for(actor.dir).y + skin.walk_split_offset
 	var dimensions = texture.get_size()
-	var stride: float = sin(actor.move_clock * TAU * 4) * player_skin.walk_stride
+	var stride: float = sin(actor.move_clock * TAU * 4) * skin.walk_stride
 	for side in 2:
 		var piece = Rect2(side * dimensions.x / 2, split, dimensions.x / 2, dimensions.y - split)
 		var offset = Vector2(0, stride * (1 if side == 0 else -1))
-		draw_texture_rect_region(texture, Rect2(rect.position + piece.position * player_skin.texture_scale + offset, piece.size * player_skin.texture_scale), piece, tint)
+		draw_texture_rect_region(texture, Rect2(rect.position + piece.position * skin.texture_scale + offset, piece.size * skin.texture_scale), piece, tint)
 	var torso = Rect2(0, 0, dimensions.x, minf(dimensions.y, split + 8))
-	draw_texture_rect_region(texture, Rect2(rect.position, torso.size * player_skin.texture_scale), torso, tint)
+	draw_texture_rect_region(texture, Rect2(rect.position, torso.size * skin.texture_scale), torso, tint)
+
+func player_state_for(actor: Dictionary) -> Dictionary:
+	var states = sim.get("players")
+	if states is Array:
+		for state in states:
+			if is_same(state.actor, actor):
+				return state
+	return {"actor": actor, "loadout": sim.loadout, "invulnerable": sim.invulnerable,
+		"active_power_ups": {}, "label_remaining": 0.0}
+
+func draw_player_status(actor: Dictionary, state: Dictionary, skin: Resource) -> void:
+	if state.invulnerable > 0 or state.active_power_ups.get("shield", 0.0) > 0:
+		draw_arc(actor.pos, 21, 0, TAU, 24, Color(0.55, 0.86, 0.8, 0.4), 1)
+	var states = sim.get("players")
+	if not states is Array or states.size() <= 1 or state.get("label_remaining", 0.0) <= 0:
+		return
+	var player_index: int = states.find(state)
+	var label := "P%d" % (player_index + 1)
+	var label_color := Color("a8d488") if player_index == 0 else Color("87b9ee")
+	var font := ThemeDB.fallback_font
+	var height: float = skin.anchor_for(actor.dir).y * skin.texture_scale
+	var label_position: Vector2 = actor.pos + Vector2(-font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x / 2.0, -height - 8)
+	draw_string_outline(font, label_position, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color("101719"))
+	draw_string(font, label_position, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, label_color)
 
 func draw_weapon_regions(texture: Texture2D, origin: Vector2, regions: Array, texture_scale: float, tint: Color) -> void:
 	for region in regions:

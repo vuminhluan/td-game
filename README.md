@@ -1,6 +1,6 @@
 # Robot Defense
 
-Game 2D top-down dùng Godot 4.7.2, GDScript và renderer Compatibility. Chọn map → nhân vật → Body/vũ khí rồi bảo vệ căn cứ qua 5 đợt. Có map nhà máy và thành phố bỏ hoang; desktop hiển thị toàn map, mobile ngang cuộn theo player.
+Game 2D top-down dùng Godot 4.7.2, GDScript và renderer Compatibility. Chọn chế độ → map → nhân vật/Body/vũ khí rồi bảo vệ căn cứ qua 5 đợt. Native và Web/PWA trên desktop/laptop hỗ trợ Local Co-op hai người với split-screen. Có map nhà máy và thành phố bỏ hoang; desktop hiển thị toàn map, mobile ngang cuộn theo player.
 
 ```sh
 make import
@@ -10,6 +10,7 @@ make test
 
 WASD/mũi tên để di chuyển, Space để bắn, P/Escape để tạm dừng. Màn hình hẹp có D-pad và nút bắn. Hướng dẫn chạy, kiểm thử và trạng thái Web PWA ở [phát triển](docs/development.md); toàn bộ tài liệu ở [mục lục](docs/README.md).
 
+- [Local Co-op](docs/features/local-coop.md): hai loadout, input/camera riêng, friendly fire và luật đội.
 - [Chọn nhân vật](docs/features/character-selection.md): Robot/Xe tăng, bảy loadout, stats và lịch bắn.
 - [Power-up và pickup](docs/features/power-ups.md): hiệu ứng, sinh/rơi, lifetime và đổi weapon.
 - [Web PWA](docs/features/web-pwa.md): build, offline cache, font, cập nhật và hosting.

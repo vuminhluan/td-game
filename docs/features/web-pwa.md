@@ -10,7 +10,7 @@ make serve
 make test-web
 ```
 
-Mở `http://localhost:8080/index.html`. `make serve` phục vụ thư mục `build/web` ở cổng 8080; Ctrl+C dừng máy chủ. Build output không commit. Export trực tiếp trong Editor chưa chạy bước chuẩn hóa PWA; dùng `make build` hoặc chạy `python3 scripts/prepare_web_pwa.py build/web/index.html` sau export. `make test-web` cần Godot, Python 3 và Node.js; kiểm tra layout mobile, đóng gói và lifecycle cache bằng các fixture độc lập.
+Mở `http://localhost:8080/index.html`. `make serve` phục vụ thư mục `build/web` ở cổng 8080; Ctrl+C dừng máy chủ. Build output không commit. Export trực tiếp trong Editor chưa chạy bước chuẩn hóa PWA; dùng `make build` hoặc chạy `python3 scripts/prepare_web_pwa.py build/web/index.html` sau export. `make test-web` cần Godot, Python 3 và Node.js; kiểm tra layout/input mobile và co-op desktop, 19 profile thiết bị, đóng gói và lifecycle cache bằng các fixture độc lập.
 
 ## Giao diện điện thoại
 
@@ -18,7 +18,15 @@ Custom shell ở `web/shell.html`, `web/pwa.css`, `web/pwa.js` quản lý vùng 
 
 Canvas render theo device pixel ratio có giới hạn, nhưng layout Godot dùng kích thước CSS logic. Vì vậy màn hình điện thoại có mật độ điểm ảnh cao vẫn hiện D-pad và nút bắn khi vào trận. Bộ điều khiển ẩn trong màn chọn map/nhân vật và khi pause.
 
-Khi thiết bị cảm ứng ở chiều dọc, shell hiện hướng dẫn xoay ngang và chặn input game; trận đang chơi tự pause, xóa nút đang giữ. Xoay lại ngang rồi bấm tiếp tục. Nút Toàn màn hình yêu cầu fullscreen và thử khóa landscape sau thao tác người dùng. Nếu trình duyệt không hỗ trợ hoặc từ chối, trang hướng dẫn bật tự động xoay và xoay máy thủ công. Orientation trong manifest không bảo đảm tự xoay trong tab trình duyệt.
+Khi điện thoại/tablet ở chiều dọc, shell hiện hướng dẫn xoay ngang và chặn input game; trận đang chơi tự pause, xóa nút đang giữ. Xoay lại ngang rồi bấm tiếp tục. Nút Toàn màn hình yêu cầu fullscreen và thử khóa landscape sau thao tác người dùng. Nếu trình duyệt không hỗ trợ hoặc từ chối, trang hướng dẫn bật tự động xoay và xoay máy thủ công. Orientation trong manifest không bảo đảm tự xoay trong tab trình duyệt.
+
+## Local Co-op trên desktop/laptop
+
+Web/PWA cho phép [Local Co-op](local-coop.md) trên desktop/laptop. `web/pwa.js` gửi `localCoop` cùng metrics kích thước và touch tới Godot. Capability này độc lập với `touch`: Windows laptop cảm ứng vẫn dùng co-op nếu primary pointer là chuột/trackpad; thu nhỏ cửa sổ hoặc xoay dọc cửa sổ desktop không khóa chế độ hay hiện overlay xoay điện thoại.
+
+Policy yêu cầu UA desktop được nhận diện (Windows/macOS/Linux/ChromeOS), không có UA/client hint mobile/tablet và không có primary pointer coarse. iPad mở desktop website dùng UA Macintosh được loại bằng multi-touch và platform, kể cả khi gắn chuột/keyboard. Android tablet không cần token Mobile vẫn bị chặn. Thiết bị chưa nhận diện và Web shell thiếu `localCoop` mặc định không được vào co-op. Native mobile cùng feature `web_android`/`web_ios` vẫn bị chặn trong Godot. Cả nút menu và callback triển khai đều dùng cùng kiểm tra.
+
+Đây là policy nhận diện từ thông tin trình duyệt, không phải kiểm chứng phần cứng. Trình duyệt sửa/ẩn hoàn toàn UA và capability có thể không phân biệt được tablet với laptop; không có override bằng kích thước màn hình hoặc việc cắm bàn phím. Cơ sở: [WebKit về desktop browsing trên iPad](https://webkit.org/blog/9674/new-webkit-features-in-safari-13/), [maxTouchPoints](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/maxTouchPoints) và [giới hạn UA detection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Browser_detection_using_the_user_agent).
 
 ## Cache và cập nhật
 

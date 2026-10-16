@@ -163,6 +163,7 @@ func test_selection_flow() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.choose_mode("single")
 	check(game.map_preparation.visible and not game.preparation.visible, "fresh game opens the map picker before character selection")
 	check(game.map_preparation.map_scenes.size() == 2 and game.map_scene == INDUSTRIAL, "picker lists both maps and begins on the established industrial map")
 	check(game.map_preparation.preview.texture != null and game.map_preparation.preview.texture.get_width() > 0, "each map selection provides a designer-authored preview")

@@ -54,7 +54,7 @@ func build_runtime(catalog: RefCounted = null) -> Dictionary:
 	if dimensions.x <= 0 or dimensions.y <= 0 or dimensions.x > 1024 or dimensions.y > 1024 or dimensions.x * dimensions.y > 262144:
 		errors.append("Map %s: dimensions must be positive, at most 1024 per axis and 262144 cells total." % map_id)
 		return {"grid": [], "dimensions": dimensions, "base_position": Vector2.ZERO,
-			"player_position": Vector2.ZERO, "base_goal": Vector2i.ZERO, "enemy_spawns": [],
+			"player_position": Vector2.ZERO, "player_two_position": Vector2.INF, "base_goal": Vector2i.ZERO, "enemy_spawns": [],
 			"objects": [], "settings": settings, "errors": errors, "scene": self}
 	for y in maxi(dimensions.y, 0):
 		var row: Array = []
@@ -106,7 +106,7 @@ func build_runtime(catalog: RefCounted = null) -> Dictionary:
 			if tile.destructible and tile.hp <= 0:
 				errors.append("Destructible terrain cell %s requires positive HP." % cell)
 	var objects: Array = []
-	var markers := {"base": [], "enemy": [], "player": [], "invalid": []}
+	var markers := {"base": [], "enemy": [], "player": [], "player_two": [], "invalid": []}
 	_collect(self, objects, markers)
 	var occupied: Dictionary = {}
 	var power_up_count := 0
@@ -171,14 +171,16 @@ func build_runtime(catalog: RefCounted = null) -> Dictionary:
 		errors.append("Defense map requires at least one enemy spawn marker.")
 	if markers.player.size() > 1:
 		errors.append("Map supports at most one player marker.")
+	if markers.player_two.size() > 1:
+		errors.append("Map supports at most one player_two marker.")
 	for invalid in markers.invalid:
 		errors.append("Map marker has invalid role '%s'." % invalid)
-	for role in ["base", "enemy", "player"]:
+	for role in ["base", "enemy", "player", "player_two"]:
 		for point in markers[role]:
 			if not Map.can_occupy(grid, point, 28 if role == "base" else 13):
 				errors.append("%s marker at %s must have traversable space inside the map." % [role, point])
 	var base_position: Vector2 = markers.base[0] if markers.base.size() == 1 else Vector2.ZERO
-	for role in ["player", "enemy"]:
+	for role in ["player", "player_two", "enemy"]:
 		for point in markers[role]:
 			if markers.base.size() == 1 and point.distance_to(base_position) <= 41:
 				errors.append("%s marker at %s overlaps the base gameplay area." % [role, point])
@@ -188,6 +190,9 @@ func build_runtime(catalog: RefCounted = null) -> Dictionary:
 	var player_position: Vector2 = markers.player[0] if markers.player.size() == 1 else _nearest_position(grid, base_position, 60)
 	if markers.player.is_empty() and player_position == Vector2.INF:
 		errors.append("Map has no valid player spawn near the base.")
+	var player_two_position: Vector2 = markers.player_two[0] if markers.player_two.size() == 1 else Vector2.INF
+	if player_two_position != Vector2.INF and absf(player_two_position.x - player_position.x) < 26 and absf(player_two_position.y - player_position.y) < 26:
+		errors.append("player_two marker overlaps the player spawn gameplay area.")
 	var approach := _nearest_position(grid, base_position + Vector2(0, -R.TILE), 0, base_position)
 	var base_goal := Vector2i.ZERO if approach == Vector2.INF else Vector2i(floori(approach.x / R.TILE), floori(approach.y / R.TILE))
 	if approach == Vector2.INF:
@@ -198,13 +203,13 @@ func build_runtime(catalog: RefCounted = null) -> Dictionary:
 			if start != base_goal and Map.find_path(grid, start, base_goal).is_empty():
 				errors.append("Enemy spawn at %s cannot reach the base approach." % point)
 	return {"grid": grid, "dimensions": dimensions, "base_position": base_position,
-		"player_position": player_position, "base_goal": base_goal, "enemy_spawns": markers.enemy,
+		"player_position": player_position, "player_two_position": player_two_position, "base_goal": base_goal, "enemy_spawns": markers.enemy,
 		"objects": objects, "settings": settings, "errors": errors, "scene": self}
 
 func _collect(parent: Node, objects: Array, markers: Dictionary) -> void:
 	for child in parent.get_children():
 		if child is MapMarker:
-			if child.role in ["base", "enemy", "player"]:
+			if child.role in ["base", "enemy", "player", "player_two"]:
 				markers[child.role].append(to_local(child.global_position))
 			else:
 				markers["invalid"].append(child.role)

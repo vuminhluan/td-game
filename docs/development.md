@@ -24,7 +24,7 @@ Phiên bản đã kiểm tra: `4.7.2.stable.official.ed1daf0bf`, macOS Apple M4 
 
 ## Cách chơi
 
-Mở game: chọn map → Robot/Xe tăng → Body → một vũ khí tương thích → vào trận. Game có hai map và bảy loadout; lựa chọn không lưu qua lần mở game. Stats và nhịp bắn đọc từ `config/player_characters.json`, xem [nhân vật](features/character-selection.md).
+Mở game: chọn Single Player hoặc Local Co-op → map → Robot/Xe tăng → Body → một vũ khí tương thích → vào trận. Local Co-op trên native và Web desktop/laptop có hai loadout độc lập, P1 dùng WASD/Space và P2 dùng mũi tên/Shift; cần cả hai Sẵn sàng. Xem [Local Co-op](features/local-coop.md). Game có hai map và bảy loadout; lựa chọn không lưu qua lần mở game. Stats và nhịp bắn đọc từ `config/player_characters.json`, xem [nhân vật](features/character-selection.md).
 
 - WASD/mũi tên: bốn hướng, phím nhấn sau cùng ưu tiên; không đi chéo.
 - Giữ Space hoặc nút BẮN để khai hỏa; P/Escape để pause/resume.
@@ -32,7 +32,7 @@ Mở game: chọn map → Robot/Xe tăng → Body → một vũ khí tương th�
 - Bảo vệ căn cứ 20 HP qua 5 đợt; mất căn cứ hoặc hết 3 lượt sinh thì thua. Robot 5 HP/tốc độ 150, tank 10 HP/tốc độ 100; hồi sinh có 3 giây miễn nhiễm.
 - Gạch/theo metadata có thể phá; thép chặn đạn thường, nước chặn di chuyển nhưng cho đạn xuyên. Xe/đèn đổ thành phố chặn di chuyển và cho đạn xuyên; lane/vạch sơn không collision.
 - Đạn player không làm hỏng căn cứ. Enemy robot 2 HP/100 điểm; tank 4 HP/250 điểm. Có power-up và weapon pickup; xem [pickup](features/power-ups.md).
-- Desktop chứa trọn map; mobile giữ zoom đủ lớn và cuộn theo player. Âm thanh tổng hợp tùy chọn, mặc định tắt; chưa lưu tiến trình/multiplayer.
+- Desktop chứa trọn map; mobile giữ zoom đủ lớn và cuộn theo player. Âm thanh tổng hợp tùy chọn, mặc định tắt; chưa lưu tiến trình hoặc hỗ trợ kết nối nhiều thiết bị.
 
 ## Source và công cụ
 

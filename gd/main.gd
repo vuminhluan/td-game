@@ -8,12 +8,26 @@ const KEY_DIRECTIONS = {KEY_W: "up", KEY_UP: "up", KEY_D: "right", KEY_RIGHT: "r
 const Catalog = preload("res://gd/character_catalog.gd")
 const Selection = preload("res://gd/character_selection.gd")
 const MapSelection = preload("res://gd/map_selection.gd")
+const CoopSelection = preload("res://gd/coop_selection.gd")
+const PlayerInput = preload("res://gd/player_input.gd")
+const PlayerHUD = preload("res://gd/player_status_hud.gd")
+const COOP_BINDINGS = [{KEY_W: "up", KEY_D: "right", KEY_S: "down", KEY_A: "left"}, {KEY_UP: "up", KEY_RIGHT: "right", KEY_DOWN: "down", KEY_LEFT: "left"}]
 @export var map_scene: PackedScene = preload("res://scenes/maps/industrial_yard.tscn")
 @export var available_maps: Array[PackedScene] = [preload("res://scenes/maps/industrial_yard.tscn"), preload("res://scenes/maps/abandoned_city.tscn")]
 var catalog = Catalog.new()
 var preparation: PanelContainer
 var map_preparation: PanelContainer
-var preparation_step := "map"
+var preparation_step := "mode"
+var play_mode := "single"
+var mode_preparation: PanelContainer
+var coop_button: Button
+var coop_preparation: PanelContainer
+var player_inputs: Array = []
+var player_huds: Array = []
+var second_container: SubViewportContainer
+var second_viewport: SubViewport
+var second_camera: Camera2D
+var player_rects: Array[Rect2] = []
 var character_id = "robot"
 var body_id = "robot_body"
 var weapon_id = "standard"
@@ -36,6 +50,8 @@ var board_rect = Rect2()
 var touch_rects: Dictionary = {}
 var mobile = false
 var web_touch = false
+var web_metrics_received = false
+var web_local_coop = false
 var web_blocked = false
 var web_callback: JavaScriptObject
 var web_interface: JavaScriptObject
@@ -101,6 +117,23 @@ func _ready() -> void:
 	camera = Camera2D.new()
 	camera.position_smoothing_enabled = false
 	battle_viewport.add_child(camera)
+	second_container = SubViewportContainer.new()
+	second_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(second_container)
+	second_viewport = SubViewport.new()
+	second_viewport.disable_3d = true
+	second_viewport.gui_disable_input = true
+	second_viewport.world_2d = battle_viewport.world_2d
+	second_container.add_child(second_viewport)
+	second_camera = Camera2D.new()
+	second_camera.position_smoothing_enabled = false
+	second_viewport.add_child(second_camera)
+	for index in 2:
+		player_inputs.append(PlayerInput.new(COOP_BINDINGS[index], KEY_SPACE if index == 0 else KEY_SHIFT))
+		var hud = PlayerHUD.new()
+		hud.player_index = index
+		(battle_viewport if index == 0 else second_viewport).add_child(hud)
+		player_huds.append(hud)
 	touch_surface = TouchSurface.new()
 	touch_surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(touch_surface)
@@ -161,8 +194,86 @@ func _ready() -> void:
 	map_preparation.set_maps(scenes, map_scene)
 	map_preparation.confirmed.connect(choose_map)
 	add_child(map_preparation)
+	coop_preparation = CoopSelection.new()
+	coop_preparation.catalog = catalog
+	coop_preparation.deployed.connect(deploy_coop)
+	coop_preparation.map_requested.connect(show_map_selection)
+	add_child(coop_preparation)
+	create_mode_selection()
 	resized.connect(layout)
 	get_window().focus_exited.connect(focus_lost)
+	layout()
+	refresh_hud()
+
+func local_coop_available() -> bool:
+	if OS.has_feature("mobile") or OS.has_feature("android") or OS.has_feature("ios") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
+		return false
+	if OS.has_feature("web") or web_metrics_received:
+		return web_local_coop
+	return not web_touch
+
+func create_mode_selection() -> void:
+	mode_preparation = PanelContainer.new()
+	var panel = StyleBoxFlat.new()
+	panel.bg_color = Color("152124")
+	panel.border_color = Color("758572")
+	panel.set_border_width_all(1)
+	mode_preparation.add_theme_stylebox_override("panel", panel)
+	add_child(mode_preparation)
+	var margin = MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 20)
+	mode_preparation.add_child(margin)
+	var column = VBoxContainer.new()
+	column.add_theme_constant_override("separation", 16)
+	margin.add_child(column)
+	var title = Label.new()
+	title.text = "ROBOT DEFENSE · CHỌN CHẾ ĐỘ"
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 18)
+	column.add_child(title)
+	var single_button = make_button("Single Player", choose_mode.bind("single"), column)
+	single_button.custom_minimum_size.y = 48
+	coop_button = make_button("Local Co-op · 2 người / bàn phím", choose_mode.bind("coop"), column)
+	coop_button.custom_minimum_size.y = 48
+	var friend_button = make_button("Play with friend · COMING SOON", func(): pass, column)
+	friend_button.disabled = true
+	friend_button.add_theme_color_override("font_disabled_color", Color("81928d"))
+	friend_button.custom_minimum_size.y = 48
+	var back_button = Button.new()
+	back_button.text = "← CHỌN CHẾ ĐỘ"
+	back_button.focus_mode = Control.FOCUS_NONE
+	back_button.pressed.connect(show_mode_selection)
+	map_preparation.confirm_button.get_parent().add_child(back_button)
+
+func choose_mode(mode: String) -> void:
+	if mode not in ["single", "coop"] or (mode == "coop" and not local_coop_available()):
+		return
+	play_mode = mode
+	show_map_selection()
+	layout()
+	refresh_hud()
+
+func show_mode_selection() -> void:
+	clear_inputs()
+	preparation_step = "mode"
+	refresh_hud()
+
+func deploy_coop(configurations: Array, friendly_fire: bool) -> void:
+	if play_mode != "coop" or not local_coop_available() or configurations.size() != 2:
+		return
+	clear_inputs()
+	sim = Sim.new(configurations[0], map_scene, configurations)
+	sim.friendly_fire = friendly_fire
+	battle.sim = sim
+	battle.map_skin = sim.map_scene.map_skin
+	power_up_hud.sim = sim
+	if sim.status == "invalid":
+		coop_preparation.show_error(sim.message)
+	else:
+		sim.start()
+	last_shots = 0
+	last_status = ""
 	layout()
 	refresh_hud()
 
@@ -205,6 +316,8 @@ func web_viewport_changed(arguments: Array) -> void:
 	var metrics = JSON.parse_string(str(arguments[0]))
 	if not metrics is Dictionary:
 		return
+	web_metrics_received = true
+	web_local_coop = metrics.get("localCoop", false) == true
 	web_touch = metrics.get("touch", false)
 	web_blocked = metrics.get("blocked", false)
 	var logical_size = Vector2i(maxi(1, roundi(metrics.get("width", 1280))), maxi(1, roundi(metrics.get("height", 720))))
@@ -241,8 +354,7 @@ func layout() -> void:
 	var sidebar = 0.0 if mobile else 252.0
 	var bottom = 46.0 if not mobile else 8.0
 	board_rect = Rect2(Vector2(bounds.position.x, top), Vector2(maxf(1, bounds.size.x - sidebar), maxf(1, bounds.end.y - top - bottom)))
-	put(battle_container, board_rect)
-	battle_viewport.size = Vector2i(board_rect.size)
+	layout_player_views()
 	power_up_hud.position = board_rect.position + Vector2(8, 8)
 	power_up_hud.scale = Vector2.ONE * minf(1.0, board_rect.size.x / 220.0)
 	put(labels.field, Rect2(board_rect.position.x, top - 26, 230, 24))
@@ -250,8 +362,8 @@ func layout() -> void:
 	put(labels.message, Rect2(board_rect.position.x, board_rect.end.y + 4, board_rect.size.x, 24))
 	labels.message.visible = not mobile
 	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
-	touch_surface.visible = mobile and sim.status == "playing" and not web_blocked
-	power_up_hud.visible = sim.status in ["playing", "paused"]
+	touch_surface.visible = mobile and play_mode == "single" and sim.status == "playing" and not web_blocked
+	power_up_hud.visible = play_mode == "single" and sim.status in ["playing", "paused"]
 	put(labels.stats, Rect2(bounds.position.x, bounds.position.y + (76 if portrait else 36), bounds.size.x, 36))
 	labels.stats.add_theme_font_size_override("font_size", 12)
 	for id in ["campaign", "enemies", "score", "robot", "base", "radar"]:
@@ -278,7 +390,7 @@ func layout() -> void:
 	labels.help.text = "WASD / ↑↓←→: di chuyển    SPACE: bắn    P / ESC: tạm dừng"
 	put(labels.help, Rect2(bounds.position.x, bounds.end.y - 20, bounds.size.x, 24))
 	touch_rects.clear()
-	if mobile:
+	if mobile and play_mode == "single":
 		var edge = clampf(minf(bounds.size.y * 0.12, bounds.size.x / 7), 36, 56)
 		var origin = Vector2(bounds.position.x + 8, board_rect.end.y - 2 * edge - 12)
 		touch_rects.up = Rect2(origin + Vector2(edge + 4, 0), Vector2.ONE * edge)
@@ -293,6 +405,11 @@ func layout() -> void:
 	map_preparation.set_compact(mobile)
 	put(preparation, Rect2(bounds.get_center() - preparation_size / 2, preparation_size))
 	put(map_preparation, Rect2(bounds.get_center() - preparation_size / 2, preparation_size))
+	var coop_size = Vector2(minf(1040, bounds.size.x), minf(660, bounds.size.y))
+	put(coop_preparation, Rect2(bounds.get_center() - coop_size / 2, coop_size))
+	var mode_size = Vector2(minf(460, bounds.size.x), minf(340, bounds.size.y))
+	put(mode_preparation, Rect2(bounds.get_center() - mode_size / 2, mode_size))
+	coop_button.visible = local_coop_available()
 	var overlay_size = Vector2(minf(430, board_rect.size.x - 12), minf(278, board_rect.size.y - 12))
 	put(overlay, Rect2(board_rect.get_center() - overlay_size / 2, overlay_size))
 	put(overlay_title, Rect2(8, 12, overlay_size.x - 16, 42))
@@ -303,8 +420,30 @@ func layout() -> void:
 	update_camera()
 	queue_redraw()
 
+func layout_player_views() -> void:
+	player_rects.clear()
+	if play_mode == "coop":
+		var landscape = size.x >= size.y
+		var extent = (board_rect.size.x if landscape else board_rect.size.y) / 2.0 - 2.0
+		var first = Rect2(board_rect.position, Vector2(extent, board_rect.size.y) if landscape else Vector2(board_rect.size.x, extent))
+		var offset = Vector2(extent + 4, 0) if landscape else Vector2(0, extent + 4)
+		player_rects.assign([first, Rect2(first.position + offset, first.size)])
+	else:
+		player_rects.append(board_rect)
+	put(battle_container, player_rects[0])
+	battle_viewport.size = Vector2i(player_rects[0].size)
+	second_container.visible = play_mode == "coop"
+	second_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if play_mode == "coop" else SubViewport.UPDATE_DISABLED
+	if play_mode == "coop":
+		put(second_container, player_rects[1])
+		second_viewport.size = Vector2i(player_rects[1].size)
+
 func update_camera() -> void:
-	if camera == null or sim == null:
+	if camera == null or sim == null or sim.status == "invalid":
+		return
+	if play_mode == "coop":
+		for index in mini(2, sim.players.size()):
+			follow_camera(camera if index == 0 else second_camera, battle_viewport if index == 0 else second_viewport, sim.players[index].actor.pos)
 		return
 	var world = Vector2(sim.dimensions) * R.TILE
 	var viewport_size = Vector2(battle_viewport.size)
@@ -316,11 +455,26 @@ func update_camera() -> void:
 	camera.position = Vector2(world.x / 2 if world.x <= visible_world.x else clampf(target.x, half.x, world.x - half.x), world.y / 2 if world.y <= visible_world.y else clampf(target.y, half.y, world.y - half.y))
 	camera.force_update_scroll()
 
-func screen_to_world(point: Vector2) -> Vector2:
-	return camera.position + (point - board_rect.position - Vector2(battle_viewport.size) / 2) / camera.zoom
+func follow_camera(view_camera: Camera2D, viewport: SubViewport, target: Vector2) -> void:
+	var world = Vector2(sim.dimensions) * R.TILE
+	var zoom = clampf(Vector2(viewport.size).y / 520.0, 0.65, 1.25)
+	view_camera.zoom = Vector2.ONE * zoom
+	var visible_world = Vector2(viewport.size) / zoom
+	var half = visible_world / 2
+	view_camera.position = Vector2(world.x / 2 if world.x <= visible_world.x else clampf(target.x, half.x, world.x - half.x), world.y / 2 if world.y <= visible_world.y else clampf(target.y, half.y, world.y - half.y))
+	view_camera.force_update_scroll()
 
-func world_to_screen(point: Vector2) -> Vector2:
-	return board_rect.position + Vector2(battle_viewport.size) / 2 + (point - camera.position) * camera.zoom
+func screen_to_world(point: Vector2, player_index: int = 0) -> Vector2:
+	var view_camera = second_camera if player_index == 1 and play_mode == "coop" else camera
+	var viewport = second_viewport if player_index == 1 and play_mode == "coop" else battle_viewport
+	var rect: Rect2 = player_rects[player_index] if play_mode == "coop" else board_rect
+	return view_camera.position + (point - rect.position - Vector2(viewport.size) / 2) / view_camera.zoom
+
+func world_to_screen(point: Vector2, player_index: int = 0) -> Vector2:
+	var view_camera = second_camera if player_index == 1 and play_mode == "coop" else camera
+	var viewport = second_viewport if player_index == 1 and play_mode == "coop" else battle_viewport
+	var rect: Rect2 = player_rects[player_index] if play_mode == "coop" else board_rect
+	return rect.position + Vector2(viewport.size) / 2 + (point - view_camera.position) * view_camera.zoom
 
 func apply_selection(character: String, body: String, weapon: String) -> void:
 	if sim.status not in ["ready", "won", "lost"]:
@@ -346,6 +500,8 @@ func select_loadout(index: int) -> void:
 	weapon_selector.select(index)
 
 func activate() -> void:
+	if play_mode == "coop" and sim.status != "paused":
+		return
 	clear_inputs()
 	if sim.status == "ready":
 		sim.start()
@@ -370,7 +526,9 @@ func choose_map(scene: PackedScene) -> void:
 	power_up_hud.sim = sim
 	preparation_step = "character"
 	map_preparation.visible = false
-	preparation.visible = true
+	preparation.visible = play_mode == "single"
+	coop_preparation.show_error("")
+	coop_preparation.visible = play_mode == "coop"
 	update_camera()
 	refresh_hud()
 	battle.queue_redraw()
@@ -380,6 +538,8 @@ func show_map_selection() -> void:
 	map_preparation.select_map(map_scene)
 	map_preparation.visible = true
 	preparation.visible = false
+	coop_preparation.visible = false
+	refresh_hud()
 
 func toggle_pause() -> void:
 	sim.pause()
@@ -394,6 +554,8 @@ func clear_inputs() -> void:
 	held_keys.clear()
 	pointers.clear()
 	keyboard_fire = false
+	for source in player_inputs:
+		source.clear()
 
 func focus_lost() -> void:
 	if sim == null:
@@ -423,6 +585,14 @@ func _input(event: InputEvent) -> void:
 		if event.echo:
 			return
 		var key = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+		if play_mode == "coop" and coop_preparation.visible:
+			if event.pressed:
+				coop_preparation.handle_key(key)
+			get_viewport().set_input_as_handled()
+			return
+		if play_mode == "coop":
+			for source in player_inputs:
+				source.handle_key(key, event.pressed)
 		if key in [KEY_P, KEY_ESCAPE] and event.pressed:
 			toggle_pause()
 		elif key == KEY_SPACE:
@@ -453,7 +623,10 @@ func input_direction() -> String:
 	return direction
 
 func _process(dt: float) -> void:
-	sim.update(dt, input_direction(), keyboard_fire or "fire" in pointers.values())
+	if play_mode == "coop":
+		sim.update_players(dt, player_inputs.map(func(source): return source.command()))
+	else:
+		sim.update(dt, input_direction(), keyboard_fire or "fire" in pointers.values())
 	if sound_enabled and sim.shots_fired > last_shots:
 		audio.play()
 	last_shots = sim.shots_fired
@@ -468,15 +641,22 @@ func _process(dt: float) -> void:
 func refresh_hud() -> void:
 	if labels.is_empty():
 		return
+	for hud in player_huds:
+		hud.refresh(sim, play_mode == "coop" and sim.status in ["playing", "paused", "won", "lost"])
+	if coop_button != null:
+		coop_button.visible = local_coop_available()
 	var base_percent = roundi(100.0 * maxi(0, sim.base_hp) / R.BASE_HP)
 	labels.weapon.text = "VŨ KHÍ: " + sim.loadout.weapon.display_name
 	if sim.status == "invalid":
 		labels.message.text = "Map không hợp lệ: " + "; ".join(sim.validation_errors)
-		labels.message.visible = true
+		labels.message.visible = play_mode == "single"
 		labels.message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		labels.message.position = board_rect.position + Vector2(8, 80)
 		labels.message.size = board_rect.size - Vector2(16, 88)
 		preparation.visible = false
+		coop_preparation.visible = play_mode == "coop" and preparation_step == "character"
+		map_preparation.visible = preparation_step == "map"
+		mode_preparation.visible = preparation_step == "mode"
 		overlay.visible = false
 		pause_button.disabled = true
 		return
@@ -492,18 +672,30 @@ func refresh_hud() -> void:
 	pause_button.disabled = sim.status not in ["playing", "paused"]
 	pause_button.visible = sim.status in ["playing", "paused"]
 	pause_button.text = "TIẾP TỤC [P]" if sim.status == "paused" else "TẠM DỪNG [P]"
-	touch_surface.visible = mobile and sim.status == "playing" and not web_blocked
-	power_up_hud.visible = sim.status in ["playing", "paused"]
+	touch_surface.visible = mobile and play_mode == "single" and sim.status == "playing" and not web_blocked
+	power_up_hud.visible = play_mode == "single" and sim.status in ["playing", "paused"]
 	labels.stats.visible = mobile and sim.status in ["playing", "paused"]
 	weapon_selector.visible = sim.status in ["ready", "won", "lost"]
 	weapon_selector.disabled = not weapon_selector.visible
 	preparation.visible = sim.status in ["ready", "won", "lost"]
-	preparation.visible = preparation.visible and preparation_step == "character"
+	preparation.visible = preparation.visible and preparation_step == "character" and play_mode == "single"
 	map_preparation.visible = sim.status in ["ready", "won", "lost"] and preparation_step == "map"
+	mode_preparation.visible = preparation_step == "mode"
+	coop_preparation.visible = play_mode == "coop" and preparation_step == "character" and sim.status in ["ready", "won", "lost"]
+	if play_mode == "coop":
+		labels.weapon.visible = false
+		labels.robot.visible = false
+		labels.stats.text = "Đợt %d/5 · Địch %d · Điểm %d · Căn cứ %d%%" % [maxi(1, sim.wave), sim.to_spawn + sim.enemies.size(), sim.score, base_percent]
+		labels.help.text = "P1: WASD + SPACE    P2: ↑↓←→ + SHIFT    P / ESC: tạm dừng"
+	else:
+		labels.weapon.visible = true
+	coop_preparation.heading.text = ("THẮNG TRẬN · %d ĐIỂM" % sim.score) if sim.status == "won" else ("THUA TRẬN · %d ĐIỂM" % sim.score) if sim.status == "lost" else "LOCAL CO-OP · CHUẨN BỊ"
 	preparation.heading.text = "THẮNG TRẬN · CHỌN LẠI" if sim.status == "won" else "THUA TRẬN · CHỌN LẠI" if sim.status == "lost" else "CHUẨN BỊ VÀO TRẬN"
 	overlay.visible = sim.status == "paused"
 	if sim.status != last_status:
 		last_status = sim.status
+		if sim.status in ["won", "lost"]:
+			coop_preparation.reset_ready()
 		match sim.status:
 			"ready":
 				overlay_title.text = "Căn cứ cần bạn."
@@ -538,12 +730,15 @@ func _draw() -> void:
 				if color.a > 0:
 					draw_rect(Rect2(radar_rect.position + (Vector2(x, y) * R.TILE + Vector2.ONE * 4) * radar_scale, Vector2.ONE * (R.TILE - 8) * radar_scale), color)
 		draw_rect(Rect2(radar_rect.position + (sim.base_position - Vector2(24, 24)) * radar_scale, Vector2(48, 48) * radar_scale), Color("8dc6b8"))
-		draw_circle(radar_rect.position + sim.player.pos * radar_scale, 3, Color("bae393"))
+		for state in sim.players:
+			if state.actor.hp > 0:
+				draw_circle(radar_rect.position + state.actor.pos * radar_scale, 3, Color("bae393") if state.id == 1 else Color("9dddf4"))
 		for enemy in sim.enemies:
 			draw_circle(radar_rect.position + enemy.pos * radar_scale, 3, Color("f47e56"))
 		var side = radar_rect.position.x
-		draw_rect(Rect2(side, labels.robot.position.y + 52, 210, 6), Color("283439"))
-		draw_rect(Rect2(side, labels.robot.position.y + 52, 210.0 * maxi(0, sim.player.hp) / sim.player.max_hp, 6), Color("e98450"))
+		if play_mode == "single":
+			draw_rect(Rect2(side, labels.robot.position.y + 52, 210, 6), Color("283439"))
+			draw_rect(Rect2(side, labels.robot.position.y + 52, 210.0 * maxi(0, sim.player.hp) / sim.player.max_hp, 6), Color("e98450"))
 		draw_rect(Rect2(side, labels.base.position.y + 52, 210, 6), Color("283439"))
 		draw_rect(Rect2(side, labels.base.position.y + 52, 210.0 * maxi(0, sim.base_hp) / R.BASE_HP, 6), Color("8dc6b8"))
 

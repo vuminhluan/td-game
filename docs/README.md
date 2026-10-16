@@ -10,6 +10,7 @@ Bắt đầu với [phát triển dự án](development.md) để chạy game v�
 | [Body/Weapon/Loadout](features/player-loadout.md) | Trách nhiệm resource, socket/muzzle, collider và fixture regression |
 | [Ghép hình/animation](features/robot-sprites/rendering.md) | Clock, pose hiện hành, thứ tự lớp, fixture và enemy |
 | [Combat](features/combat.md) | Quét nòng/đạn, collision và hướng tấn công enemy |
+| [Local Co-op](features/local-coop.md) | Luật đội, trạng thái theo owner, hai loadout/input/camera, spawn và API mở rộng |
 | [Web PWA](features/web-pwa.md) | Export templates, build, cache/offline, font và hosting |
 | [Pickup/power-up](features/power-ups.md) | Pool, sinh/rơi, tương thích weapon, lifetime và hiệu ứng |
 | [Biên soạn map](features/map/authoring.md) | Scene layout, TileSet, object/marker, validation, renderer/skin |
@@ -40,6 +41,8 @@ Các lệnh chạy từ repository root. Khi sửa gameplay, đọc tính năng 
 `assets/generated/.gdignore` loại nguồn khỏi import/export. Raw được chọn, reference, prompts, manifests, frames và reports còn dùng được giữ để tái tạo/thay artwork. Tên file/thư mục thể hiện vai trò, không đánh số version.
 
 ## QA
+
+- [Local Co-op](qa/local-coop.md): regression hai player, selection, split-screen và native visual.
 
 - [Map](qa/maps.md): cả hai map, catalog, camera/input, damage, preview và native/handheld/Web limits.
 - [Web PWA](qa/web-pwa.md): export, browser smoke, cài trên macOS và offline.

@@ -43,6 +43,7 @@ func run() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.choose_mode("single")
 	await capture("res://docs/images/map-selection-desktop.png")
 	game.map_preparation.select_map(CITY)
 	await capture("/private/tmp/map-selection-city.png")

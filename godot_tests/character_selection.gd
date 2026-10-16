@@ -197,6 +197,7 @@ func ui_checks() -> void:
 	root.add_child(game)
 	await process_frame
 	game.set_process(false)
+	game.choose_mode("single")
 	check(game.map_preparation.visible and not game.preparation.visible and game.character_id == "robot", "fresh launch requests a map before character preparation")
 	game.map_preparation.confirm_selection()
 	check(not game.map_preparation.visible and game.preparation.visible, "map confirmation opens character preparation")

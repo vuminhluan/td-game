@@ -16,6 +16,10 @@ check:
 	python3 scripts/check_repository.py
 
 test: check
+	$(GODOT) --headless --path . --script godot_tests/local_coop_map.gd --log-file $(TEST_LOG_DIR)/robot-defense-local-coop-map.log
+	$(GODOT) --headless --path . --script godot_tests/local_coop_simulation.gd --log-file $(TEST_LOG_DIR)/robot-defense-local-coop-simulation.log
+	$(GODOT) --headless --path . --script godot_tests/local_coop_selection.gd --log-file $(TEST_LOG_DIR)/robot-defense-local-coop-selection.log
+	$(GODOT) --headless --path . --script godot_tests/local_coop.gd --log-file $(TEST_LOG_DIR)/robot-defense-local-coop.log
 	$(GODOT) --headless --path . --script godot_tests/environment_objects.gd --log-file $(TEST_LOG_DIR)/robot-defense-environment-objects.log
 	$(GODOT) --headless --path . --script godot_tests/map_refactor.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-refactor.log
 	$(GODOT) --headless --path . --script godot_tests/map_camera.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-camera.log
@@ -32,8 +36,10 @@ test-web:
 	$(GODOT) --headless --path . --script godot_tests/web_mobile.gd --log-file $(TEST_LOG_DIR)/robot-defense-web-mobile.log
 	python3 scripts/test_prepare_web_pwa.py
 	node scripts/test_web_pwa.mjs
+	node scripts/test_web_devices.mjs
 
 test-visual:
+	$(GODOT) --path . --script godot_tests/local_coop_visual.gd --log-file $(TEST_LOG_DIR)/robot-defense-local-coop-visual.log
 	$(GODOT) --path . --script godot_tests/environment_objects_visual.gd --log-file $(TEST_LOG_DIR)/robot-defense-environment-objects-visual.log
 	$(GODOT) --path . --script godot_tests/map_camera_visual.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-camera-visual.log
 	$(GODOT) --path . --script godot_tests/map_selection_visual.gd --log-file $(TEST_LOG_DIR)/robot-defense-map-selection-visual.log

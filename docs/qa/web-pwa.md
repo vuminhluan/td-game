@@ -1,5 +1,13 @@
 # QA Web PWA
 
+## Local Co-op Web desktop/laptop ngày 16/10/2026
+
+`make test-web` pass 35 kiểm tra Godot, gồm handshake capability, menu/callback desktop và laptop cảm ứng, cửa sổ hẹp, khóa phone/iPad/tablet, hai readiness, triển khai split-screen và hai bộ input độc lập. `scripts/test_web_devices.mjs` pass 19 profile với cả iPad desktop UA có keyboard/pointer, Android tablet không có token Mobile, Windows tablet coarse pointer, laptop cảm ứng, client hints và thiết bị chưa nhận diện. Kiểm tra cả lần subscribe ban đầu và cập nhật resize.
+
+Browser smoke trên bản release localhost cổng 8084 (trình duyệt nhúng Codex trên macOS) đã xác nhận menu Local Co-op, P1 Space chờ P2, P2 Shift triển khai, di chuyển/bắn theo hai bộ phím, pause và split-screen ở cả portrait lẫn landscape. Console không có warning/error. Ảnh tạm `/private/tmp/local-coop-web-desktop.jpg` ghi lại trận landscape. `make test` và `make build` pass; build output không commit.
+
+Policy chỉ mở co-op sau khi Web shell xác định desktop/laptop hợp lệ; cờ touch không tự loại laptop cảm ứng. Không xác nhận thiết bị thật bằng các fixture này. Giới hạn nhận diện và hướng dẫn ở [Web PWA](../features/web-pwa.md#local-co-op-trên-desktoplaptop).
+
 ## Bổ sung mobile và cập nhật ngày 15/10/2026
 
 Môi trường: Godot headless, Python unittest, Node.js VM và Chrome DevTools mô phỏng Pixel 9; localhost cổng 8083. Không có điện thoại thật kết nối trong phiên này.

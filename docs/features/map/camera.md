@@ -17,3 +17,7 @@ Màn chọn map lấy scenes từ `Main.available_maps`; `map_scene` trên root 
 `godot_tests/map_camera.gd` kiểm tra nhiều viewport từ 568×320 đến 1920×1080 và portrait fallback, map lớn/nhỏ, desktop fit toàn map, landscape cuộn dọc, camera clamp/căn giữa, transform input, touch độc lập và cấu hình landscape. `godot_tests/map_camera_visual.gd` lưu screenshot native desktop/landscape/portrait dưới `/private/tmp/map-camera-*.png`.
 
 Resize và sự kiện touch mô phỏng không xác nhận khóa landscape, notch/safe area hoặc touch thực trên thiết bị handheld. Các lần kiểm tra đã ghi nhận native Compatibility trên macOS; Web export trước đó bị chặn vì thiếu template 4.7.2, chưa có kết quả browser/PWA trong [QA map](../../qa/maps.md#limitations). Cần kiểm tra bản export trên thiết bị thực trước khi coi các tiêu chí thiết bị đã được xác nhận.
+
+## Local Co-op
+
+Desktop co-op (native và Web/PWA) dùng hai viewport/camera trên cùng World2D; battlefield chia trái/phải khi landscape và trên/dưới khi portrait. Mỗi camera follow player tương ứng với zoom theo chiều cao viewport, giới hạn 0,65–1,25; clamp/căn giữa từng trục theo biên map. Mỗi viewport có HUD HP/mạng/weapon/power-up riêng, còn thông tin chiến dịch dùng chung. Screen/world conversion nhận index player. Kích thước cửa sổ nhỏ không bật touch controls trong co-op. Luật và API ở [Local Co-op](../local-coop.md).

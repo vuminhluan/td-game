@@ -17,13 +17,23 @@
     return navigator.maxTouchPoints > 0 || matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
 
+  function localCoopDevice() {
+    const agent = navigator.userAgent || '';
+    const platform = navigator.userAgentData?.platform || navigator.platform || '';
+    const mobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPad|iPod|Mobile|Tablet|Silk|Kindle|PlayBook/i.test(agent + ' ' + platform);
+    const ipadDesktop = /Macintosh|MacIntel/i.test(agent + ' ' + platform) && navigator.maxTouchPoints > 1;
+    const desktop = /Windows NT|Macintosh|X11|CrOS|Linux/i.test(agent);
+    return desktop && !mobile && !ipadDesktop && !matchMedia('(pointer: coarse)').matches;
+  }
+
   function resize() {
     const bounds = game.getBoundingClientRect();
     const touch = touchDevice();
     const scale = Math.min(window.devicePixelRatio || 1, touch ? 2 : 3);
     const width = Math.max(1, Math.round(bounds.width));
     const height = Math.max(1, Math.round(bounds.height));
-    const portrait = touch && window.innerHeight > window.innerWidth;
+    const localCoop = localCoopDevice();
+    const portrait = touch && !localCoop && window.innerHeight > window.innerWidth;
     rotate.hidden = !portrait;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
@@ -31,7 +41,7 @@
     const pixelHeight = Math.round(height * scale);
     if (canvas.width !== pixelWidth) canvas.width = pixelWidth;
     if (canvas.height !== pixelHeight) canvas.height = pixelHeight;
-    window.RobotDefenseWeb.metrics = {width, height, touch, blocked: portrait};
+    window.RobotDefenseWeb.metrics = {width, height, touch, localCoop, blocked: portrait};
     for (const subscriber of subscribers) subscriber(JSON.stringify(window.RobotDefenseWeb.metrics));
   }
 
